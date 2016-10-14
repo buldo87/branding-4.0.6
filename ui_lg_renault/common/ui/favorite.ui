@@ -1,0 +1,222 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<element_template et_ManageFavorite>
+	<DIV left=0 top=0 w=100% h=100%>
+		<BUTTON class="listitem"  onrelease=sc_et_FindFavorite_OnRelease>
+			<TEXT class="listitem onbtn r2l"  right=16% text=%*.name>
+			<DISTTEXT class="font_main bd listitem r2l"  align="RIGHT" right=2% bottom=36% w=14% distance=%*.distance/>
+		</BUTTON>
+	</DIV>
+</element_template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<layer ui_ManageFavorite z=30>
+	<DIV class="list vr">
+		<LIST2 lstMF_Favorite class="list_control"  element_template="et_ManageFavorite" listmodel="poi.flat_search.list" >
+			<BUTTON class="btn_scrollup list">
+			<SPRITE class=pagenum>
+			<TEXT class="pagenum list">
+			<BUTTON class="btn_scrolldown list">
+		</LIST2>
+	</DIV>
+
+	<DIV class="footer">
+		<FOOTERBUTTON class="btn_footer localmenu"  w=(%poi.flat_search.list.isempty ? 609 : 302) text="LOCALMENU~Options" onrelease=sc_open_local_menu>
+		<FOOTERBUTTON class="btn_footer right"  x=485 top=0 text="Find"         icon_hueshift=%lua.iconhue iconspr="ico_footer_filter.bmp#3" onrelease=sc_Favorites_PostFilter_OnRelease visible=(%lua.PoiListFilterString == L"" && !%poi.flat_search.list.isempty)>
+		<FOOTERBUTTON class="btn_footer right"  x=485 top=0 text="Clear Filter" icon_hueshift=%lua.iconhue iconspr="ico_footer_filter.bmp#3" onrelease=sc_PoiSearch_PostFilter_ClearFilterString visible=(%lua.PoiListFilterString != L"")>
+	</DIV>
+</layer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;/////////////////////////////////////////////
+
+
+<element_template et_ManageFavoriteSHW>
+;	<implementation>
+;		<property listRowCount value=(0 <= listpos - %*._vlist.first_visible_index && listpos - %*._vlist.first_visible_index < 4 ? listpos - %*._vlist.first_visible_index + 1 : 0)>
+;	</implementation>
+	<DIV left=0 top=0 w=100% h=100% visible=(%lua.VRStatus == lua.eVRStatus.inactive)>
+		<BUTTON class="listitem icon"  onrelease=sc_SB_DefineHomeWork>
+			<TEXT class="listitem icon onbtn"  text=%*.name>
+			<SPRITE class="icon_center"  left=8% z=1000 iconmodel="*.icon" iconindex=1 >
+		</BUTTON>
+	</DIV>
+
+
+
+
+
+
+</element_template>
+
+<layer ui_ManageFavoriteSHW z=30>
+	<DIV class="list">
+		<SPRITE class="list_panel">
+
+		<LIST2 lstMF_Favorite class="list_control"  element_template="et_ManageFavoriteSHW" listmodel="poi.flat_search.list" SMOOTHSCROLLING>
+			<VSMARTSCROLL>  
+			<WHEEL>
+			<BUTTON class="btn_scrollup list">
+			<BUTTON class="btn_scrolldown list">
+		</LIST2>
+	</DIV>
+</layer>
+
+;Sbertaud13 Contacts
+
+<element_template et_ManageContactsSHW>
+
+
+
+
+	<DIV left=0 top=0 w=100% h=100% visible=(%lua.VRStatus == lua.eVRStatus.inactive)>
+		<BUTTON class="listitem icon"  onrelease=sc_SB_DefineHomeWork>
+			<TEXT class="listitem icon onbtn"  text=%*.name>
+			<SPRITE class="icon_center"  left=8% z=1000 iconmodel="*.icon" iconindex=1 >
+
+
+
+
+
+		</BUTTON>
+
+	</DIV>
+</element_template>
+
+<layer ui_ManageContactsSHW z=30>
+	<DIV class="list">
+		<SPRITE class="list_panel">
+
+	<LIST2 lstMF_Contacts class="list_control"  element_template="et_ManageContactsSHW" listmodel="poi.flat_search.list" SMOOTHSCROLLING>
+			<VSMARTSCROLL>  
+			<WHEEL>
+			<BUTTON class="btn_scrollup list">
+			<BUTTON class="btn_scrolldown list">
+    </LIST2>
+	</DIV>	
+</layer>
+
+
+<layer ui_SelectHomeWork z=30>
+	<DIV class="list">
+		<SPRITE class="list_panel">
+			<layer class="layer_control">
+
+				<BUTTON xxx class="listitem"  top=0%  h=25% align="left" valign="CENTER" text=(sc_SB_CreateTextHome())>
+
+
+
+				<BUTTON xxx class="listitem"  top=25% h=25% align="left" valign="CENTER" text=(sc_SB_CreateTextWork())>
+				<BUTTON xxx class="listitem"  top=50% h=25% align="left" valign="CENTER" text="Select from Favorites" onrelease=sc_map_local_menu_favoriteSHW>
+;				<BUTTON xxx class="listitem"  top=75% h=25% align="left" valign="CENTER" text="select from Contacts" onrelease=sc_map_local_menu_ContactsSHW>
+
+
+
+
+			</layer>
+		<VSMARTSCROLL class=layer_scrollup>
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class=Scroll>
+
+
+	</DIV>	
+</layer>
+
+
+
+
+
+
+
+
+
+

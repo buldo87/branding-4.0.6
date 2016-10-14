@@ -1,0 +1,221 @@
+<layer ui_sb_navigationset z=30>
+	<DIV class="list">
+		<SPRITE  class="list_panel" >  
+			<layer class="layer_control">
+; Numeros maisons
+				<BUTTON xxx top=0 h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.BdShowHouseNumber)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=90 h=25% valign="CENTER" text="Show house numbers">
+					<SPRITE xxx top=0 left=0 h=25% bmp=(%lua.BdShowHouseNumber ? "Choix_On.bmp" : "Choix_Off.bmp")/>
+				</BUTTON>
+; Nom de la ville
+				<BUTTON xxx top=25% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={if (%lua.BdviewCurrentCity < 2) {%lua.BdviewCurrentCity+=1} else {%lua.BdviewCurrentCity = 0}} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=90 h=25% valign="CENTER" text="Show city names">
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=410 h=25% valign="CENTER" text=(%lua.BdviewCurrentCity==2 ? "Mode 'réality'" : (%lua.BdviewCurrentCity==1 ? "Mode 'simple'" : "Off"))>
+					<SPRITE xxx top=25% left=0 h=25% bmp=(%lua.BdviewCurrentCity==2 ? "Choix_On.bmp" : (%lua.BdviewCurrentCity==1 ? "Choix_On.bmp" : "Choix_Off.bmp"))/>
+				</BUTTON>
+; Choix Demi-Tours ou pas dans la navigation
+				<CHECKBOX xxx class="listitem1" top=50% h=25% text="Avoid U-Turn" boolmodel="lua.vAvoidUTurn" onchange=sc_uturnonoff>
+; Choix cartes
+				<BUTTON xxx top=75% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease=sc_MapChanger_Confirm />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=75% x=90 h=25% valign="CENTER" text="Map provider">
+					<SPRITE xxx top=75% left=0 h=25% bmp="ico_map_provider.bmp#3" phase=(%lua.CurrentMap) onrelease=sc_MapChanger_Confirm>
+				</BUTTON>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+<layer ui_Bd_NavigatButtonCockpit z=30>
+	<DIV class="list">
+		<SPRITE class="list_panel" >
+			<layer class="layer_control">
+; Affichage infos
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=0% h=25% value="'Permanent'|1|'Temporaire'|2" valuemodel="lua.ButtonCockpitShow">
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" align="LEFT" text="Display of buttons">
+				</SLIDER>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+<layer ui_transparence z=30>
+	<DIV class="list">
+		<SPRITE class="list_panel">  
+			<layer class="layer_control">
+; Transparence Boutons de direction
+				<SPRITE class="listitem" top=0 h=25%>
+					<TEXT class="name" left=10% align="LEFT" valign="CENTER" w=30% text="Directions Buttons" padding=8>
+					<TEXT txt_Trans_BouttonArrow class="name" left=40% top=10% z=55 w=15% text="0" padding=8>
+					<HSMARTSCROLL class="scroll" left=43% top=10% min=0 max=32 dragable=1 valuemodel="lua.TransBouttonArrow" onchange=sc_Bd_set_transparence>
+				</SPRITE>
+				<SPRITE xxx bmp="AB_color_Setting.bmp" left=0.5% top=3.5% z=45 zoom=900 alpha=%lua.TransBouttonArrow>
+				</SPRITE>
+				<SPRITE xxx bmp="diricon_017.bmp" left=0.5% top=3.5% z=46 zoom=800 hueshift=%lua.BdArrowColor>
+				</SPRITE>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+<layer ui_Bd_Colors_settings z=35>
+	<DIV class="list">
+		<SPRITE class="list_panel" >
+			<layer class="layer_control">
+; Couleur Icones première manoeuvre
+				<SPRITE class="listitem" top=0 h=25% >
+					<TEXT class="name" left=10% align="LEFT" valign="CENTER" w=30% align="left" text="Arrow color\nFirst maneuver" padding=8 >
+					<TEXT txt_Bd_ArrowColor class="name" left=42% top=10% z=55 w=15% text="0" padding=8>
+					<HSMARTSCROLL class="scroll" left=45% top=10%  min=-128 max=128 dragable=1 valuemodel="lua.BdArrowColor" onchange=sc_Bd_set_Colors>
+				</SPRITE>
+				<SPRITE xxx bmp="diricon_017.bmp" left=-1% top=3% z=45 hueshift=%lua.BdArrowColor>
+				</SPRITE>
+; Couleur Icones seconde manoeuvre
+				<SPRITE class="listitem" top=25% h=25%>
+					<TEXT class="name" left=10% align="LEFT" valign="CENTER" w=30% align="left" text="Arrow color\nSecond maneuver" padding=8 >
+					<TEXT txt_Bd_Arrow2Color class="name" left=42% top=10% z=55 w=15% text="0" padding=8 >
+					<HSMARTSCROLL class="scroll" left=45% top=10% min=-128 max=128 dragable=1 valuemodel="lua.BdArrow2Color" onchange=sc_Bd_set_Colors>
+				</SPRITE>
+				<SPRITE xxx bmp="diricon_017.bmp" left=1% top=32% z=45 zoom=700 hueshift=%lua.BdArrow2Color>
+				</SPRITE>
+; Couleur Vitesse de jour et de nuit
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=50% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.SpeedInfoColorD" enable=(%lua.SURV)>
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" align="LEFT" w=70% left=8%	text="Speed day">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.SpeedInfoColorD==1 ? "choix_vert.bmp" : (%lua.SpeedInfoColorD==2 ? "choix_orange.bmp": (%lua.SpeedInfoColorD==3 ? "choix_bleu.bmp" : (%lua.SpeedInfoColorD==4 ? "choix_maron.bmp": (%lua.SpeedInfoColorD==5 ? "choix_noir.bmp": (%lua.SpeedInfoColorD==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=75% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.SpeedInfoColorN" enable=(%lua.SURV)>
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" align="LEFT" w=70% left=8%	text="Speed night">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.SpeedInfoColorN==1 ? "choix_vert.bmp" : (%lua.SpeedInfoColorN==2 ? "choix_orange.bmp": (%lua.SpeedInfoColorN==3 ? "choix_bleu.bmp" : (%lua.SpeedInfoColorN==4 ? "choix_maron.bmp": (%lua.SpeedInfoColorN==5 ? "choix_noir.bmp": (%lua.SpeedInfoColorN==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>		
+; Couleur Première manoeuvre de jour et de nuit
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=100% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.BdcolorDistNextManD">
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" w=70% align="LEFT" left=8% text="Next maneuver day">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.BdcolorDistNextManD==1 ? "choix_vert.bmp" : (%lua.BdcolorDistNextManD==2 ? "choix_orange.bmp": (%lua.BdcolorDistNextManD==3 ? "choix_bleu.bmp" : (%lua.BdcolorDistNextManD==4 ? "choix_maron.bmp": (%lua.BdcolorDistNextManD==5 ? "choix_noir.bmp": (%lua.BdcolorDistNextManD==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=125% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.BdcolorDistNextManN">
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" w=70% align="LEFT" left=8% text="Next maneuver night">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.BdcolorDistNextManN==1 ? "choix_vert.bmp" : (%lua.BdcolorDistNextManN==2 ? "choix_orange.bmp": (%lua.BdcolorDistNextManN==3 ? "choix_bleu.bmp" : (%lua.BdcolorDistNextManN==4 ? "choix_maron.bmp": (%lua.BdcolorDistNextManN==5 ? "choix_noir.bmp": (%lua.BdcolorDistNextManN==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>
+; Couleur Seconde manoeuvre de jour et de nuit
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=150% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.BdColorDistSecondManD">
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" w=70% align="LEFT" left=8%  text="Second maneuver day">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.BdColorDistSecondManD==1 ? "choix_vert.bmp" : (%lua.BdColorDistSecondManD==2 ? "choix_orange.bmp": (%lua.BdColorDistSecondManD==3 ? "choix_bleu.bmp" : (%lua.BdColorDistSecondManD==4 ? "choix_maron.bmp": (%lua.BdColorDistSecondManD==5 ? "choix_noir.bmp": (%lua.BdColorDistSecondManD==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=175% h=25% value="COLOR~Green|1|COLOR~Orange|2|COLOR~Blue|3|COLOR~Brown|4|COLOR~Black|5|COLOR~White|6" valuemodel="lua.BdColorDistSecondManN">
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" w=70% align="LEFT" left=8% text="Second maneuver night">
+					<SPRITE xxx top=0% left=0 h=100% bmp=(%lua.BdColorDistSecondManN==1 ? "choix_vert.bmp" : (%lua.BdColorDistSecondManN==2 ? "choix_orange.bmp": (%lua.BdColorDistSecondManN==3 ? "choix_bleu.bmp" : (%lua.BdColorDistSecondManN==4 ? "choix_maron.bmp": (%lua.BdColorDistSecondManN==5 ? "choix_noir.bmp": (%lua.BdColorDistSecondManN==6 ? "choix_blanc.bmp": "choix_rouge.bmp"))))))/>
+				</SLIDER>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+<layer ui_AB_Affichage_settings z=35>
+	<DIV class="list">
+		<SPRITE class="list_panel">
+			<layer class="layer_control">
+; Affichage Survitesse
+				<BUTTON xxx top=0 h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.SURV)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=90 h=25% valign="CENTER" text="Overspeed">
+					<SPRITE xxx top=0 left=0 h=25% bmp=(%lua.SURV ? "Choix_On.bmp" : "Choix_Off.bmp") />
+				</BUTTON>
+; Affichage Bouton 2D/3D
+				<BUTTON xxx top=25% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.BOUS)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=90 h=25% valign="CENTER" text="'2D/3D' button">
+					<SPRITE xxx top=25% left=0 h=25% bmp=(%lua.BOUS ? "Choix_On.bmp" : "Choix_Off.bmp") />
+				</BUTTON>
+; Affichage Bouton Mute
+				<BUTTON xxx top=50% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.SPEA)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=50% x=90 h=25% valign="CENTER" text="Mute button">
+					<SPRITE xxx top=50% left=0 h=25% bmp=(%lua.SPEA ? "Choix_On.bmp" : "Choix_Off.bmp") />
+				</BUTTON>
+; Affichage Bouton Medias
+				<BUTTON xxx top=75% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.CockpitButtonMedia)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=75% x=90 h=25% valign="CENTER" text="Media button">
+					<SPRITE xxx top=75% left=0 h=25% bmp=(%lua.CockpitButtonMedia ? "Choix_On.bmp" : "Choix_Off.bmp") />
+				</BUTTON>
+; Affichage Boutons du bas
+				<BUTTON xxx top=100% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={if (%lua.CockpitButtonBas < 2) {%lua.CockpitButtonBas+=1} else {%lua.CockpitButtonBas = 0}} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=100% x=90 h=25% valign="CENTER" text="Lower info bar">
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=100% x=410 h=25% valign="CENTER" text=(%lua.CockpitButtonBas==2 ? "Screen 'All'" : (%lua.CockpitButtonBas==1 ? "Screen 'Map'" : "Off"))>
+					<SPRITE xxx top=100% left=0 h=25% bmp=(%lua.CockpitButtonBas==2 ? "Choix_On.bmp" : (%lua.CockpitButtonBas==1 ? "Choix_On.bmp" : "Choix_Off.bmp"))/>
+				</BUTTON>
+; Affichage Mini Boutons / Gros boutons
+				<BUTTON xxx top=125% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.MenuEcranButton)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=125% x=90 h=25% valign="CENTER" text="Buttons menu screen:">
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=125% x=410 h=25% valign="CENTER" text=(%lua.MenuEcranButton ? "Small Buttons" : "Big Buttons")>
+					<SPRITE xxx top=125% left=0 h=25% bmp=(%lua.MenuEcranButton==2 ? "choix_big_bouton.bmp" : (%lua.MenuEcranButton==1 ? "choix_small_bouton.bmp" : "choix_big_bouton.bmp"))/>
+				</BUTTON>
+; Choix UX
+				<BUTTON xxx top=150% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease=sc_UXManager_Onrelease />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=150% x=90 h=25% valign="CENTER" text="Graphic improvements menu">
+					<SPRITE xxx top=150% left=0 h=25% bmp="Choix_ux.bmp" onrelease=sc_UXManager_Onrelease />      
+				</BUTTON>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+<layer ui_AB_Alertes_settings z=35>
+	<DIV class="list">
+		<SPRITE  class="list_panel" >
+			<layer class="layer_control">
+; Affichage Speedcam
+				<BUTTON xxx top=0 h=25% bmp="Btn_ChoixFondSli.bmp" onrelease=sc_FirstSpeedCamWarnInit />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=90 h=25% valign="CENTER" text="Speed cameras">
+					<SPRITE xxx top=0 left=0 h=25% bmp=(%warning.speedcam_warning ? "Choix_On.bmp" : "Choix_Off.bmp")/>
+				</BUTTON>
+; Affichage Saisie Flash
+				<BUTTON xxx top=25% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.VFlash)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=90 h=25% valign="CENTER" text="Enter Flash">
+					<SPRITE xxx top=25% left=0 h=25% bmp=(%lua.VFlash ? "Choix_On.bmp" : "Choix_Off.bmp")/>
+				</BUTTON>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>
+
+; 463
+<Layer ui_BdJVPanel z=35>
+	<DIV class="list">
+		<SPRITE  class=list_panel >  
+			<layer class="layer_control">
+; Activation vue Carrefour
+				<BUTTON xxx top=0 h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.JunctionViewOn)} enable=(%lua.SignpostOn)/>
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=90 h=25% valign="CENTER" text="Activation Junction View">
+					<SPRITE xxx top=0 left=0 h=25% bmp=(%lua.JunctionViewOn ? "ico_BdJVfullScreen.bmp" : "Choix_Off.bmp")/>
+				</BUTTON>
+; Affichage Mini vue Carrefour
+				<BUTTON xxx top=25% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.MinV)} enable=(%lua.JunctionViewOn && %lua.SignpostOn)/>
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=90 h=25% valign="CENTER" text="Small Junction View">
+					<SPRITE xxx top=25% left=0 h=25% bmp=(%lua.MinV ? "ico_BdJVsmallScreen.bmp" : "Choix_Off.bmp")/>
+				</BUTTON>
+; Choix type de vue Carrefour
+				<SLIDER xxx class="listitem txt_16bd" align="RIGHT" top=50% h=25% value="'NNG'|1|'Mixte'|2|'NNG NQ'|3|'NQ'|4" valuemodel="lua.BdJunctionViewType" enabledmodel=(%lua.JunctionViewOn && %lua.SignpostOn)>
+					<TEXT xxx class="txt_16 on4 lst_left bb_ww" w=70% left=10% top=5% text="Type Junction View">
+					<SPRITE xxx bmp="ico_JunctionView_sml.bmp#4" left=-1% top=5% z=45>
+				</SLIDER>
+			</Layer>
+		<VSMARTSCROLL class=layer_scrollup>
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class=Scroll>
+	</DIV>
+</Layer>

@@ -1,0 +1,117 @@
+<LAYER ui_suspend z=101000>
+	<SPRITE bmp="loading.bmp">
+</LAYER>
+<layer ui_xhtml_layer z=30 onhide='MODEL.ui.ui_xhtml_sublayer.scroll_off()'>
+	<DIV class="list vr">
+		<SPRITE left=0 top=0 w=100% h=100% z=0 opaque=1>
+		<layer ui_xhtml_sublayer type="xhtml" class="layer_control font_xhtml bd xhtml" filename="i18n/eula.xhtml" orientation="L2R" />
+		<BUTTON class="btn_scrollup layer">
+		<SPRITE class="pagenum layer">
+		<BUTTON class="btn_scrolldown layer">
+	</DIV>
+</layer>
+<layer ui_Background z=20>
+	<DIV>
+		<SPRITE bmp="default_skincol.bmp" hueshift=%lua.iconhue>
+	</DIV>
+</layer>
+
+; Medi@EvO Fond Saisie Flash ********************
+<layer ui_BackgroundSaisieFlash z=20>
+	<DIV>
+		<SPRITE bmp="skincol_SaisieFlash.bmp" hueshift=%lua.iconhue>
+	</DIV>
+</layer>
+; Fin Fond Saisie Flash *************************
+
+<layer ui_Status z=151>
+	<DIV class="header" visible=(!(vActiveState == "st_easynav" && %lua.dragMode))>
+		<SPRITE x=(%regional.timeformat == 3 ? 578 : 628) y=39 z=20 bmp="batterylevel_ico.bmp#4" phase=%other.lg_renault.battery_signal visible=%other.lg_renault.phone_connected>
+		<SPRITE x=(%regional.timeformat == 3 ? 620 : 670) y=39 z=21 bmp="status.bmp#6" phase=%other.lg_renault.gsm_signal visible=%other.lg_renault.phone_connected>
+		<DIV class="fill" visible=(%other.lg_renault.temperature_visible)>
+			<TEXT right=(%other.lg_renault.phone_connected ? 290 : 211) left=0 top=29 z=160 r2l_invert=0 l2r=1 text=(%other.lg_renault.temperature_value) padding=0 align="RIGHT"/>
+			<SPRITE left=(%other.lg_renault.phone_connected ? 512 : 591) top=25 z=160 bmp=(%other.lg_renault.temperature_in_celsius ? "temperature_c.bmp" : "temperature_f.bmp") visible=(!%other.lg_renault.temperature_frost_warning || %other.lg_renault.temperature_frost_warning && %gps.blink)/>
+		</DIV>
+; modif Heure - Ajout Date/Jour ********************
+		<SPEC_TIMETEXT left=(%regional.timeformat == 3 ? 657 : 705) top=36% z=160 use12H=(%regional.timeformat == 3)>
+		<SPEC_WEEKDAYTEXT left=645 top=10% z=160>
+		<SPEC_DATETEXT    left=715 top=10% z=160>
+; fin Heure - Ajout Date/Jour **********************
+	</DIV>
+</layer>
+<layer ui_Title z=140>
+	<DIV class="header">
+		<TEXT txtTitle class="header" text=L"StateTitle">
+	</DIV>
+</layer>
+<layer ui_Bugreport z=140>
+	<BUTTON x=380 y=1 z=999 bmp="$bug.bmp" onrelease='MODEL.other.bugreport.report_bug()' visible=(%interface.show_bugreport && !%other.bugreport.recording_in_progress)>
+	<BUTTON x=380 y=1 z=999 bmp="$recording.bmp" onrelease='MODEL.other.bugreport.stop_recording()' visible=(%interface.show_bugreport && %other.bugreport.recording_in_progress)>
+	<BUTTON x=320 y=1 z=999 bmp="$recording.bmp" onrelease='MODEL.lua.petzaStarted = true MODEL.other.igo_primo.start_petzalog()' visible=(%lua.petzaEnabled&&%exists:other.igo_primo.start_petzalog&&!%lua.petzaStarted) nostress>
+	<BUTTON x=320 y=1 z=999 bmp="$bug.bmp" onrelease='MODEL.other.igo_primo.stop_petzalog() MODEL.other.igo_primo.save_petzalog() MODEL.lua.petzaStarted = false' visible=(%lua.petzaStarted) nostress>
+</layer>
+<layer ui_Footer z=1000>
+	<DIV class="footer">
+		<BUTTON btn_Footer_back_1 class="btn_footer left back" left=0 top=0 onrelease=sc_back onlongclick=(%navigation.is_in_simulation ? sc_back : sc_lgHome) rawkey=27>
+		/* debug */ <BUTTON class="btn_footer left" left=0 top=0 w=12% h=100% z=12 bmp="ico_Overview_big.bmp#3" visible=(vSaveLogEnabled) onrelease=sc_ShowLogSaverLayer>
+	</DIV>
+</layer>
+<layer ui_Footer_onmap z=1000>
+	<DIV class="footer">
+		<BUTTON class="btn_footer left_onmap back" left=0 top=0 onrelease=sc_back onlongclick=sc_lgHome rawkey=27>
+		/* debug */ <BUTTON class="btn_footer left" left=0 top=0 w=12% h=100% z=12 bmp="ico_Overview_big.bmp#3" visible=(vSaveLogEnabled) onrelease=sc_ShowLogSaverLayer>
+	</DIV>
+</layer>
+<layer ui_Exiting z=35>
+	<DIV class="full">
+		<SPRITE left=0 top=0 z=1 bmp="loading.bmp">
+	</DIV>
+	<DIV class="footer">
+		<TEXT class="font_sec bd ww_ww" left=3% right=35% top=0 bottom=0 z=160 align="LEFT" valign="TOP" text="EXITING, PLEASE WAIT...">
+	</DIV>
+</layer>
+<layer ui_MessageBox z=100001 modal>
+	<DIV class="full">
+		<SPRITE class=messagebox>
+		<TEXT class="font_main_large color_inf_main" left=18% top=30% right=18% h=(%screen.msgbox.on_screen.second_line ? 17% : 34%) z=50 align="CENTER" valign="CENTER" wordwrap=(%screen.msgbox.on_screen.second_line ? 2 : 4) text=%screen.msgbox.on_screen.first_line>
+		<TEXT class="font_main_large color_inf_main" left=18% top=47% right=18% h=17% z=50 align="CENTER" valign="CENTER" wordwrap=2 text=%screen.msgbox.on_screen.second_line>
+		<DIALOGBUTTON class="dialog 1_1" iconspr=(%screen.msgbox.on_screen.button_icon_filename(1)) text=(%screen.msgbox.on_screen.button_caption(1)) visible=(%screen.msgbox.on_screen.number_of_buttons == 1) onrelease='MODEL.screen.msgbox.on_screen.button_released(1)' rawkey=(1 == %screen.msgbox.on_screen.number_of_buttons ? 27 : 0 )>
+		<DIALOGBUTTON class="dialog 2_1" iconspr=(%screen.msgbox.on_screen.button_icon_filename(1)) text=(%screen.msgbox.on_screen.button_caption(1)) visible=(%screen.msgbox.on_screen.number_of_buttons == 2) onrelease='MODEL.screen.msgbox.on_screen.button_released(1)' rawkey=(1 == %screen.msgbox.on_screen.number_of_buttons ? 27 : 0 )>
+		<DIALOGBUTTON class="dialog 2_2" iconspr=(%screen.msgbox.on_screen.button_icon_filename(2)) text=(%screen.msgbox.on_screen.button_caption(2)) visible=(%screen.msgbox.on_screen.number_of_buttons == 2) onrelease='MODEL.screen.msgbox.on_screen.button_released(2)' rawkey=27>
+		<DIALOGBUTTON class="dialog 3_1" iconspr=(%screen.msgbox.on_screen.button_icon_filename(1)) text=(%screen.msgbox.on_screen.button_caption(1)) visible=(%screen.msgbox.on_screen.number_of_buttons == 3) onrelease='MODEL.screen.msgbox.on_screen.button_released(1)' rawkey=(1 == %screen.msgbox.on_screen.number_of_buttons ? 27 : 0 )>
+		<DIALOGBUTTON class="dialog 3_2" iconspr=(%screen.msgbox.on_screen.button_icon_filename(2)) text=(%screen.msgbox.on_screen.button_caption(2)) visible=(%screen.msgbox.on_screen.number_of_buttons == 3) onrelease='MODEL.screen.msgbox.on_screen.button_released(2)' rawkey=27>
+		<DIALOGBUTTON class="dialog 3_3" iconspr=(%screen.msgbox.on_screen.button_icon_filename(3)) text=(%screen.msgbox.on_screen.button_caption(3)) visible=(%screen.msgbox.on_screen.number_of_buttons == 3) onrelease='MODEL.screen.msgbox.on_screen.button_released(3)' rawkey=0>
+	</DIV>
+</layer>
+<layer ui_RecalcMsgBoxNavigate z=999 visible=(%lua.routeCalculation_todo && %route.route_progress_text.valid && !%lua.dragMode)>
+	<DIV class="full">
+		<TEXT class="font_main textpadding_small" left=3% top=0 w=31% h=15% z=5 align="LEFT" text=(%lua.IsNewRoute ? m_i18n("Calculating route") : m_i18n("Recalculating..."))>
+		<TEXT class="font_main bd textpadding_small" left=34% top=0 w=14% h=15% z=8 align="RIGHT" text=(%route.route_progress_text)>
+	</DIV>
+</layer>
+<layer ui_RecalcMsgBox z=999 visible=(vActiveState == "st_easyroutemenu" ? (%lua.routeCalculation_todo && %route.route_progress_text.valid && !%navigation.time_to_destination.valid) : (%lua.routeCalculation_todo && %route.route_progress_text.valid))>
+	<DIV class="full">
+		<TEXT class="font_sec color_map_main textpadding_small" left=1% top=0 w=31% h=(vActiveState == "st_easyroutemenu" ? 15% : 9%) z=5 align="LEFT" text=(%lua.IsNewRoute ? m_i18n("Calculating route") : m_i18n("Recalculating..."))>
+		<TEXT class="font_sec bd color_map_main textpadding_small" left=32% top=0 w=14% h=(vActiveState == "st_easyroutemenu" ? 15% : 9%) z=8 align="RIGHT" text=(%route.route_progress_text)>
+	</DIV>
+</layer>
+<layer ui_RecalcMsgBoxAvoid z=999 visible=(%lua.avoidActive && (!%route.list.temporary.calculation_finished || %lua.AvoidChanging))>
+	<DIV class="full">
+		<SPRITE left=18% top=4% w=47% h=12% z=1 align="CENTER" valign="CENTER">
+			<TEXT class="font_sec color_map_main textpadding_small" left=3% top=0 w=66% h=80% z=5 align="LEFT" text=(%route.list.temporary.calculation_finished ? m_i18n("Recalculating...") : translated_format(m_i18n("Recalculating...%s%%"), sc_SetCalculatePercent(%route.list.temporary.progress, 0)))>
+		</SPRITE>
+	</DIV>
+</layer>
+<layer ui_RecalcMsgBoxItiner z=999 visible=(%lua.routeCalculation_todo&%route.route_progress_text.valid)>
+	<DIV class="full">
+		<TEXT class="font_sec color_map_main textpadding_small" left=28% top=0 w=31% h=8% z=5 align="LEFT" text="Recalculating...">
+		<TEXT class="font_sec bd color_map_main textpadding_small" left=59% top=0 w=14% h=8% z=8 align="RIGHT" text=(%route.route_progress_text)>
+	</DIV>
+</layer>
+; Menu++ Couleurs ********************
+<layer ui_List_Background z=21>
+	<DIV class="list vr">
+		<SPRITE class="list_panel vr background" z=0>
+	</DIV>
+</layer>
+; Fin couleurs ***********************

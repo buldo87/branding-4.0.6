@@ -1,0 +1,5 @@
+BmpFlags = 0
+DefFlags = ALPHA_PIXEL | ALPHA_LAYER
+DefPhase = 0
+Stripes = 90
+Animation = "MediaEvO_Animation1", 14, "A", "ABCDEF"

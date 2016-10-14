@@ -1,0 +1,445 @@
+
+<var vShowMenuButton=0>
+
+<layer ui_PropLayer z=51>
+	<implementation>
+		<property ShowSpeedLimit value=(!%lua.dragMode && (%warning.speedlimit_warning_visual || %lua.speedWarningAlwaysVisibleChk) && %warning.driveralert.speed_limit.valid && (%warning.driveralert.near_speed_limit || %lua.speedWarningAlwaysVisibleChk))>
+		<property ShowSpeedCamera value=(%navigation.curr_speedcam.category.valid && %["warning.speedcam_visualtype_" + %navigation.curr_speedcam.category] && !%navigation.is_in_simulation && !%lua.dragMode && %gps.connection_status != 4)>
+		<property SpeedCameraRate value=(%navigation.curr_speedcam.category < 6 && (%navigation.curr_speedcam.service == 0 || %navigation.curr_speedcam.service == 2))>
+		<property SpeedCameraSpeedLimit value=(%navigation.curr_speedcam.speed_limit // 0)>
+		<property ShowNextMan value=(%navigation.is_in_simulation || %gps.connection_status < 3 && !%lua.dragMode && (%navigation.car_pos_valid || %gps.valid || %navigation.dead_reckoning) )>
+		<property ShowTimeToManeuver value=(%navigation.car.is_on_highway && %navigation.distance_to_maneuver > 3000 && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon.valid)>
+
+		<property ShowSecondaryManeuver value=(%navigation.secondary_direction_icon.valid & %navigation.distance_to_maneuver.valid & %navigation.secondary_maneuver_is_near & %navigation.secondary_near_to_primary & %route.list.navigated.has_navigable_path & %navigation.distance_to_maneuver < 15000)>
+	</implementation>
+	<observer boolmodel="lua.dragMode" onselect='obs_user_browsing_map:START()' ondeselect='obs_user_browsing_map:STOP()' START="NO_TRIGGER">
+</layer>
+
+<layer ui_EasyNav_Main_Functions z=10 visible=(!%lua.dragMode || ui_PropLayer.ShowNextMan)>
+	<DIV class="cockpit">
+		<BUTTON right=13 top=241 w=94 h=86 z=50 resize_bmp=0 bmp="mapbutton.bmp#3" onrelease=sc_switch2D3D visible=(%lua.BOUS)>
+			<VSPRITE vCompass left=0 right=0 top=0 bottom=0 z=52 vec="kornegyszogesites.vpr" align="CENTER" valign="CENTER" rotatemodel="map.primary.rotate" tilt=(sc_getCompassTilt(%map.primary.tilt, %map.primary.mode)) OPPOSITE_ROTATE visible=(%lua.BOUS)>
+		</BUTTON>
+		<BUTTON right=13 top=327 w=94 h=86 z=50 resize_bmp=0 bmp="mapbutton.bmp#3" onrelease={invert(%sound.voice_muted)} visible=(%lua.SPEA)>
+			<SPRITE class="icon_center" left=49% z=51 hueshift=%lua.iconhue bmp="ico_mute-unmute.bmp#2" phase=(!%sound.voice_muted) visible=(%lua.SPEA)>
+		</BUTTON>
+	</DIV>
+</layer>
+
+<layer ui_EasyNav_Main z=40 visible=(!%lua.dragMode)>
+	<DIV class="cockpit">
+; Panneaux de restriction
+		<SPRITE class="turn_rest">
+; Bouton lancement Homs et Menu++
+		<BUTTON class="btn_footer right" x=656 top=0 w=144 h=15% visible=(!%navigation.is_in_simulation) alpha=0 onRelease=sc_ButtonCockpitShow onlongclick=sc_ShowMenuPlus>
+		</BUTTON>
+; Rue actuelle
+		<SPRITE  left=(!%lua.routeCalculation_todo ? (!%navigation.has_route ? 0 : 158) : (!%navigation.has_route ? 0 : 0)) top=0 w=(!%lua.routeCalculation_todo ? (!%navigation.has_route ? 100% : 642) : (!%navigation.has_route ? 100% : 100%)) h=15% resize_bmp=1 bmp="map_currentstrt_spr.bmp">
+		<ROADSHIELDEDTEXT class="current_street" left=(!%lua.BdShowHouseNumber ? 0 : (!%navigation.car.lefthousenumber.valid ? 0 : 61)) right=(!%lua.BdShowHouseNumber ? 42% : (!%navigation.car.righthousenumber.valid ? 42% : 37.3%)) textmodel_wstr="navigation.car.current_street_with_shield" visible=(%navigation.car.current_street_with_shield && !%route.list.navigated.has_navigable_path && !%lua.routeCalculation_todo)>
+			<BUTTON class="current_street" onrelease=sc_ShowWhereAmI overmaplayer>
+		</ROADSHIELDEDTEXT>
+; Numéros de maisons Hors Navigation
+		<SPRITE x=0 top=0 w=60 h=15% resize_bmp=1 bmp="map_NumRue.bmp" visible=(%navigation.car.current_street_with_shield && !%route.list.navigated.has_navigable_path && !%lua.routeCalculation_todo && %lua.BdShowHouseNumber && %navigation.car.lefthousenumber.valid)>
+			<TEXT class="color_map_inf_sec font_main_large bd" left=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype= houseNumber textmodel_wstr="navigation.car.lefthousenumber">
+		</SPRITE>
+		<SPRITE x=503 top=0 w=60 h=15% resize_bmp=1 bmp="map_NumRue.bmp" visible=(%navigation.car.current_street_with_shield && !%route.list.navigated.has_navigable_path && !%lua.routeCalculation_todo && %lua.BdShowHouseNumber && %navigation.car.righthousenumber.valid)>
+			<TEXT class="color_map_inf_sec font_main_large bd" right=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype= houseNumber textmodel_wstr="navigation.car.righthousenumber">
+		</SPRITE>
+; Bouton Flash Radars
+		<BUTTON class="btn_footer right" x=587 w=60 top=330 visible=(!%navigation.is_in_simulation && %lua.VFlash) alpha=0 onrelease=EcranFlash >
+			<SPRITE class="icon_center" bmp="Flash.bmp" align="CENTER" valign="CENTER">
+		</BUTTON>
+	</DIV>
+; Boutons du bas
+	<DIV class="footer">
+		<BUTTON class="btn_footer left home" left=0 top=0 w=144 visible=(!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && !vShowMenuButton && %lua.CockpitButtonBas == 0 && %lua.CockpitButtonHoms) onrelease=sc_lgHome>
+		<BUTTON class="btn_footer left home" left=0 top=0 w=144 visible=(!%navigation.has_route ? (!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && !vShowMenuButton && %lua.CockpitButtonBas == 1 ) : (!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && !vShowMenuButton && %lua.CockpitButtonBas == 1 && %lua.CockpitButtonHoms)) onrelease=sc_lgHome>
+		<BUTTON class="btn_footer left home" left=0 top=0 w=144 visible=(!%navigation.has_route ? (!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && !vShowMenuButton && %lua.CockpitButtonBas == 2 ) : (!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && !vShowMenuButton && %lua.CockpitButtonBas == 2 && !%lua.CockpitButtonHoms)) onrelease=sc_lgHome>
+		<BUTTON class="btn_footer left home" left=0 top=0 w=144 visible=(!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && vShowMenuButton && !%other.lg_renault.eco_support) onrelease='sc_StateAnimMainMenu( st_EasyFindMenu, "vert_scroll", 0, "" )'>
+
+		<FOOTERBUTTON class="btn_footer localmenu" top=0 text="Destination" visible=(!%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && %other.lg_renault.eco_support) onrelease='sc_StateAnimMainMenu( st_EasyFindMenu, "vert_scroll", 0, "" )'>
+		<FOOTERBUTTON class="btn_footer right" x=357 w=290 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 && %lua.CockpitButtonHoms) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=357 w=290 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 && !%navigation.has_route) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=357 w=290 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 && %navigation.has_route && %lua.CockpitButtonHoms) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=357 w=290 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 && !%navigation.has_route) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=357 w=290 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 && %navigation.has_route && !%lua.CockpitButtonHoms) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+
+		<FOOTERBUTTON class="btn_footer right" x=587 w=200 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 && !%navigation.has_route && !%lua.CockpitButtonHoms && %lua.CockpitButtonMedia) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=587 w=200 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 && %navigation.has_route && !%lua.CockpitButtonHoms && %lua.CockpitButtonMedia) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		<FOOTERBUTTON class="btn_footer right" x=587 w=200 top=0 padding=20 text=%other.lg_renault.media_string icon_hueshift=%lua.iconhue onrelease='MODEL.other.lg_renault.media_btn_pressed()' visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 && %navigation.has_route && !%lua.CockpitButtonHoms && %lua.CockpitButtonMedia) enable=(!lua.homelessMonkey) iconspr=(sc_GetMediaButtonIcon(%other.lg_renault.media_type))>
+		/* debug */ <BUTTON class="btn_footer left" left=0 top=0 w=12% h=100% z=12 bmp="ico_Overview_big.bmp#3" visible=(vSaveLogEnabled) onrelease=sc_ShowLogSaverLayer>
+; Bouton Vitesse/Altitude
+		<BUTTON class="btn_footer right" x=647 top=0 w=140 visible=(!%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 && %lua.CockpitButtonHoms)>
+			<SPRITE class="r2l" left=12 top=0 w=20% h=50% z=20 bmp="ico_destspeed_sml.bmp#3" align="CENTER" valign="CENTER">
+			<SPRITE class="r2l" left=12 top=50% w=20% h=50% z=20 bmp="ico_altitude_sml.bmp" align="CENTER" valign="CENTER">
+				<SPEEDTEXT class="font_cockpit_info bd r2l" left=45 top=0  w=60% h=40% align="LEFT" valign="CENTER" speed=%navigation.car.current_speed >
+				<ALTITUDETEXT class="font_cockpit_info bd r2l" left=45 top=48% w=60% h=40% align="LEFT" valign="CENTER" altitude=%gps.elevation >
+		</BUTTON>
+		<BUTTON class="btn_footer right"  x=647 top=0 w=140 visible=(!%navigation.has_route ? (!%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 ) : (!%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 && %lua.CockpitButtonHoms))>
+			<SPRITE class="r2l"  left=12 top=0 w=20% h=50% z=20 bmp="ico_destspeed_sml.bmp#3" align="CENTER" valign="CENTER">
+			<SPRITE class="r2l"  left=12 top=50% w=20% h=50% z=20 bmp="ico_altitude_sml.bmp" align="CENTER" valign="CENTER">
+				<SPEEDTEXT class="font_cockpit_info bd r2l"  left=45 top=0  w=60% h=40% align="LEFT" valign="CENTER" speed=%navigation.car.current_speed >
+				<ALTITUDETEXT class="font_cockpit_info bd r2l"  left=45 top=48% w=60% h=40% align="LEFT" valign="CENTER" altitude=%gps.elevation >
+		</BUTTON>
+		<BUTTON class="btn_footer right"  x=647 top=0 w=140 visible=(!%navigation.has_route ? (!%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 ) : (!%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 && !%lua.CockpitButtonHoms))>
+			<SPRITE class="r2l"  left=12 top=0 w=20% h=50% z=20 bmp="ico_destspeed_sml.bmp#3" align="CENTER" valign="CENTER">
+			<SPRITE class="r2l"  left=12 top=50% w=20% h=50% z=20 bmp="ico_altitude_sml.bmp" align="CENTER" valign="CENTER">
+				<SPEEDTEXT class="font_cockpit_info bd r2l"  left=45 top=0 w=60% h=40% align="LEFT" valign="CENTER" speed=%navigation.car.current_speed >
+				<ALTITUDETEXT class="font_cockpit_info bd r2l"  left=45 top=48% w=60% h=40% align="LEFT" valign="CENTER" altitude=%gps.elevation >
+		</BUTTON>
+; Affichage vitesse colorée ********** 1=Vert 2=Orange 3=Bleu 4=Marron 5=Noir 6=Blanc
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#00FF00 color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 1 : %lua.SpeedInfoColorD == 1))>
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#FFcc00 color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 2 : %lua.SpeedInfoColorD == 2))>
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#0099FF color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 3 : %lua.SpeedInfoColorD == 3))>
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#663300 color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 4 : %lua.SpeedInfoColorD == 4))>
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#000000 color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 5 : %lua.SpeedInfoColorD == 5))>
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color=#FFFFFF color2=#000000 glowtype=1 glowsize=1 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (%screen.nightmode ? %lua.SpeedInfoColorN == 6 : %lua.SpeedInfoColorD == 6))>
+; Survitesse en rouge
+		<TEXT class="txt_20 bd"  fontsize=60 x=680 w=50% y=75 h=70 align="LEFT" color2=#FFcc00 color=#FF0000 color3=#000000 glowtype=2 glowsize=6 z=147 combined_textmodel="$navigation.car.current_speed$" visible=(%lua.SURV && (sc_GetAdvancedSpeedLimitPhase(%navigation.car.current_speed, %warning.driveralert.speed_limit)==2))>
+	</DIV>
+</layer>
+
+<Layer ui_Bd_ShowCockpitButton z=40 visible=(!%lua.dragMode)>
+</Layer>
+
+<Layer ui_Bd_cockpitButton z=40 visible=(!%lua.dragMode)>
+	<DIV class="cockpit">
+; Boutons écran Favoris et Menu++
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 647 : 535) y=(%lua.MenuEcranButton ? 350 : 115) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_btnAMDM_Favorite_OnRelease>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranF.bmp" : "ico_MenuEcranF9.bmp")>
+		</BUTTON>
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 718 : 535) y=(%lua.MenuEcranButton ? 350 : 245) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_ShowMenuPlus>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranZ.bmp" : "ico_MenuEcranZ9.bmp")>
+		</BUTTON>
+; Boutons écran Historique et Supprimer Itinéraire
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 647 : 405) y=(%lua.MenuEcranButton ? 289 : 115) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_FindHistory>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranDY.bmp" : "ico_MenuEcranDY9.bmp")>
+		</BUTTON>
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 718 : 405) y=(%lua.MenuEcranButton ? 289 : 245) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_btnRM_Delete_OnRelease enable=(%navigation.has_route)>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranDN.bmp" : "ico_MenuEcranDN9.bmp")>
+		</BUTTON>
+; Boutons créer Itinéraire et Route Alternative
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 647 : 275) y=(%lua.MenuEcranButton ? 228 : 115) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_OpenEditRoute>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 5) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranIti.bmp" : "ico_MenuEcranIti9.bmp")>
+		</BUTTON>
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 718 : 275) y=(%lua.MenuEcranButton ? 228 : 245) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease=sc_MRMAlternativesRoute_OnRelease enable=(%navigation.has_route && !%navigation.calculation_todo)>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_RouteAlternative.bmp" : "ico_RouteAlternative9.bmp")>
+		</BUTTON>
+; Boutons écran Maison et Travail
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 647 : 145) y=(%lua.MenuEcranButton ? 167 : 115) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease='sc_SearchHomeWork(1)'>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranH.bmp" : "ico_MenuEcranH9.bmp")>
+		</BUTTON>
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 718 : 145) y=(%lua.MenuEcranButton ? 167 : 245) z=10 bmp=(%lua.MenuEcranButton ? "Btn_MenuEcran.bmp#3" : "Btn_MenuEcran9.bmp#3") onrelease='sc_SearchHomeWork(2)'>
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp=(%lua.MenuEcranButton ? "ico_MenuEcranW.bmp" : "ico_MenuEcranW9.bmp")>
+		</BUTTON>
+; Affichage du Fournisseur de carte Actif
+		<BUTTON xxx x=(%lua.MenuEcranButton ? 671 : 365) y=(%lua.MenuEcranButton ? 92 : 45) z=10 bmp="Btn_MenuEcran.bmp#3" alpha=0 >
+			<SPRITE xxx left=(%lua.MenuEcranButton ? 10 : 0) top=(%lua.MenuEcranButton ? 5 : 0) z=20 bmp="ico_map_provider.bmp#3" phase=(%lua.CurrentMap)>
+		</BUTTON>
+	</DIV>
+</Layer>
+
+<element_template et_EasyNav_Additional_Features>
+	<BUTTON class=listitem z=15 bmp=(index ? "mapbutton.bmp#3" : "mapbutton_side_left.bmp#3") visible=%*.visible onrelease=%*.onrelease enable=%*.enable dtooltip=%*.dtooltip>
+		<SPRITE left=0 right=0 bottom=0 top=0 align="CENTER" valign="CENTER" z=16 bmp=%*.bmp visible=(%*.id != "speedcam" ? 1 : (%exists:naviextras.auth_status ? %{"naviextras.auth_status"} >= lua.EAuthStatus.AUTH_SUCCESS || %{"naviextras.auth_status"} == lua.EAuthStatus.AUTH_NONE : 0) )>
+		<SPRITE left=0 right=0 bottom=0 top=8% align="CENTER" valign="CENTER" z=100 bmp="ico_speedcam_connecting.spr" ANIMATE="speedcamanim" visible=(%*.id == "speedcam" ? (%exists:naviextras.auth_status ? %{"naviextras.auth_status"} == lua.EAuthStatus.AUTH_TRYING || %{"naviextras.auth_status"} == lua.EAuthStatus.AUTH_PASS_CHANGED : 0) : 0 )>
+	</BUTTON>
+</element_template>
+
+<element_template et_EasyNav_Additional_Features_speed>
+	<BUTTON class=listitem z=15 bmp="mapbutton_side_left.bmp#3">
+		<SPEEDTEXT class="font_main bd" z=45 w=100% h=80% align="CENTER" speed=(%{%*.model}) visible=(%{%*.model}.valid)>
+	</BUTTON>
+</element_template>
+
+<layer ui_EasyNav_Additional_Features z=40>
+	<DIV class="cockpit">
+		<LIST2 easynav_af_list class="additional_features" element_template="et_EasyNav_Additional_Features" listmodel="ui.easyNav_AF" TEMPLATE_TYPE_MODEL="*.type">
+	</DIV>
+</layer>
+
+<layer ui_EasyNav_NextMan z=45 visible=(ui_PropLayer.ShowNextMan)>
+	<DIV class="cockpit" visible=(!(ui_PropLayer.OffroadRoute))>
+; Premiere manoeuvre
+		<BUTTON class="diricon" visible=(%route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && %navigation.is_in_simulation) overmaplayer disable alpha=0>
+		<BUTTON class="diricon" visible=(%route.list.navigated.has_navigable_path && %navigation.next_street_with_shield) onrelease=sc_ShowItinerList overmaplayer>
+			<SPRITE class="diricon_bitmap" iconmodel="navigation.direction_icon" visible=(!%navigation.exit_icon.valid && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path))>
+			<DISTTEXT class="dist_to_maneuver"       distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 1 : %lua.BdcolorDistNextManD == 1) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+			<DISTTEXT class="dist_to_maneuverO"      distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 2 : %lua.BdcolorDistNextManD == 2) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+			<DISTTEXT class="dist_to_maneuverB"      distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 3 : %lua.BdcolorDistNextManD == 3) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+			<DISTTEXT class="dist_to_maneuverBrown"  distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 4 : %lua.BdcolorDistNextManD == 4) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+			<DISTTEXT class="dist_to_maneuverBlack"  distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 5 : %lua.BdcolorDistNextManD == 5) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+			<DISTTEXT class="dist_to_maneuverWhite"  distance=(%navigation.distance_to_maneuver) visible=((%screen.nightmode ? %lua.BdcolorDistNextManN == 6 : %lua.BdcolorDistNextManD == 6) && (%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.direction_icon != -1))>
+		</BUTTON>
+; Bouton Vitesse/Altitude en Navigation sans boutons
+		<BUTTON  left=13 top=272 w=144 h=35 bmp="mapbutton_infopanel_sim1.bmp" resize_bmp=0 visible=(!%navigation.is_in_simulation && %route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && !%lua.CockpitButtonHoms && %lua.CockpitButtonBas == 0 )>
+			<SPRITE class="r2l" left=12 top=0 w=20% h=100% z=20 bmp="ico_altitude_sml.bmp" align="CENTER" valign="CENTER">
+				<ALTITUDETEXT class="font_cockpit_info bd r2l" left=45 top=-9 w=60% h=100% align="LEFT" valign="CENTER" altitude=%gps.elevation >
+		</BUTTON>
+		<BUTTON  left=13 top=272 w=144 h=35 bmp="mapbutton_infopanel_sim1.bmp" resize_bmp=0 visible=(!%navigation.is_in_simulation && %route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && !%lua.CockpitButtonHoms && %lua.CockpitButtonBas == 1 )>
+			<SPRITE class="r2l" left=12 top=0 w=20% h=100% z=20 bmp="ico_altitude_sml.bmp" align="CENTER" valign="CENTER">
+				<ALTITUDETEXT class="font_cockpit_info bd r2l" left=45 top=-9 w=60% h=100% align="LEFT" valign="CENTER" altitude=%gps.elevation >
+		</BUTTON>
+; Distance et heure d'arrivée en navigation
+		<BUTTON left=13 top=342 w=144 h=69 bmp="mapbutton_infopanel.bmp#3" resize_bmp=0 onrelease=sc_Overview_Onrelease visible=(%route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && !%navigation.is_in_simulation)>
+			<SPRITE class="r2l" left=12 top=0   w=20% h=50% z=20 bmp="ico_destflag_sml.bmp"   align="CENTER" valign="CENTER">
+			<SPRITE class="r2l" left=12 top=50% w=20% h=50% z=20 bmp="ico_desttime_sml.bmp#3" align="CENTER" valign="CENTER">
+			<DISTTEXT class="font_cockpit_info bd r2l" left=45 top=0   w=60% h=40% align="LEFT" valign="CENTER" distance=%navigation.distance_to_destination visible=(%navigation.distance_to_destination.valid)>
+			<TIMETEXT class="font_cockpit_info bd r2l" left=45 top=48% w=60% h=40% align="LEFT" valign="CENTER" time=%navigation.eta_at_destination formatmodel="regional.short_timeformat" visible=(%navigation.eta_at_destination.valid)>
+		</BUTTON>
+; Distance et heure d'arrivée en simulation
+		<BUTTON left=13 top=342 w=144 h=69 bmp="mapbutton_infopanel_sim.bmp#3" resize_bmp=0 visible=%navigation.is_in_simulation alpha=0 disable>
+		<BUTTON left=13 top=342 w=144 h=69 bmp="mapbutton_infopanel_sim.bmp#3" resize_bmp=0 onrelease=sc_Overview_Onrelease visible=(%route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && %navigation.is_in_simulation)>
+			<SPRITE class="r2l" left=12 top=0 w=20% h=50% z=20 bmp="ico_destflag_sml.bmp" align="CENTER" valign="CENTER">
+			<SPRITE class="r2l" left=12 top=50% w=20% h=50% z=20 bmp="ico_desttime_sml.bmp#3" align="CENTER" valign="CENTER">
+			<DISTTEXT class="font_cockpit_info bd r2l" left=45 top=0 w=60% h=40% align="LEFT" valign="CENTER" distance=%navigation.distance_to_destination visible=(%navigation.distance_to_destination.valid)>
+			<TIMETEXT class="font_cockpit_info bd r2l" left=45 top=48% w=60% h=40% align="LEFT" valign="CENTER" time=%navigation.eta_at_destination formatmodel="regional.short_timeformat" visible=(%navigation.eta_at_destination.valid)>
+		</BUTTON>
+; Temps restant en navigation
+		<BUTTON left=13 top=307 w=144 h=35 bmp="mapbutton_infopanel_sim1.bmp" resize_bmp=0 onrelease=sc_Overview_Onrelease visible=(%route.list.navigated.has_navigable_path && %navigation.next_street_with_shield && !%navigation.is_in_simulation)>
+			<SPRITE class="r2l" left=12 top=0 w=20% h=100% z=20 bmp="itinerary_ico_time1.bmp" align="CENTER" valign="CENTER">
+			<TIMETEXT class="font_cockpit_info bd r2l"  left=45 top=-8 w=60% h=100% align="LEFT" valign="CENTER" time=%navigation.time_to_destination formatmodel="regional.short_timeformat">
+		</BUTTON>
+; Seconde manoeuvre
+		<SPRITE  left=13 top=162 w=144 h=105 bmp="mapbutton_secdiricon1.bmp#3" alpha=%lua.TransBouttonArrow visible=(ui_PropLayer.ShowSecondaryManeuver)>
+		</SPRITE>
+		<SPRITE class="secondary_diricon"  visible=(ui_PropLayer.ShowSecondaryManeuver) overmaplayer>
+			<SPRITE left=32 top=2 w=80 h=80 z=100 iconmodel="navigation.secondary_direction_icon" align="CENTER" valign="CENTER" hueshift=%lua.BdArrow2Color iconindex=0 />
+			<DISTTEXT class="dist_to_maneuver2"      textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 1 : %lua.BdColorDistSecondManD == 1) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+			<DISTTEXT class="dist_to_maneuver2O"     textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 2 : %lua.BdColorDistSecondManD == 2) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+			<DISTTEXT class="dist_to_maneuver2B"     textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 3 : %lua.BdColorDistSecondManD == 3) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+			<DISTTEXT class="dist_to_maneuver2Brown" textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 4 : %lua.BdColorDistSecondManD == 4) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+			<DISTTEXT class="dist_to_maneuver2Black" textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 5 : %lua.BdColorDistSecondManD == 5) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+			<DISTTEXT class="dist_to_maneuver2White" textmodel_distance="navigation.second_maneuver_distance_diff" visible=((%screen.nightmode ? %lua.BdColorDistSecondManN == 6 : %lua.BdColorDistSecondManD == 6) && (%navigation.secondary_direction_icon.valid && %navigation.distance_to_maneuver.valid && %route.list.navigated.has_navigable_path && %navigation.distance_to_maneuver >= 0))>
+		</SPRITE>
+; Rue suivante en Navigation
+		<BUTTON class="next_maneuver" z=50 visible=%navigation.is_in_simulation disable>
+		<SPRITE class="next_maneuver" visible=(%route.list.navigated.has_navigable_path && !%lua.showDiriconBg && %navigation.next_street_with_shield && !%lua.routeCalculation_todo)>
+			<ROADSHIELDEDTEXT class="next_maneuver" textmodel_wstr="navigation.next_street_with_shield" visible=(!%lua.showDiriconBg && %route.list.navigated.has_navigable_path && !%lua.routeCalculation_todo)>
+		</SPRITE>
+; Rue actuelle en Navigation
+		<SPRITE x=13 y=411 w=(%lua.CockpitButtonMedia ? 574 : 774) h=69 resize_bmp=1 bmp="map_currentstrt_spr.bmp" visible=(!%navigation.is_in_simulation && %route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.CockpitButtonBas == 0 )>
+		<ROADSHIELDEDTEXT class="AB_current_street" visible=(%navigation.has_route && !%lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 )>
+			<BUTTON class="AB_current_street"  visible=(%navigation.has_route && !%lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 ) onrelease=sc_ShowWhereAmI overmaplayer>
+		</ROADSHIELDEDTEXT>
+		<SPRITE x=13 y=411 w=(%lua.CockpitButtonMedia ? 574 : 774) h=69 resize_bmp=1 bmp="map_currentstrt_spr.bmp" visible=(!%navigation.is_in_simulation && %route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.CockpitButtonBas == 1 )>
+		<ROADSHIELDEDTEXT class="AB_current_street"  visible=(%navigation.has_route && !%lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 )>
+			<BUTTON class="AB_current_street"  visible=(%navigation.has_route && !%lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 ) onrelease=sc_ShowWhereAmI overmaplayer>
+		</ROADSHIELDEDTEXT>
+		<SPRITE x=13 y=411 w=774 h=69 resize_bmp=1 bmp="map_currentstrt_spr.bmp" visible=(!%navigation.is_in_simulation && %route.list.navigated.has_navigable_path && %lua.CockpitButtonHoms && %lua.CockpitButtonBas == 2 )>
+		<ROADSHIELDEDTEXT class="AB_current_street"  w=654 visible=(%navigation.has_route && %lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 )>
+			<BUTTON class="AB_current_street"  w=654 visible=(%navigation.has_route && %lua.CockpitButtonHoms && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 ) onrelease=sc_ShowWhereAmI overmaplayer>
+		</ROADSHIELDEDTEXT>
+; Numéros de maisons en Navigation
+		<SPRITE x=13 y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.lefthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  left=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype= houseNumber textmodel_wstr="navigation.car.lefthousenumber">
+		</SPRITE>
+		<SPRITE x=(%lua.CockpitButtonMedia ? 527 : 727) y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.righthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 0 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  right=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype=houseNumber textmodel_wstr="navigation.car.righthousenumber">
+		</SPRITE>
+		<SPRITE x=13 y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.lefthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  left=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype= houseNumber textmodel_wstr="navigation.car.lefthousenumber">
+		</SPRITE>
+		<SPRITE x=(%lua.CockpitButtonMedia ? 527 : 727) y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && !%lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.righthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 1 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  right=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype=houseNumber textmodel_wstr="navigation.car.righthousenumber">
+		</SPRITE>
+		<SPRITE x=13 y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && %lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.lefthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  left=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype= houseNumber textmodel_wstr="navigation.car.lefthousenumber">
+		</SPRITE>
+		<SPRITE x=727 y=411 w=60 h=69 resize_bmp=1 bmp="map_NumRue.bmp" visible=(%route.list.navigated.has_navigable_path && %lua.CockpitButtonHoms && %lua.BdShowHouseNumber && %navigation.car.righthousenumber.valid && !%navigation.is_in_simulation && %lua.CockpitButtonBas == 2 )>
+			<TEXT class="color_map_inf_sec font_main_large bd"  right=0 top=0 w=100% h=100% padding=10 align="CENTER" fonttype=houseNumber textmodel_wstr="navigation.car.righthousenumber">
+		</SPRITE>
+; Nom de la ville
+		<ROADSHIELDEDTEXT rshtextCurrentcity class="current_city" combined_textmodel="$navigation.car.address.city$">
+			<BUTTON sprNavMainBottomcity        class="current_city"         z=20 bmp="map_currentstrt_spr.bmp"     resize_bmp=1 align="CENTER" onrelease=sc_Bd_position overmaplayer>
+			<BUTTON sprNavMainBottomcityReality class="current_city_reality" z=20 bmp="map_currentcity_reality.bmp" resize_bmp=1 align="CENTER" onrelease=sc_Bd_position overmaplayer>
+		</ROADSHIELDEDTEXT>
+; Lane Infos
+		<SPRITE sprLaneInfoEasy class="laneinfo" visible=((!%lua.SignpostVisible || !%lua.SignpostOn) && !%lua.HwyPoiListIsVisible) overmaplayer>
+	</DIV>
+</layer>
+
+<layer ui_EasyNav_DragMode z=35 visible=(%lua.dragMode && !%navigation.is_in_simulation)>
+	<observer model="map.primary.center" onchange=sc_ResetStrappedCursor START>
+	<DIV class="map">
+		<BUTTON Zoomin left=0 top=25% w=12% h=30% z=25 resize_bmp=1 bmp="mapsidebutton_left_top.bmp#3" onclick='MODEL.map.primary.zoom_start(1)' onrelease='MODEL.map.primary.zoom_stop()' onmouseleave='MODEL.map.primary.zoom_stop()' enable=%lua.map.ZoomInEnabled>
+			<SPRITE class="icon_center" z=26 bmp="ico_browsemap_zoomin.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON Zoomout left=0 top=55% w=12% h=30% z=25 resize_bmp=1 bmp="mapsidebutton_left_bottom.bmp#3" onclick='MODEL.map.primary.zoom_start(-1)' onrelease='MODEL.map.primary.zoom_stop()' onmouseleave='MODEL.map.primary.zoom_stop()' enable=%lua.map.ZoomOutEnabled>
+			<SPRITE class="icon_center" z=26 bmp="ico_browsemap_zoomout.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON Tiltdown right=0 top=25% w=12% h=30% z=25 resize_bmp=1 bmp="mapsidebutton_right_top.bmp#3" onclick='MODEL.map.primary.tilt_start(1)' onrelease='MODEL.map.primary.tilt_stop()' onmouseleave='MODEL.map.primary.tilt_stop()' enable=( %map.primary.tilt < %map.primary.maxtilt3d_current ) visible=%lua.tiltVisible>
+			<SPRITE class="icon_center" z=26 bmp="mapdragtiltup_ico.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON Tiltup right=0 top=55% w=12% h=30% z=25 resize_bmp=1 bmp="mapsidebutton_right_bottom.bmp#3" onclick='MODEL.map.primary.tilt_start(-1)' onrelease='MODEL.map.primary.tilt_stop()' onmouseleave='MODEL.map.primary.tilt_stop()' enable=%map.primary.tilt visible=%lua.tiltVisible>
+			<SPRITE class="icon_center" z=26 bmp="mapdragtiltdown_ico.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON Rotateleft right=50% top=0 w=15% h=23% z=25 resize_bmp=1 bmp="mapsidebutton_top_left.bmp#3" align="RIGHT" valign="TOP" onclick='MODEL.map.primary.rotate_start(1)' onrelease=sc_RotateStop onMouseLeave=sc_RotateStop> 
+			<SPRITE class="icon_center" z=26 left=50% bmp="mapdragrotleft_ico.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON Rotateright left=50% top=0 w=15% h=23% z=25 resize_bmp=1 bmp="mapsidebutton_top_right.bmp#3" align="LEFT" valign="TOP" onclick='MODEL.map.primary.rotate_start(-1)' onrelease=sc_RotateStop onMouseLeave=sc_RotateStop>
+			<SPRITE class="icon_center" z=26 left=50% bmp="mapdragrotright_ico.bmp#3" hueshift=%lua.iconhue>
+		</BUTTON>
+		<OBSERVER value=(%map.primary.zoom < %map.primary.maxzoom3d) onchange=sc_Enable2D3DSwitch start="NO_TRIGGER">
+		<SPRITE left=65% right=0 top=0 h=25% resize_bmp=1 bmp="mapsidebutton_top_right.bmp#3" visible=(vDebug && !%other.bugreport.recording_in_progress)>
+			<TEXT left=0 top=0 w=100% h=25% z=51 text=("DEBUG~functionbtn: " + (%lua.vEasyMapMode == 2 ? "2D" : "3D")) color=#ffFFFF align="LEFT">
+			<TEXT left=0 top=25% w=100% h=25% z=51 text=("DEBUG~btn: " + (%lua.vEasyMapModeFake == 2 ? "2D" : "3D")) color=#FFffFF align="LEFT">
+			<TEXT left=0 top=50% w=100% h=25% z=51 text=("DEBUG~mode: " + (%map.primary.mode)) color=#FFFFff align="LEFT">
+			<TEXT left=0 top=75% w=100% h=25% z=51 text=("DEBUG~zoom: " + (%map.primary.zoom)) color=#FFFFFF align="LEFT">
+		</SPRITE>
+		<TEXT left=0 top=0 w=12% h=20% z=51 text="DEBUG~!" visible=(vDebug && vShowFake2D3DButton) valign="BOTTOM" align="LEFT" color=#FF0000>
+		<BUTTON left=0 top=0 w=12% h=25% z=50 resize_bmp=0 bmp="mapsidebutton_top_left.bmp#3" onrelease=(vShowFake2D3DButton ? sc_switch2D3DFake : sc_switch2D3D)>
+			<VSPRITE left=0 right=0 top=0 bottom=0 z=52 vec="kornegyszogesites.vpr" align="CENTER" valign="CENTER" rotatemodel="map.primary.rotate" tilt=(sc_getCompassTilt(%map.primary.tilt, %map.primary.mode)) OPPOSITE_ROTATE>
+		</BUTTON>
+	</DIV>
+	<DIV class="footer">
+		<BUTTON class="btn_footer left_onmap back" left=0 top=0 onrelease='sc_backFromdragmode() primary:ONMAPCLICK(sc_EasyMapClick)' onlongclick='sc_backFromdragmode() sc_lgHome()'>
+		<FOOTERBUTTON class="btn_footer localmenu" top=0 text="Destination" visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%lua.vEasyNavMapMenuOpen && %other.lg_renault.eco_support) onrelease='sc_StateAnimMainMenu(st_EasyFindMenu, "vert_scroll", 0, "")'>
+		<FOOTERBUTTON class="btn_footer right" x=485 top=0 text="OK" icon_hueshift=%lua.iconhue onrelease=sc_OnRouteTo>
+		/* debug */ <BUTTON class="btn_footer left" left=0 top=0 w=12% h=100% z=12 bmp="ico_Overview_big.bmp#3" visible=(vSaveLogEnabled) onrelease=sc_ShowLogSaverLayer>
+	</DIV>
+</layer>
+
+<layer ui_EasyNav_RoundaboutIcons z=1552 visible=(%navigation.direction_icon.valid && %navigation.distance_to_maneuver.valid || %navigation.is_in_simulation)>
+	<DIV class="cockpit">
+		<DIV class="roundabout">
+			<SPRITE round1 class="icon_center" z=90 visible=(%navigation.exit_icon.valid && %route.list.navigated.has_navigable_path && !%lua.dragMode) iconmodel="navigation.exit_icon" r2l_invert=0 hueshift=%lua.BdArrowColor  > 
+			<SPRITE round2 class="icon_center" z=21 visible=(%route.list.navigated.has_navigable_path && !%lua.dragMode) attach_sprite_provider="other.roundabout_icons.attach_sprite_provider($roundabout_icons.ini,0)" r2l_invert=0 hueshift=%lua.BdArrowColor >
+		</DIV>
+	</DIV>
+</layer>
+
+<layer ui_SpeedCamWarningLayer z=10 visible=(ui_PropLayer.ShowSpeedCamera)>
+	<DIV class="cockpit">
+		<DIV class="speedcam">
+			<BUTTON left=0 top=0 w=(100%) h=(100%) z=0 onrelease=sc_ToggleSpeedcamSound>
+			<SPRITE left=50% top=7% w=(%lua.speedlimit_USACAN ? 49% : 49%) h=(100%) z=9 bmp=( %lua.speedlimit_USACAN ? "spr_speedlimit_usa.bmp#2" : "spr_speedlimit_eu.bmp#2") align="CENTER" valign="CENTER" phase=0 visible=(ui_PropLayer.SpeedCameraSpeedLimit)>
+				<TEXT class="speedcamfont color_inv" left=(%lua.speedlimit_USACAN ? 2% : 5%) top=(%lua.speedlimit_USACAN ? 45% : 5%) w=(96%) bottom=(%lua.speedlimit_USACAN ? 10% : 1%) z=100 text=(format_speed(ui_PropLayer.SpeedCameraSpeedLimit || 0, L"%d" , 1))> 
+			</SPRITE>
+			<SPRITE left=(ui_PropLayer.SpeedCameraSpeedLimit || !ui_PropLayer.ShowSpeedLimit ? 0 : 47% ) bottom=0 w=100% h=100% z=1 bmp=(!ui_PropLayer.SpeedCameraSpeedLimit ? "spr_alertbg.bmp" : (%lua.speedlimit_USACAN ? "spr_alertbg_usa.bmp" : "spr_alertbg_eu.bmp")) align="LEFT" valign="CENTER" visible=(!ui_PropLayer.SpeedCameraRate)>
+				<SPRITE left=0 top=24% w=56% h=100% z=8 bmp="ico_speedcams.spr" align="CENTER" valign="TOP" phase=%navigation.curr_speedcam.category />
+				<SPEEDTEXT class="font_info bd color_map_main" left=0 bottom=12% w=58% h=28% align="CENTER" z=51 speed=(%navigation.curr_speedcam.avg_speed) visible=(%navigation.curr_speedcam.avg_speed.valid)>
+				<DISTTEXT class="font_info bd color_map_main" left=0 bottom=12% w=58% h=28% align="CENTER" z=51 distance=(%navigation.curr_speedcam.distance) visible=(%navigation.curr_speedcam.distance.valid)>
+			</SPRITE>
+			<SPRITE left=(ui_PropLayer.SpeedCameraSpeedLimit || !ui_PropLayer.ShowSpeedLimit ? 0 : 47% ) top=0 w=100% h=100% z=1 bmp=(!ui_PropLayer.SpeedCameraSpeedLimit? "spr_alertbgrate.bmp" : (%lua.speedlimit_USACAN ? "spr_alertbgrate_usa.bmp" : "spr_alertbgrate_eu.bmp")) align="LEFT" valign="CENTER" visible=(ui_PropLayer.SpeedCameraRate)>
+				<SPRITE left=0 top=24% w=56% h=100% z=8 bmp="ico_speedcams.spr" align="CENTER" valign="TOP" phase=%navigation.curr_speedcam.category />
+				<SPEEDTEXT class="font_info bd color_map_main" left=0 bottom=12% w=58% h=28% align="CENTER" z=51 speed=(%navigation.curr_speedcam.avg_speed) visible=(%navigation.curr_speedcam.avg_speed.valid)>
+				<DISTTEXT class="font_info bd color_map_main" left=0 bottom=12% w=58% h=28% align="CENTER" z=51 distance=(%navigation.curr_speedcam.distance) visible=(%navigation.curr_speedcam.distance.valid)>
+			</SPRITE>
+		</DIV>
+	</DIV>
+</layer>
+
+<layer ui_NavigateMapSpeedLimit z=10>
+	<implementation>
+		<property speedlimitalpha value=(%navigation.is_in_simulation ? 32 : (vSpeedLimitBlinkCounter < 3 ? sc_BlinkSpeedLimitAlpha(%gps.fast_blink) : 32))>
+	</implementation>
+	<DIV class="cockpit">
+		<DIV class="speedlimit">
+			<SPRITE left=0 top=8% w=50% h=100% z=9 
+				bmp=( %lua.speedlimit_USACAN ? "spr_speedlimit_usa.bmp#2" : "spr_speedlimit_eu.bmp#2") align="LEFT" valign="CENTER" 
+				phase=(sc_GetAdvancedSpeedLimitPhase(%navigation.car.current_speed, %warning.driveralert.speed_limit)==2 ? 1 : 0) 
+				visible=(ui_PropLayer.ShowSpeedLimit && (!ui_PropLayer.ShowSpeedCamera || ui_PropLayer.ShowSpeedCamera && !ui_PropLayer.SpeedCameraSpeedLimit)) alpha=(speedlimitalpha) overmaplayer >
+					<TEXT class="speedcam" left=2% top=(%lua.speedlimit_USACAN ? 45% : 5%) w=(96%) bottom=(%lua.speedlimit_USACAN ? 10% : 1%) z=100 fonttype=(sc_GetAdvancedSpeedLimitPhase(%navigation.car.current_speed, %warning.driveralert.speed_limit)==2 ? error_red : (sc_GetAdvancedSpeedLimitPhase(%navigation.car.current_speed, %warning.driveralert.speed_limit)==1 ? error_red : bb_bb)) text=(format_speed(%warning.driveralert.speed_limit, L"%d" , 1)) alpha=(speedlimitalpha)>
+			</SPRITE>
+		</DIV>
+	</DIV>
+</layer>
+
+<layer ui_PreSimulation_Disabled z=100000>
+	<DIV class="full">
+		<SPRITE left=0 top=0 w=100% h=100% opaque=1>
+	</DIV>
+</layer>
+
+<layer ui_SimulationStop z=28 visible=%navigation.is_in_simulation>
+	<DIV class="footer">
+		<BUTTON class="btn_footer left back" left=0 top=0 onrelease=sc_btnSim_Stop_Easy_onrelease>
+	</DIV>
+</layer>
+
+<layer ui_SimulationControls z=52200 visible=(%navigation.is_in_simulation)>
+	<DIV class="cockpit">
+		<DIV left=484 top=395 w=302 h=63 >
+			<BUTTON btn_ManNext class="btn_main" left=152 top=0 w=74 h=58 bmp="button_simcontrol.bmp#3" enable=%navigation.has_next_maneuver onrelease='MODEL.navigation.jump_next_maneuver()'>
+				<SPRITE spr_ManNext class="icon_center" bmp="ico_musicplayer_next.bmp#3" hueshift=%lua.iconhue>
+			</BUTTON>
+			<BUTTON btn_sim_play class="btn_main" left=76 top=0 w=74 h=58 bmp="button_simcontrol.bmp#3" onrelease='MODEL.route.resume_simulation()' visible=(!%navigation.is_simulation_playing)>
+				<SPRITE spr_sim_play class="icon_center" bmp="ico_musicplayer_play.bmp#3" hueshift=%lua.iconhue>
+			</BUTTON>
+			<BUTTON btn_sim_pause class="btn_main" left=76 top=0 w=74 h=58 bmp="button_simcontrol.bmp#3" onrelease='MODEL.route.pause_simulation() MODEL.route.simulation_speed_percent = 100' visible=%navigation.is_simulation_playing>
+				<SPRITE spr_sim_pause class="icon_center" bmp="ico_musicplayer_pause.bmp#3" hueshift=%lua.iconhue>
+			</BUTTON>
+			<BUTTON btn_ManPrev class="btn_main" left=0 top=0 w=74 h=58 bmp="button_simcontrol.bmp#3" enable=%navigation.has_prev_maneuver onrelease='MODEL.navigation.jump_prev_maneuver()'>
+				<SPRITE spr_ManPrev class="icon_center" bmp="ico_musicplayer_prev.bmp#3" hueshift=%lua.iconhue>
+			</BUTTON>
+			<BUTTON btn_simspeed class="btn_main font_main" left=228 top=0 w=74 h=58 padding=0 bmp="button_simcontrol.bmp#3" onrelease='sc_simulate_speedup()' hueshift=%lua.iconhue fonttype=simspeed clicked_coloring=0 text=(L"" + (%route.simulation_speed_percent / 100) + L"x")>
+		</DIV>
+		<DIV left=484 top=455 w=302 h=10 >
+			<SPRITE spr_SC_bg class="btn_main" left=0 top=0 right=0 bottom=0 z=5 bmp="simulation_progressbg.bmp">
+			<HSMARTSCROLL scroll_SC left=2% top=10% right=(2%) bottom=10% z=12 bmp="simulation_simway.bmp" resize_bmp=1 sprind="simulation_ico_simcar_skincol.bmp" min=1 max=(max(1, %navigation.distance_total)) invert set=1 SLIDER_ABOVE_FRAME DISABLE sprind_top=3 sprind_bottom=3 valuemodel="navigation.distance_to_destination" visible=%navigation.distance_to_destination>
+		</DIV>
+	</DIV>
+</layer>
+
+<layer ui_NavigateMapSingpost z=1100 visible=(!%lua.routeCalculation && %lua.SignpostOn && %navigation.car_pos_valid && %map.primary.center_follow && !%screen.msgbox.is_onscreen)>
+	<DIV class="cockpit">
+		<SPRITE sprLaneInfoSignpost class="signpost" onrelease=sc_SignPostLayerHide>
+	</DIV>
+</layer>
+
+<layer ui_NavigateMapJunctionView z=20 visible=(%navigation.want_junctionview && %navigation.has_junctionview && !%lua.JunctionViewHiddenByUser) onshow=sc_JunctionViewOnshow onhide=sc_JunctionViewOnhide>
+	<DIV class="full">
+		<SPRITE sprJunctionView class="junctionview" OVERMAPLAYER onclick=sc_HideJunctionView>
+	</DIV>
+</layer>
+
+<layer ui_BugReport z=59000 visible=%interface.show_bugreport>
+	<DIV class="header">
+		<BUTTON top=341 w=96 right=20% h=50 z=50 resize_bmp=1 bmp="mapbutton.bmp#3" padding=0 fontsize=16 text="DEBUG~report bug" onrelease='MODEL.other.bugreport.report_bug()' visible=(%interface.show_bugreport && !%other.bugreport.recording_in_progress)>
+		<BUTTON top=341 w=96 right=20% h=50 z=50 resize_bmp=1 bmp="mapbutton.bmp#3" padding=0 fontsize=16 text="DEBUG~stop bugreport" onrelease='MODEL.other.bugreport.stop_recording()' visible=(%interface.show_bugreport && %other.bugreport.recording_in_progress)>
+	</DIV>
+</layer>
+
+<element_template et_GPSStatus>
+	<SPRITE GPS_phase  x=((369 + (%*.posx * 75 / 100))*lua.uiResW/480) y=((130 + (%*.posy * 75 / 100))*lua.uiResH/272) z=30 bmp="sat.spr" phase=(sc_SetGPS_Phase(%*.valid, %*.used, %*.egnos, %*.waas))>
+	<SPRITE GPS_signal x=((32 + (index * 20))*lua.uiResW/480) bottom=162 h=(sc_SetSignalH(%*.snr)) w=3% align="CENTER" z=35 bmp=(sc_SetGPSSignal_Bmp(%*.valid, %*.used, %*.egnos, %*.waas)) >
+	<TEXT txt_GPS class="font_info bd color_inf_sec" x=((28 + (index * 20))*lua.uiResW/480) y=(67*lua.uiResH/100) w=5% h=6% padding=0 z=35 text=%*.prn>
+</element_template>
+
+<element_template et_GPSStatus_DGPS>
+	<SPRITE DGPS_phase x=((369 + (%*.posx * 75 / 100))*lua.uiResW/480) y=((130 + (%*.posy * 75 / 100))*lua.uiResH/272) z=30 bmp="sat.spr" phase=(sc_SetGPS_Phase(%*.valid, %*.used, %*.egnos, %*.waas))>
+	<SPRITE DGPS_signal x=((32 + (ui_GPSStatus.DGPS_first_pos - index) * 20)*lua.uiResW/480) bottom=162 h=(sc_SetSignalH(%*.snr)) w=3% align="CENTER" z=35 bmp=(sc_SetGPSSignal_Bmp(%*.valid, %*.used, %*.egnos, %*.waas)) >
+	<TEXT txt_DGPS class="font_info bd color_inf_sec" x=((28 + (ui_GPSStatus.DGPS_first_pos - index) * 20)*lua.uiResW/480) y=(67*lua.uiResH/100) w=5% h=6% padding=0 z=35 text=%*.prn>
+</element_template>
+
+<layer ui_GPSStatus z=30>
+	<implementation>
+		<property DGPS_first_pos value=(min(11, %gps.satellites.size + %gps.sbas_satellites.size - 1)) />
+	</implementation>
+	<DIV class="full">
+		<LIST2 left=0 top=0 w=100% h=100% cellw=100% cellh=100% row=1 col=(min(%gps.satellites.isempty & %gps.sbas_satellites.isempty ? 1 : %gps.satellites.size + %gps.sbas_satellites.size , 12)) >
+			<LISTMODEL listmodel="gps.sbas_satellites" element_template="et_GPSStatus_DGPS" />
+			<LISTMODEL listmodel="gps.satellites" element_template="et_GPSStatus" />
+		</LIST2>
+		<SPRITE r2l_invert=0 class="icon" left=59% top=48% z=60 bmp="gpsstatusbg_eff_spr_skincol.bmp">
+		<TEXT class="font_main color_map_inv" left=6% top=23% w=50% h=9% align="CENTER" combined_textmodel="Available Satellites: \fb$gps.satellites_in_view$">
+		<layer>
+			<SPRITE left=3% top=12% z=1 hueshift=%lua.iconhue bmp="gpsstatusbg_spr_skincol.bmp">
+		</layer>
+		<DIV left=59% top=16% right=4% bottom=20% >
+			<TEXT class="font_main color_inf_main" left=40% top=0 w=20% h=20% padding=0 align="CENTER" valign="CENTER" z=3 text="GECOOR_N">
+			<TEXT class="font_main color_inf_main" left=0 top=40% w=20% h=20% padding=0 align="CENTER" valign="CENTER" z=3 text="GECOOR_W">
+			<TEXT class="font_main color_inf_main" left=40% top=80% w=20% h=20% padding=0 align="CENTER" valign="CENTER" z=3 text="GECOOR_S">
+			<TEXT class="font_main color_inf_main" left=80% top=40% w=20% h=20% padding=0 align="CENTER" valign="CENTER" z=3 text="GECOOR_E">
+		</DIV>
+		<ALIGNER class="basic" left=4% top=75% right=69% h=8% visible=%gps.valid>
+			<TEXT class="font_sec color_inf_main" top=0 bottom=0 align="RIGHT" text="Accuracy:" >
+			<TEXT class="font_sec color_inf_sec" top=0 bottom=0 align="LEFT" textmodel_wstr="gps.accuracy" >
+		</ALIGNER>
+		<ALIGNER class="basic" left=33% top=75% right=33% h=8% visible=%gps.valid r2l_invert=0>
+			<TEXT class="font_sec color_inf_main" top=0 bottom=0 align="RIGHT" text="GPS UTC Time:" >
+			<TEXT class="font_sec color_inf_sec" top=0 bottom=0 align="LEFT" text=(%other.format_time_dayperiod(%gps.time, (%regional.timeformat==2 ? 0 : 1), 1)) >
+		</ALIGNER>
+	</DIV>
+</layer>

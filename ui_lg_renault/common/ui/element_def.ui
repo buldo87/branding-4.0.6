@@ -1,0 +1,144 @@
+<style>
+	aligner > TEXT {padding:0 !important}
+</style>
+<define_element DISTTEXT textmodel_distance distance fonttype fontsize=10 font align="CENTER" text="" mode=3 clicked_coloring=0>
+	<implementation>
+		<property distance value=(OWNER.DISTANCE // ( OWNER.TEXTMODEL_DISTANCE ? %{OWNER.TEXTMODEL_DISTANCE} : -1 ) )>
+		<property text_padding value=0>
+	</implementation>
+	<aligner z=10 left=text_padding right=text_padding top=0 h=(OWNER.H) align=(OWNER.ALIGN) padding=(OWNER.FONTSIZE / 5, 0) r2l_invert=1>
+		<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE) text=(translate(OWNER.TEXT) + format_distance(distance, L"%d", OWNER.MODE)) align="RIGHT" valign="BOTTOM" h=(OWNER.H)/>
+	<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE * 80 /100) text=(format_distance(distance, L"%u",OWNER.MODE)) valign="BOTTOM" h=(OWNER.H)/>
+	</aligner>
+</define_element>
+<define_element SPEEDTEXT textmodel_speed speed fonttype fontsize=10 font align="CENTER" mode=1 clicked_coloring=0>
+	<implementation>
+		<property speed value=(OWNER.SPEED // ( OWNER.TEXTMODEL_SPEED ? %{OWNER.TEXTMODEL_SPEED} : -1 ) )>
+		<property text_padding value=0>
+	</implementation>
+	<aligner z=10 left=text_padding right=text_padding top=0 h=(OWNER.H) align=(OWNER.ALIGN) r2l_invert=1 padding=(OWNER.FONTSIZE / 5, 0)>
+		<TEXT z=10 h=(OWNER.H) align="RIGHT" valign="BOTTOM" fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE) text=(format_speed(speed, L"%d", OWNER.MODE))>
+		<TEXT z=10 h=(OWNER.H) align="LEFT" valign="BOTTOM" fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE * 80 /100)	text=(format_speed(speed, L"%u"))>
+	</aligner>
+</define_element>
+<define_element TIMETEXT textmodel_time time fonttype fontsize=10 font align="CENTER" clicked_coloring=0>
+	<implementation>
+		<property time value=(OWNER.TIME // ( OWNER.TEXTMODEL_TIME ? %{OWNER.TEXTMODEL_TIME} : -1 ) )>
+		<property text_padding value=0>
+	</implementation>
+	<aligner z=10 left=text_padding right=text_padding top=0 h=(OWNER.H) align=(OWNER.ALIGN) padding=(OWNER.FONTSIZE / 5, 0) r2l_invert=1>
+		<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE) text=(format_time(time, L"%t" ,%regional.timeformat, 0)) align="RIGHT" valign="BOTTOM" h=(OWNER.H)/>
+		<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE * 80 /100) text=(format_time(time, L"%t", %regional.timeformat, 2)) valign="BOTTOM" h=(OWNER.H)/>
+	</aligner> 
+</define_element>
+<define_element ALTITUDETEXT altitude=100 fonttype fontsize=10 font align="CENTER" clicked_coloring=0>
+	<implementation>
+		<property altitude value=(OWNER.ALTITUDE)>
+		<property text_padding value=0>
+	</implementation>
+	<aligner z=10 left=text_padding right=text_padding top=0 h=(OWNER.H) align=(OWNER.ALIGN) padding=(OWNER.FONTSIZE / 5, 0) r2l_invert=1>
+		<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE) text=(format_altitude(OWNER.ALTITUDE, L"%d")) align="RIGHT" valign="BOTTOM" h=(OWNER.H)/>
+		<TEXT z=10 fixedwidthnumbers=1 clipstyle="none" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) clicked_coloring=(OWNER.CLICKED_COLORING) fontsize=(OWNER.FONTSIZE * 80 /100) text=(format_altitude(OWNER.ALTITUDE, L"%u")) valign="BOTTOM" h=(OWNER.H)/>
+	</aligner>
+</define_element>
+<define_element FOOTERBUTTON iconspr="" iconwidth=-1 text="" resize_bmp=0 fontsize font="" onrelease=undef bmp="" onlongclick=undef dtooltip="">
+	<implementation>
+		<property iconwidth value=40>
+		<property iconpadding value=10>
+	</implementation>
+	<BUTTON bmp=(OWNER.BMP) resize_bmp=(OWNER.RESIZE_BMP) w=(100%) h=(100%) onrelease=(OWNER.ONRELEASE) onlongclick=(OWNER.ONLONGCLICK) dtooltip=(OWNER.DTOOLTIP)>
+			<TEXT left=(OWNER.ICONSPR ? 40 : 0) right=(0) top=(0) bottom=(0) fontsize=(OWNER.FONTSIZE) font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) text=(OWNER.TEXT) align="CENTER" valign="CENTER" twolineoffset=(-OWNER.TWOLINESIZE/7) twolinesmall=3 twolinesize=(OWNER.TWOLINESIZE) leading=_0.8 wordwrap=2>
+				<SPRITE left=(-iconwidth) w=(max(((PARENT.W - PARENT.textW) /2) + iconwidth - iconpadding, 0)) top=(0) bottom=(0) z=10 align="RIGHT" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR) visible=(PARENT.textW != 0)>
+				<SPRITE left=(-iconwidth) right=(0) top=(0) bottom=(0) z=10 align="CENTER" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR) visible=(PARENT.textW == 0)>
+			</TEXT>
+	</BUTTON>
+</define_element>
+<define_element FOOTERKEYBUTTON iconspr="" iconwidth=-1 text="" resize_bmp=0 w=0 h=0 fontsize font="" onrelease=undef bmp="" onlongclick=undef >
+	<implementation>
+		<property iconwidth value=40>
+		<property iconpadding value=10>
+	</implementation>
+	<KEYBUTTON bmp=(OWNER.BMP) resize_bmp=(OWNER.RESIZE_BMP) w=(OWNER.W) h=(OWNER.H) onrelease=(OWNER.ONRELEASE) onlongclick=(OWNER.ONLONGCLICK) KEYBOARDSPECELEMENT="done">
+		<TEXT left=(OWNER.ICONSPR ? 40 : 0) right=(0) top=(0) bottom=(0) fontsize=(OWNER.FONTSIZE) font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) text=(OWNER.TEXT) align="CENTER" valign="CENTER" twolineoffset=(-OWNER.TWOLINESIZE/7) twolinesmall=3 twolinesize=(OWNER.TWOLINESIZE) leading=_0.8 wordwrap=2>
+			<SPRITE left=(-iconwidth) w=(max(((PARENT.W - PARENT.textW) /2) + iconwidth - iconpadding, 0)) top=(0) bottom=(0) z=10 align="RIGHT" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR) visible=(PARENT.textW != 0)>
+			<SPRITE left=(-iconwidth) right=(0) top=(0) bottom=(0) z=10 align="CENTER" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR) visible=(PARENT.textW == 0)>
+		</TEXT>
+	</KEYBUTTON>
+</define_element>
+<define_element DIALOGBUTTON iconspr="" text="" bmp="" resize_bmp=0 w=0 h=0 fontsize=10 font fonttype onrelease=undef onlongclick=undef focusindex rawkey=27 twolinesmall=3 twolinesize=24>
+	<BUTTON bmp=(OWNER.BMP) resize_bmp=(OWNER.RESIZE_BMP) w=(OWNER.W) h=(OWNER.H) onrelease=(OWNER.ONRELEASE) focusindex=(OWNER.FOCUSINDEX) rawkey=(OWNER.RAWKEY)>
+		<TEXT left=(0) right=(0) top=(0) bottom=(0) paddingleft=(OWNER.ICONSPR ? OWNER.PADDINGLEFT : OWNER.PADDINGRIGHT) align="CENTER" valign="CENTER" font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) fontsize=(OWNER.FONTSIZE) text=(OWNER.TEXT) wordwrap=(OWNER.WORDWRAP) twolinesmall=(OWNER.TWOLINESMALL) twolinesize=(OWNER.TWOLINESIZE) twolineoffset=-4>
+			<SPRITE left=(0) w=(((PARENT.W - OWNER.PADDINGLEFT - PARENT.textW ) /2) + OWNER.PADDINGLEFT - OWNER.PADDINGRIGHT) top=(0) bottom=(0) z=10 align="RIGHT" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR)>
+		</TEXT>
+	</BUTTON>
+</define_element>
+<define_element FOOTERRADIO iconspr="" iconwidth=-1 text="" resize_bmp=0 font="" fontsize groupmodel=undef value=undef onrelease=undef bmp="">
+	<implementation>
+		<property iconwidth value=(int(OWNER.W * 20%))>
+		<property iconpadding value=(int(OWNER.W * 5%))>
+	</implementation>
+	<RADIO bmp=(OWNER.BMP) resize_bmp=(OWNER.RESIZE_BMP) w=(100%) h=(100%) groupmodel=(OWNER.GROUPMODEL) value=(OWNER.VALUE) onrelease=(OWNER.ONRELEASE)>
+		<TEXT left=(OWNER.ICONSPR ? 20% : 0) right=(0) top=(0) bottom=(0) fontsize=(OWNER.FONTSIZE) font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) text=(OWNER.TEXT) align="CENTER" valign="CENTER" twolineoffset=(-OWNER.TWOLINESIZE/7) twolinesmall=3 twolinesize=(OWNER.TWOLINESIZE) leading=_0.8 wordwrap=2>
+		<SPRITE left=(-iconwidth) w=(max(((PARENT.W - PARENT.textW) /2) + iconwidth - iconpadding, 0)) top=(0) bottom=(0) z=10 align="RIGHT" valign="CENTER" hueshift=%lua.iconhue bmp=(OWNER.ICONSPR)>
+	</TEXT>
+	</RADIO>
+</define_element>
+<define_element RADIOGROUP text="" text2="" text3="" groupmodel=undef value=undef value2=undef value3=undef onrelease=undef>
+	<implementation>
+		<property hasThird value=(OWNER.VALUE3 != undef)>
+	</implementation>
+ 	<SPRITE left=0 w=(hasThird ? 33% : 50%) top=0 h=80 z=10 opaque=(%{OWNER.GROUPMODEL} == (OWNER.VALUE // 0))>
+	<RADIO left=0 w=(hasThird ? 33% : 50%) top=5% bottom=2% bmp="mapsetradio_left.bmp#2" resize_bmp=1 groupmodel=(OWNER.GROUPMODEL) fonttype=btn_main value=(OWNER.VALUE // 0) onrelease=(OWNER.ONRELEASE)>
+		<TEXT class="radio" h=(100%) w=(100%) text=(OWNER.TEXT) >
+	</RADIO>
+ 	<SPRITE left=(hasThird ? 33% : 50%) w=(hasThird ? 33% : 50%) top=0 h=80 z=10 opaque=(%{OWNER.GROUPMODEL} == (OWNER.VALUE2 // 1))>
+	<RADIO left=(hasThird ? 33% : 50%) w=(hasThird ? 33% : 50%) top=5% bottom=2% bmp=(hasThird ? "mapsetradio_center.bmp#2" : "mapsetradio_right.bmp#2") resize_bmp=1 groupmodel=(OWNER.GROUPMODEL) value=(OWNER.VALUE2 // 1) onrelease=(OWNER.ONRELEASE)>
+		<TEXT class="radio" left=0 w=(100%) h=(100%) text=(OWNER.TEXT2)>
+	</RADIO>
+ 	<SPRITE left=66% w=33% top=0 h=80 z=10 opaque=(%{OWNER.GROUPMODEL} == OWNER.VALUE3)>
+	<RADIO left=66% w=33% top=5% bottom=2% bmp="mapsetradio_right.bmp#2" resize_bmp=1 groupmodel=(OWNER.GROUPMODEL) value=(OWNER.VALUE3) onrelease=(OWNER.ONRELEASE) visible=hasThird>
+		<TEXT class="radio" left=0 w=(100%) h=(100%) text=(OWNER.TEXT3)>
+	</RADIO>
+</define_element>
+
+<define_element SPEC_TIMETEXT time=%gps.current_time use12H=0 top fonttype fontsize=10 font align="CENTER" valign="CENTER">
+	<implementation>
+		<property use12H value=(OWNER.USE12H)/>
+		<property hour value=(int( OWNER.TIME /(60*60*1000)))/>
+		<property min value=(int( OWNER.TIME /(60*1000)) mod 60)/>
+	</implementation>
+	<TEXT x=0 w=39 h=35 font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) fontsize=(OWNER.FONTSIZE) fixedwidthnumbers=1 padding=0 align="RIGHT" clipstyle="none" text=(lua.string.format((use12H ? "%2d" : "%02d"), use12H && hour > 12 ? hour mod 12 : (use12H && hour == 0 ? 12 : hour)))/>
+	<TEXT x=40 y=-1 w=10 h=33 font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) fontsize=(OWNER.FONTSIZE) fixedwidthnumbers=1 padding=0 align="CENTER" clipstyle="none" text=":" visible=%gps.blink/>
+	<TEXT x=52 w=39 h=35 font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) fontsize=(OWNER.FONTSIZE) fixedwidthnumbers=1 padding=0 align="LEFT" clipstyle="none" text=(lua.string.format("%02d",min))/>
+	<TEXT x=92 w=49 h=35 font=(OWNER.FONT) fonttype=(OWNER.FONTTYPE) fontsize=(OWNER.FONTSIZE) fixedwidthnumbers=1 padding=0 align="CENTER" clipstyle="none" text=(hour >= 12 ? m_i18n("PM") : m_i18n("AM")) visible=use12H/>
+</define_element>
+
+<define_element SPEC_DATETEXT date=%gps.current_date fonttype fontsize=10 font align="CENTER" valign="CENTER">
+	<implementation>
+		<property dateDay value=(int(OWNER.DATE mod 256))/>
+		<property dateMonth value=(int(((OWNER.DATE-dateDay)/256) mod 256))/>
+	</implementation>
+;	<TEXT x=2 fixedwidthnumbers=1 text=(lua.string.format("%02d",dateDay))/>
+;	<TEXT x=37 fixedwidthnumbers=1 text="."/>
+;	<TEXT x=45 fixedwidthnumbers=1 text=(lua.string.format("%02d",dateMonth))/>
+	<TEXT fixedwidthnumbers=1 text=(lua.string.format("%02d/%02d", dateDay, dateMonth))/>
+</define_element>
+
+; ********************************
+; Ajout BERNY ********************
+<define_element SPEC_WEEKDAYTEXT date=%gps.current_date w=(OWNER.W) fonttype fontsize=10 font align="CENTER" valign="CENTER">
+	<implementation>
+		<property jj value=(int(OWNER.DATE mod 256))/>
+		<property mm value=(int(((OWNER.DATE-dateDay)/256) mod 256))/>
+		<property aa value=(int((int(((OWNER.DATE-dateDay)/256)))/256))/>
+		<property mmC value=( mm<3 ? mm+12 : mm ) />
+		<property aaC value=( mm<3 ? aa-1 : aa ) />
+		<property aaP1 value=(int(aaC/100)) />
+		<property aaP2 value=(int(aaC-(aaP1*100))) />
+		<property k value = (int((jj + int(26*(mmC+1)/10) + int(aaP1/4) - 2*aaP1 + aaP2 + int(aaP2/4) ) mod 7)) />
+		<property weekDayN value=(k<0 ? k+7 : k ) />
+		<property weekDayT value=(weekDayN==0 ? "Sat" : weekDayN==1 ? "Sun" : weekDayN==2 ? "Mon" : weekDayN==3 ? "Tue" : weekDayN==4 ? "Wed" : weekDayN==5 ? "Thu" : weekDayN==6 ? "Fri" : "xx")/>
+	</implementation>
+	<TEXT text=(weekDayT) color=((weekDayN==0 || weekDayN==1)?#FF0000:#FFFFFF)/>
+</define_element>
+; ********************************

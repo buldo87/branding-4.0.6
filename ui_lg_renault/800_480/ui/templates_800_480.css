@@ -1,0 +1,148 @@
+/*------------------------------------------------------------------------------------------------*/
+/*- CSS parameters -------------------------------------------------------------------------------*/
+/*------------------------------------------------------------------------------------------------*/
+
+@params{
+	screen_x:0;
+	screen_y:0;
+	screen_w:800;
+	screen_h:480;
+	header_h:84;
+	mapheader_h:92;
+	footer_h:69;/* old 79 new 69 AL194*/
+	footer_w:800;
+	footer_w_33:(footer_w / 3);
+	footer_w_16:(footer_w / 6);
+	footer_w_8:(footer_w / 12);
+	footer_y:(screen_h - footer_h);
+	margin_top:0;
+	margin_bottom:24;
+	margin_left:40;
+	margin_right:40;
+	mapmargin_top:13;
+	mapmargin_bottom:13;
+	main_x:(screen_x + margin_left);
+	main_y:(screen_y + header_h + margin_top);
+	main_w:(screen_w - margin_left - margin_right);
+	main_h:(screen_h - header_h - margin_top - footer_h - margin_bottom);
+	dialog_y:326;
+	dialog_icon_w:90; /*eg:width of ico_Delete_mid.bmp*/
+	dialog_h:70; /*eg:height of ico_Delete_mid.bmp + padding*/
+	dialog_w:538; 
+	dialog_margin_outer:5;
+	dialog_margin_inner:2;
+	dialog_w_50:((dialog_w / 2) - dialog_margin_outer - dialog_margin_inner); /* 269 - 5 - 2 = 262*/
+	dialog_w_33:((dialog_w / 3) - 2);
+	dialog_x_1:((screen_w / 2) - dialog_margin_inner - dialog_w_50);/* 400 - 2 - 262 = 136*/
+	dialog_x_2_1:((screen_w / 2) - dialog_margin_inner - dialog_w_50);/* 400 - 2 - 262 = 136*/
+	dialog_x_2_2:((screen_w / 2) + dialog_margin_inner);
+	dialog_x_3_2:(dialog_x_1 + dialog_w_33 + 2);
+	dialog_x_3_3:(dialog_x_1 + 2 * dialog_w_33 + 2);
+	margin_ext_top:0;
+	margin_ext_bottom:4;
+	margin_ext_left:13;
+	margin_ext_right:13;
+	main_ext_x:(screen_x + margin_ext_left);
+	main_ext_y:(screen_y + header_h + margin_ext_top);
+	main_ext_w:(screen_w - margin_ext_left - margin_ext_right);
+	main_ext_h:(screen_h - header_h - margin_ext_top - footer_h - margin_ext_bottom);
+	map_h:(screen_h - footer_h);
+	mapmain_y:(screen_y + mapheader_h + mapmargin_top);
+	mapmain_h:(screen_h - mapheader_h - footer_h - mapmargin_top - mapmargin_bottom);
+	panel_margin:0;
+	panel_x:(main_x + panel_margin);
+	panel_y:(main_y + panel_margin);
+	panel_w:(main_w - panel_margin - panel_margin);
+	panel_h:(main_h - panel_margin - panel_margin);
+	panel_header_h:40;
+	panel_side_x:343;
+	panel_side_w:(screen_w - panel_side_x);
+	panel_side_header_h:72;
+	panel_unit_keys_w:288; /* w osztható 3-al*/ 
+	panel_unit_keys_h:284; /* h osztható 4-el*/
+	listpos_w:5;
+	listscroll_w:110;
+	listscroll_result_w:122;
+	hsmartscroll_h:70;
+	hsmartscroll_smallh:48;
+	list_x:(main_ext_x + panel_margin);
+	list_y:(main_ext_y + panel_margin);
+	list_w:(main_ext_w - listscroll_w - listpos_w - panel_margin - panel_margin);
+	list_h:(main_ext_h - panel_margin - panel_margin);
+	listpos_x:(main_x + main_w - listscroll_w - listpos_w);
+	listpos_y:(main_y);
+	listscroll_x:(main_x + main_w - listscroll_w);
+	listscroll_h:(main_h / 2);
+	listscroll_y_up:(main_y);
+	listscroll_y_down:(main_y + listscroll_h);
+	listcontrol_right:(listscroll_w + listpos_w + panel_margin);
+	listcontrol_local_right:117;
+	listcontrol_local_left:2 ;
+	listitem_w:(list_w);
+	listitem_h:(list_h / 4) ;
+	button_padding:40;
+	inputtext_padding:26; 
+	country_padding:95; 
+	text_padding:16;
+	title_padding_left:35;
+	text_padding_small:12;
+	chk_radio_icon_padding_right:"LEFT+25" ; /* value should be same as button_padding */
+	chk_radio_text_padding_right:80;
+	chk_radio_icon_padding_right_small:"RIGHT-16" ; /* value should be same as text_padding */
+	chk_radio_text_padding_right_small:56;
+	localmenuitem_h:77;
+	localmenufooter_h:93;
+	localmenu_x:112;
+	localmenu_w:576;
+	localmenu_h:(localmenufooter_h +(localmenuitem_h * min(4, %{%lua.localMenuListName + ".size"})));
+	localmenu_y:((screen_h / 2) -(localmenu_h / 2));
+	map_messagebox_w:(int(screen_w * 66%));
+	map_messagebox_h:(int(screen_h * 38%));
+	map_messafebox_x_1:(int(screen_w * 20%));
+	fontsize_double:52;
+	fontsize_title:33;
+	fontsize_main_extralarge:36;
+	fontsize_main_large:30;
+	fontsize_main:30;
+	fontsize_footer:28;
+	fontsize_sec:22;
+	fontsize_info:22;
+	fontsize_info_large:24;
+	fontsize_cockpit_info:26;
+	fontsize_cockpit_mandist:34;
+	fontsize_inputfield:36;
+	fontsize_inputfield_small:30;
+	fontsize_popup:74;
+	fontsize_popup_alt:56;
+	fontsize_keyboard:54;
+	fontsize_keyboard_cyrill:33;
+	fontsize_keyboard_alt:33;
+	fontsize_menu_main:28;
+	fontsize_menu_sec:24;
+	fontsize_list_main:31;
+	fontsize_list_sec:22;
+	fontsize_pagenum:30;
+	highlight_inputfield:42;
+	xhtml_content_top:30;
+	key_popup_w:95;
+	key_popup_h:97;
+	da_icon_index:2;	/*DA Icon size(low:0 ; mid:2 ; high:4)*/
+	poi_provider_icon_index:4;	/*POI Provider Icon Size(low:3 ; mid:4 ; high:5)*/
+	poi_provider_overlay_icon_index:1;	/*POI Provider Overlay Icon Size(low:0 ; mid:1 ; high:2)*/
+	provider_icon_index:1;	/*Provider Icon Size(low:0 ; mid:1 ; high:2)*/
+	country_flag_icon_index:1; /*Country Flags Size(new:0 ; old:1)*/
+	GPS_phase_x:617;
+	GPS_phase_y:232;
+	GPS_signal_x:54;
+	DGPS_phase_x:617; 
+	DGPS_phase_y:232;
+	DGPS_signal_x:54;
+	GPS_radius:120;
+	GPS_txt_x:46;
+	GPS_txt_y:67;
+	DGPS_txt_x:46;
+	DGPS_txt_y:67;
+	GPS_txt_step:33;
+}
+@import "~/common/ui/templates.css"
+@import "+/$ui/skin.css";

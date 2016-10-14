@@ -1,0 +1,48 @@
+<header>
+	<layer ui_Local_Menu_Background type="fade" alpha=0 color=#000000 z=1600 onclick=''/*sc_close_local_menu*/ visible=(vLocalMenuEnabled)>
+</header>
+<layer ui_Local_Menu_ListBg class="localmenu_layer" z=1800 >
+	<implementation>
+		<property div_h value=( 93 + ( 77 * min( 4, %{%lua.localMenuListName + ".size"} ) ) )>
+		<property div_y value=( ( 480 / 2 ) - ( div_h / 2 ) )>
+	</implementation>
+	<DIV class="localmenu" y=div_y h=div_h>
+		<SPRITE class="list_panel background local" opaque=1>
+	</DIV>
+</layer>
+<layer ui_Local_Menu_OpenBTN z=1500 visible=(!%{%lua.localMenuListName + ".isempty"} || %regional.keyboard.input_name)>
+	<DIV class="footer">
+		<FOOTERBUTTON class="btn_footer localmenu" x=157 w=200 text="LOCALMENU~Options" onrelease=sc_open_local_menu>
+	</DIV>
+</layer>
+<layer ui_Local_Menu_OpenBTN_full z=1500 visible=(!%{%lua.localMenuListName + ".isempty"} || %regional.keyboard.input_name)>
+	<DIV class="footer">
+		<FOOTERBUTTON class="btn_footer localmenu" w=(609) text="LOCALMENU~Options" onrelease=sc_open_local_menu>
+	</DIV>
+</layer>
+<element_template et_LocalMenu>
+	<BUTTON class="listitem local" bmp=( (index+1) mod 4 == 0 ? "listitem_local_last.bmp#3" : "listitem_local.bmp#3") onrelease='LocalMenuItemOnrelease:trigger() MODEL["*"].onrelease()()' enable=%*.enabled visible=%*.icon>
+		<TEXT class="font_main local icon color_btn_main" text=%*.text >
+		<SPRITE class="icon_center" left=42 bmp=%*.icon>
+	</BUTTON>
+	<BUTTON class="listitem local" bmp=((index+1) mod 4 == 0 ? "listitem_local_last.bmp#3" : "listitem_local.bmp#3") onrelease='LocalMenuItemOnrelease:trigger() MODEL["*"].onrelease()()' enable=%*.enabled visible=(!%*.icon)>
+		<TEXT class="local color_btn_main" text=%*.text >
+	</BUTTON>
+</element_template>
+<layer ui_Local_Menu class="localmenu_layer" z=2500 visible=(!(vActiveState == "st_easynav" && %navigation.is_in_simulation))>
+	<implementation>
+		<property div_h value=( 93 + ( 77 * min( 4, %{%lua.localMenuListName + ".size"} ) ) )>
+		<property div_y value=( ( 480 / 2 ) - ( div_h / 2 ) )>
+	</implementation>
+	<DIV class="full" opaque=(!vLocalMenuEnabled)>
+		<DIV class="localmenu" y=div_y h=div_h>
+			<LIST2 lm_localmenu class="list_control_local" element_template="et_LocalMenu" listmodel=%lua.localMenuListName>
+				<BUTTON class="btn_scrollup_local" visible=(%ui.PARENT.nextpage.valid | %ui.PARENT.prevpage.valid)>
+				<SPRITE class="pagenum local" visible=(%ui.PARENT.nextpage.valid | %ui.PARENT.prevpage.valid)>
+				<TEXT class="pagenum list" visible=(%ui.PARENT.nextpage.valid | %ui.PARENT.prevpage.valid)>
+				<BUTTON class="btn_scrolldown_local" visible=(%ui.PARENT.nextpage.valid | %ui.PARENT.prevpage.valid)>
+			</LIST2>
+			<BUTTON class="btn_footer" y=( div_y + div_h - 85) iconalign="LEFT+15" text="Close" padding=0 resize_bmp=0 bmp="btn_localmenu_close.bmp#3" align="CENTER" left=122 w=100% bmpalign="CENTER" onrelease=sc_close_local_menu>
+		</DIV>
+	</DIV>
+</layer>

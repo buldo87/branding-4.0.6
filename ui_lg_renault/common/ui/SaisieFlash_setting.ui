@@ -1,0 +1,72 @@
+; FICHIER MEDI@EvO AL194 & BULDO
+; SAISIE FLASH *****************
+; Couche Saisie Flash
+<layer ui_LFlash z=41 visible=(!%lua.dragMode)>
+</layer>
+
+<layer ui_Flash z=100 visible=(%lua.VFlash)>
+	<DIV class="main">
+; Bouton Transfert Fichier Final
+		<BUTTON x=350 y=10 w=100 h=60 bmp="ico_TransSaisie.bmp#3" onrelease=TransKey/>
+; Type Alertes
+		<TABLE class="livespeedcam1">
+			<BUTTON class="btn_mainsf topleft" onrelease=sc_Fix>
+				<SPRITE class="icon_center" top=40% bmp="Fix.bmp#2" phase=%lua.Fix hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Fixed">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_Mob>
+				<SPRITE class="icon_center" y=40% bmp="Mob.bmp#2" phase=%lua.Mob hueshift=%lua.iconhue>	
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Mobile">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_Sct>
+				<SPRITE class="icon_center" top=40% bmp="Sct.bmp#2" phase=%lua.Sct hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Section">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_FRg>
+				<SPRITE class="icon_center" top=40% bmp="FRg.bmp#2" phase=%lua.FRg hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Red lights">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_FPl>
+				<SPRITE class="icon_center" top=40% bmp="FPL.bmp#2" phase=%lua.FPl hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Heavy truck">
+			</BUTTON>
+			<BUTTON class="btn_mainsf bottomright" onrelease=sc_FVP>
+				<SPRITE class="icon_center" y=40% bmp="FVP.bmp#2" phase=%lua.FVP hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM"0 text="Discriminating">
+			</BUTTON>
+		</TABLE>
+; Sens des Alertes
+		<TABLE class="livespeedcam2">
+			<BUTTON class="btn_mainsf bottomright" onrelease=sc_Dir>
+				<SPRITE class="icon_center" y=40% bmp="Dir.bmp#2" phase=%lua.Dir hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Forward direction">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_Inv>
+				<SPRITE class="icon_center" y=40% bmp="Inv.bmp#2" phase=%lua.Inv hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Reverse direction">
+			</BUTTON>
+			<BUTTON class="btn_mainsf" onrelease=sc_Bis>
+				<SPRITE class="icon_center" y=40% bmp="Bis.bmp#2" phase=%lua.Bis hueshift=%lua.iconhue>
+				<TEXT top=50% bottom=8% valign="BOTTOM" text="Double direction">
+			</BUTTON>
+			<BUTTON  class="btn_mainsf topleft" onrelease=sc_Tou>
+				<SPRITE class="icon_center" y=40% bmp="Tou.bmp#2" phase=%lua.Tou hueshift=%lua.iconhue>
+				<TEXT  top=50% bottom=8% valign="BOTTOM" text="All direction">
+			</BUTTON>
+		</TABLE>
+	</DIV>
+; Reglages Vitesse + ou -
+	<DIV class="speed_flash">
+		<BUTTON class="btn_main" x=300 y=379 w=201 h=99 alpha=0>
+			<SPRITE class="icon_center" bmp="Vts.bmp" z=31 hueshift=%lua.iconhue>
+			<TEXT class="font_main bd" color=#000000 align="CENTER" valign="CENTER" z=100 text=(%lua.Flash_speed)>
+			<SPRITE class="icon_center" x=476 y=431 bmp="VtsP.bmp" hueshift=%lua.iconhue onrelease=sc_VtsP>
+			<SPRITE class="icon_center" x=326 y=431 bmp="VtsM.bmp" hueshift=%lua.iconhue onrelease=sc_VtsM>
+		</BUTTON>
+ ; Boutons Sortie & Validation
+		<BUTTON x=40 y=379  w=100 h=100 bmp="SaisieNo.bmp#3"    hueshift=%lua.iconhue onrelease=sc_back()>
+		<BUTTON x=660 y=379 w=100 h=100 bmp="SaisieValid.bmp#3" hueshift=%lua.iconhue onrelease=FinFlash>
+	</DIV>
+</layer>
+; Fin Saisie Flash *******************
+

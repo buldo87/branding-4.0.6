@@ -1,0 +1,2293 @@
+/*- CSS Classes ---------------------------------------------------------------------*/
+/* DIV classes */
+DIV.full{
+  x:screen_x;
+  y:screen_y;
+  w:screen_w;
+  h:screen_h;
+}
+
+DIV.fill{
+  left:0; right:0; top:0; bottom:0;
+}
+
+DIV.cockpit{
+  x:screen_x;
+  y:screen_y;
+  w:screen_w;
+  h:screen_h;
+}
+
+DIV.header{
+  x:screen_x;
+  y:screen_y;
+  w:screen_w;
+  h:header_h;
+  visible: 1;
+}
+/**/
+DIV.Speed_fullScreen{
+  x: Speed_fullScreen_x;
+  y: Speed_fullScreen_y;
+  w: Speed_fullScreen_w;
+  h: Speed_fullScreen_h;
+}
+
+DIV.header.title{
+  h: title_h;
+}
+/**/
+DIV.header.vr{
+  visible: (%lua.VRStatus != lua.eVRStatus.inactive);
+}
+
+DIV.mapheader{
+  x:screen_x;
+  y:screen_y;
+  w:screen_w;
+  h:mapheader_h;
+  visible: 1;
+}
+
+DIV.map{
+  x:screen_x;
+  y:screen_y;
+  w:screen_w;
+  h:map_h;
+}
+
+DIV.main{
+  x:main_x;
+  y:main_y;
+  w:main_w;
+  h:main_h;
+}
+
+DIV.main_ext{
+  x:main_ext_x;
+  y:main_ext_y;
+  w:main_ext_w;
+  h:main_ext_h;
+}
+
+DIV.main_ext.coord{
+  x:275;
+  w:497;
+}
+
+DIV.main_ext_whereami{
+	x:main_ext_x;
+	y:main_ext_y;
+	w:468;
+	h:main_ext_h;
+}
+
+DIV.mapmain{
+  x:screen_x;
+  y:mapmain_y;
+  w:screen_w;
+  h:mapmain_h;
+  visible:1;
+}
+/*
+DIV.mapmain.tmc {
+  y: mapheader_tmc_h;
+}
+
+DIV.mainmenu {
+  x: mainmenu_x;
+  y: mainmenu_y;
+  w: mainmenu_w;
+  h: mainmenu_h;
+}
+
+DIV.vr_mode {
+  x: screen_x;
+  y: vr_mode_y;
+  w: vr_mode_w;
+  h: vr_mode_h;
+}
+
+DIV.vr_main {
+  x: vr_main_x;
+  y: vr_mode_y;
+  w: vr_main_w;
+  h: vr_mode_h;
+}
+*/
+DIV.panel{
+	x:const(main_x + panel_margin);
+	y:const(main_y + panel_margin);
+	w:const(main_w - panel_margin - panel_margin);
+	h:const(main_h - panel_margin - panel_margin);
+}
+
+DIV.panel.route{
+	x:const(main_x + panel_margin);
+	y:const(main_y + panel_margin);
+	w:const(main_w - panel_margin - panel_margin);
+	h:const((main_h /3) - panel_margin - panel_margin);
+}
+
+DIV.panel_ext{
+	x:const(main_ext_x + panel_margin);
+	y:const(main_ext_y + panel_margin);
+	w:const(main_ext_w - panel_margin - panel_margin);
+	h:const(main_ext_h - panel_margin - panel_margin);
+}
+
+DIV.panel_ext.unit_keys{
+	y:const(main_ext_y + main_ext_h - panel_margin - panel_unit_keys_h);
+	w:panel_unit_keys_w;
+	h:panel_unit_keys_h;
+}
+
+DIV.panel_ext.unit_input{
+	w:panel_unit_keys_w;
+	h:const(main_ext_h - panel_margin - panel_margin - panel_unit_keys_h);
+}
+
+DIV.panel_ext.unit_value{
+	x: const(panel_unit_keys_w + margin_ext_left + panel_margin + panel_margin);
+	w: const(main_ext_w - panel_margin - panel_margin - panel_margin - panel_unit_keys_w);
+}
+
+DIV.panel_ext.9_9_9_5_keyb{
+	x:const(main_ext_x + panel_margin + 2);
+	y:const(main_ext_y + (main_ext_h /4) + panel_margin);
+	w:const(main_ext_w - panel_margin - panel_margin + 1);
+	h:const(main_ext_h - (main_ext_h /4) - panel_margin - panel_margin);
+}
+
+DIV.panel_ext.10_10_9_keyb{
+	x:const(main_ext_x + panel_margin + 2);
+	w:const(main_ext_w - panel_margin - panel_margin - 3);
+}
+DIV.panel_ext.10_9_7_keyb{
+	x:const(main_ext_x + panel_margin + 2);
+	w:const(main_ext_w - panel_margin - panel_margin - 3);
+}
+DIV.panel_ext.coord{
+  x:275;
+  w:512;
+}
+/*
+DIV.panel.findtop {
+  x: main_x;
+  y: main_y;
+  w: main_w;
+  h: const(( main_h / 2 ) + panel_margin + panel_margin);
+}
+*/
+DIV.panel.history{
+	y:const(main_y + (main_h / 2) + panel_margin);
+	h:const( ( main_h / 2 ) - panel_margin - panel_margin);
+}
+
+DIV.panel.side{
+	x:panel_side_x;
+	y:screen_y;
+	w:panel_side_w;
+	h:screen_h;
+}
+
+DIV.panel.side.small{
+	x:const((screen_w * 70) / 100);
+	w:const((screen_w * 30) / 100);
+}
+
+DIV.panel.background{
+	x:main_x;
+	y:main_y;
+	w:main_w;
+	h:main_h;
+	align:"LEFT";
+	valign:"CENTER";
+	visible:1;
+}
+
+DIV.footer{
+	x:const( screen_x + margin_ext_left );
+	y:footer_y;
+	w:const( screen_w - margin_ext_left - margin_ext_right );
+	h:footer_h;
+}
+/*
+DIV.footerlist {
+  x: screen_x;
+  y: (screen_h - footerlist_h);
+  w: screen_w;
+  h: footerlist_h;
+}
+*/
+DIV.list{
+	x:main_ext_x;
+	y:main_ext_y;
+	w:main_ext_w;
+	h:main_ext_h;
+}
+
+DIV.list_countryinfo_header{
+	left:undef;right:undef;top:undef;bottom:undef;
+	x:0;
+	y:0;
+	w:const(main_ext_w - listcontrol_right - panel_margin);
+	h:const((main_ext_h / 2) - panel_margin);
+}
+
+DIV.localmenu{
+	x:localmenu_x;
+	y:localmenu_y;
+	w:localmenu_w;
+	h:localmenu_h;
+}
+
+DIV.sidelist{
+	x:206;
+	y:screen_y;
+	w:const(screen_w - 206);
+	h:screen_h;
+}
+
+DIV.panelheader{
+	left:0;
+	right:listcontrol_right;
+	top:5%;
+	h:panel_header_h;
+}
+
+DIV.map_messagebox{
+	left:map_messafebox_x_1;
+	top:0;
+	w:map_messagebox_w;
+	h:map_messagebox_h;
+}
+
+DIV.map_quickmenu{
+	right:0;
+	top:0;
+	w:12%;
+	h:16%;
+}
+
+.localmenu_layer {
+	y: screen_h;
+}
+
+LAYER.tutorial_layer{
+	x:main_ext_x;
+	y:main_y;
+	w:main_ext_w;
+	h:main_h;
+}
+/* Saisie Radars ---------- */
+DIV.speed_flash{
+  x:40;
+  y:377;
+  w:720;
+  h:103;
+}
+/* Fin Saisie Radars ---------- */
+/*
+DIV.InfosDuBas{
+  x: InfosDuBas_x;
+  y: InfosDuBas_y;
+  w: InfosDuBas_w;
+  h: InfosDuBas_h;
+}
+
+DIV.speedcam{
+  x: speedcam_x;
+  y: speedcam_y;
+  w: speedcam_w;
+  h: speedcam_h;
+}
+*/
+/* buttons ---------- */
+.btn_main{
+  bmp:"button.bmp#3";
+  resize_bmp:1;
+}
+/*
+.btn_main2  { bmp:"button.bmp#3"; resize_bmp:1;}
+*/
+.btn_mainsf{bmp:"buttonSFlash.bmp#3";resize_bmp:1;}/* Saisie Radars */
+
+.btn_main_np{bmp:"button_topleft_nopress.bmp#3";resize_bmp:1;}
+
+.btn_main.topleft{bmp:"button.bmp#3";}
+.btn_mainsf.topleft{bmp:"buttonSFlash.bmp#3";}/* Saisie Radars */
+.btn_main_np.topleft{bmp:"button_topleft_nopress.bmp#3";}
+
+.btn_main.top{bmp:"button.bmp#3";}
+.btn_main.topright{bmp:"button.bmp#3";}
+
+.btn_main.right{bmp:"button_right.bmp#3";}
+.btn_main.bottomright{bmp:"button.bmp#3";}
+.btn_mainsf.bottomright{bmp:"buttonSFlash.bmp#3";}/* Saisie Radars */
+
+.btn_main.bottom{bmp:"button_bottom.bmp#3";}
+.btn_main.bottomleft{bmp:"button.bmp#3";}
+.btn_main.left{bmp:"button.bmp#3";}
+.btn_main.topleft_bottomright{bmp:"button.bmp#3";resize_bmp:1;}
+
+.btn_footer{padding:text_padding;
+				    bmp:"footercenter.bmp#3";
+				    resize_bmp:1;
+				    w:162;
+				    h:footer_h;
+				    font:"default";
+				    fonttype:footer;
+				    fontsize:fontsize_footer;
+				    iconalign:"CENTER+1";
+				    iconvalign:"CENTER-1";
+				    /*FOOTERBUTTON-hoz kell*/
+				    twolinesize:fontsize_sec;
+				    /*FOOTERBUTTON-hoz kell*/}
+
+.btn_footer.localmenu{
+	x:178;
+	top:0;
+	w:302;
+	z:600;iconw:26;
+	bmp:"footerhome.bmp#3";
+	icon_hueshift:%lua.iconhue;
+}
+.btn_footer.full				{bmp:"footerhome.bmp#3";top:0;w:609;}
+.btn_footer.left				{bmp:"footerleft.bmp#3";}
+.btn_footer.left.big			{bmp:"footerleft.bmp#3";w:299;}
+.btn_footer.left.back			{bmp:"footerhome.bmp#3";iconspr:"ico_footer_back.bmp#3"}
+.btn_footer.left.home			{bmp:"footerhome.bmp#3";iconspr:"ico_home.bmp#3"}
+.btn_footer.left_onmap			{bmp:"footermapleft.bmp#3";}
+.btn_footer.left_onmap.back		{bmp:"footerhome.bmp#3";iconspr:"ico_footermap_back.bmp#3"}
+.btn_footer.right				{bmp:"footerhome.bmp#3";w:302;}
+.btn_footer.right.big			{bmp:"footerhome.bmp#3";w:295;}
+.btn_footer.right_onmap			{bmp:"footerhome.bmp#3";top:0;w:609;}
+/*.btn_footer.right_onmap.big{bmp:"footerright.bmp#3";w=300;}*/
+.btn_footer.prev				{w:footer_w_16;iconalign:"CENTER";iconspr:"ico_footer_prev.bmp#3";}
+.btn_footer.prev_onmap			{w:footer_w_16;bmp:"footermapcenter.bmp#3";iconalign:"CENTER";iconspr:"ico_footermap_prev.bmp#3";}
+.btn_footer.prev_mainmenu		{w:footer_w_8;bmp:"footerleft.bmp#3";iconalign:"CENTER";iconspr:"ico_footer_prev.bmp#3";}
+.btn_footer.next				{w:footer_w_16;bmp:"footerright.bmp#3";iconalign:"CENTER";iconspr:"ico_footer_next.bmp#3";}
+.btn_footer.next_onmap			{w:footer_w_16;bmp:"footermapright.bmp#3";iconalign:"CENTER";iconspr:"ico_footermap_next.bmp#3";}
+.btn_footer.next_mainmenu		{w:footer_w_8;bmp:"footerright.bmp#3";iconalign:"CENTER";iconspr:"ico_footer_next.bmp#3";}
+.rich{
+	resize_bmp:1 ;
+	bmp:"button_rich.bmp#3" ;
+	top:2;
+	w:listscroll_result_w;
+	h:57 ;
+	iconvalign:"CENTER";
+}
+.rich.next{
+	right:0;
+	iconalign:"CENTER+2";
+	iconspr:"ico_scrollnext.bmp#3";
+}
+.rich.prev{
+	left:0;
+	iconalign:"CENTER-2";
+	iconspr:"ico_scrollprev.bmp#3";
+}
+.rich.info{
+	right:0;z:0;
+	NOSOUND:0;
+	hueshift:%lua.iconhue;
+}
+DIV.radiogroup{
+	left: 50%; right: 10%; top: 0; h: 100%;
+}
+.btn_setting{
+	top:50%;
+	x:275;/*(%regional.current_language.is_r2l ? 124 :275 );*/
+	w:248;
+	h:73;
+	bmp:"button_setting.bmp#2";
+	bmpvalign:"CENTER";
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrollnext.bmp#3";
+	resize_bmp:1;
+}
+.btn_radiogroup{
+	top:0;
+	x: 275;/*(%regional.current_language.is_r2l ? 124 :275 );*/
+	w: 248;
+	bottom: 0;
+	text:"Off";
+	text2:"On";
+}
+.btn_radiogroup.3{
+	x: 275;/*(%regional.current_language.is_r2l ? 0 :275 );*/
+	w: 372;
+}
+.btn_radiogroup.snd{
+	x: 475;/*(%regional.current_language.is_r2l ? 0 :475 );*/
+}
+/* button sizes */
+.25_25{w:25%;h:25%;}
+.25_33{w:25%;h:33%;}
+.25_50{w:25%;h:50%;}
+.25_66{w:25%;h:66%;}
+.25_75{w:25%;h:75%;}
+.25_100{w:25%;h:100%;}
+.33_25{w:33%;h:25%;}
+.33_33{w:33%;h:33%;}
+.33_50{w:33%;h:50%;}
+.33_66{w:33%;h:66%;}
+.33_75{w:33%;h:75%;}
+.33_100{w:33%;h:100%;}
+.40_20{w:40%;h:20%;}
+.50_25{w:50%;h:25%;}
+.50_33{w:50%;h:33%;}
+.50_50{w:50%;h:50%;}
+.50_66{w:50%;h:66%;}
+.50_75{w:50%;h:75%;}
+.50_100{w:50%;h:100%;}
+.66_25{w:66%;h:25%;}
+.66_33{w:66%;h:33%;} 
+.66_50{w:66%;h:50%;} 
+.66_66{w:66%;h:66%;} 
+.66_75{w:66%;h:75%;} 
+.66_100{w:66%;h:100%;}
+.75_25{w:75%;h:25%;}
+.75_33{w:75%;h:33%;}
+.75_50{w:75%;h:50%;}
+.75_66{w:75%;h:66%;}
+.75_75{w:75%;h:75%;}
+.75_100{w:75%;h:100%;}
+.100_25{w:100%;h:25%;}
+.100_33{w:100%;h:33%;}
+.100_50{w:100%;h:50%;}
+.100_66{w:100%;h:66%;}
+.100_75{w:100%;h:75%;}
+.100_100{w:100%;h:100%;}
+/*-Defaults-------------------------------------------------------------------------*/
+TEXT, ROADSHIELDEDTEXT{
+	font:"default";
+	fonttype:col_main;
+	fontsize:fontsize_main;
+	padding:text_padding;
+	align:"CENTER";
+	valign:"CENTER";
+	NO_HIGHLIGHT_WHEN_PRESSED:1;
+}
+ROADSHIELDEDTEXT{
+	font:"defaultbd";
+	fonttype:btn_main;
+	textoffset:0;
+	shieldtextmod:_0.8;
+	minaspect:80;
+}
+ROADSHIELDEDTEXT.font_sec{
+	shieldtextmod:_0.9;
+}
+BUTTON.btn_main > TEXT, SPRITE.btn_main > TEXT{
+	r2l_invert:(vR2L_invert);
+	left:0;right:0;top:0;bottom:0;
+	fonttype:btn_main;
+	padding:button_padding;
+}
+
+/* Saisie Radars --------------------------------- */
+	BUTTON.btn_mainsf > TEXT, SPRITE.btn_mainsf > TEXT{
+		r2l_invert:(vR2L_invert);
+		left:0;right:0;top:0;bottom:0;
+		fonttype:btn_main;
+		padding:button_padding;
+	}
+/* Fin Saisie Radars ----------------------------- */
+
+BUTTON.btn_main > TEXT.textpadding{
+	padding:text_padding;
+}
+TEXT.buttonpadding{
+	padding:button_padding;
+}
+TEXT.textpadding_small{
+	padding:text_padding_small !important;
+}
+TEXT.textpadding_small_left{
+	paddingleft:text_padding_small !important;
+	paddingright:0 !important;
+}
+TEXT.textpadding_small_right{
+	paddingleft:0 !important;
+	paddingright:text_padding_small !important;
+}
+TEXT.header{
+	left:0;top:0;z:260;h:100%;
+	right:(%other.lg_renault.temperature_visible ? (%other.lg_renault.phone_connected ? 42% :32%) :(%other.lg_renault.phone_connected ? (%regional.timeformat == 3 ? 28% :22% ) :20%));
+	paddingleft:title_padding_left;
+	paddingright:text_padding;
+	font:"default";
+	fonttype:title;
+	fontsize:fontsize_title;
+	align:"LEFT";
+	valign:"CENTER";
+}
+SPEC_TIMETEXT{
+	font:"default";
+	fonttype:title_status;
+	fontsize:35;
+	align:"CENTER";
+	valign:"CENTER";
+	padding:0;
+}
+TEXT.itiner, SPEEDTEXT.itiner{
+	left:0;right:0;top:10%;bottom:60%;
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_info;
+	align:"CENTER";
+	valign:"CENTER";
+	leading:_0.85;
+}
+TEXT.value.keyb{
+	fontsize:fontsize_inputfield;
+}
+TEXT.listitem{
+	r2l_invert:(vR2L_invert);
+	left:0;top:0;right:0;bottom:0;
+	fonttype:btn_main;
+	font:"default";
+	align:"LEFT";
+	wordwrap:2;
+	padding:button_padding;
+}
+TEXT.listitem.setting{
+	right:58%;
+	minaspect:80;
+}
+TEXT.listitem.setting.map{
+	right:64%;
+}
+TEXT.listitem.icon
+{
+	r2l_invert:(vR2L_invert);
+	left:13%;
+	padding:text_padding;
+}
+TEXT.listitem.icon.onbtn{
+	right:15%;
+}
+TEXT.listitem.icon.chk{
+	right:15%;
+}
+TEXT.listitem.onbtn{
+	right:14%;
+	paddingright:text_padding;
+	padding:inputtext_padding;
+}
+TEXT.listitem.poi{
+	left:7%;
+	twolinesmall:3;
+	twolinesize:fontsize_sec;
+	twolineoffset:-4;
+	leading:_0.85;
+}
+TEXT.listitem.speedcam{
+	left:8%
+}
+TEXT.listitem.whereami{
+	left:18%
+}
+TEXT.listitem.result{
+	padding:inputtext_padding;
+}
+TEXT.listitem.result.country{
+	padding:country_padding;
+}
+TEXT.inv{
+	fonttype:btn_inv;
+}
+TEXT.top{
+	left:0;top:0;right:0;bottom:48% !important;
+	valign:"BOTTOM";
+	wordwrap:1;
+}
+TEXT.font_list_main.bd.listitem.icon.top.poi_result{
+	bottom:54% !important;
+}
+TEXT.bottom{
+	left:0;top:64% !important;right:0;bottom:0;
+	valign:"TOP";
+	wordwrap:1;
+}
+TEXT.listtext{
+	left:0;top:0;right:0;bottom:0;
+	align:"LEFT";
+	padding:text_padding !important;
+}
+TEXT.unit{
+	padding:0;
+}
+TEXT.poiother{
+	left:0;right:0;top:0;h:100%;
+	align:"CENTER";valign:"CENTER";
+	color:#FFFFFF;color2=#000000;
+	leading:1;
+	wordwrap:2;
+	glowtype:4;
+	glowsize:2;
+}
+TEXT.speedcamfont{
+	padding:20;
+	font:"speedcam";
+	fontsize:40;
+	align:"CENTER+1";
+	valign:"CENTER-1";
+}
+BUTTON, DIALOGBUTTON{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	align:"CENTER";
+	padding:button_padding;
+	clicked_coloring:1;
+	wordwrap:2;
+	leading:_0.85;
+	iconphasesync:1;
+}
+.btn_main.value{
+	align:"LEFT";
+}
+.btn_main.value.keyb{
+	fontsize:fontsize_inputfield;
+}
+.btn_main.icon{
+	align:"LEFT";
+	iconvalign:"CENTER";
+	paddingleft:16%;
+}
+.btn_main.icon_top{
+	align:"CENTER";
+	valign:"BOTTOM-20";
+	iconalign:"CENTER";
+	iconvalign:"TOP+20";
+}
+.nowrap{
+	wordwrap :1;
+}
+CHECKBOX{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	align:"LEFT";
+	padding:10;
+}
+
+CHECKBOX.listitem {
+	r2l_invert:1;
+	left:0;
+	top:0;
+	z:0;
+	bmp:"listitem_nopress.bmp#3";
+	resize_bmp:1;
+	w:100%;
+	h:100%;
+	padding:button_padding; 
+	align:"LEFT";
+	valign:"CENTER";
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	minaspect:85;
+	iconalign:chk_radio_icon_padding_right;
+	iconvalign:"CENTER";
+	iconspr:"ico_chk.bmp#4";
+	iconphasesync:1;
+	paddingright:chk_radio_text_padding_right;
+}
+
+CHECKBOX.listitem1 {
+	r2l_invert:1;
+	left:0;
+	top:0;
+	z:0;
+	bmp:"btn_ChoixFondSliChk.bmp#3";
+	resize_bmp:1;
+	w:100%;
+	h:100%;
+	padding:button_padding; 
+	align:"LEFT+60";
+	valign:"CENTER";
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	minaspect:85;
+	iconalign:"LEFT";
+	iconvalign:"CENTER";
+	iconspr:"ico_chk71.bmp#4";
+	iconphasesync:1;
+	paddingright:chk_radio_text_padding_right;
+}
+
+RADIO{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	align:"CENTER";
+	padding:button_padding;
+}
+FOOTERRADIO{
+	fontsize:fontsize_footer;
+}
+TEXT.radio{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	align:"CENTER";
+	valign:"CENTER+4";
+}
+RADIO.listitem{
+	r2l_invert:(vR2L_invert);
+	left:0;top:0;z:0;
+	bmp:"listitem_nopress.bmp#3";
+	resize_bmp:1;
+	w:100%;h:100%;
+	padding:button_padding;
+	align:"LEFT";
+	valign:"CENTER";
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	minaspect:85;
+	iconalign:chk_radio_icon_padding_right;
+	iconvalign:"CENTER";
+	iconspr:"ico_radio.bmp#3";
+	iconphasesync:1;
+}
+RADIO.listitem.icon{
+	align:"LEFT";
+	iconvalign:"CENTER";
+	padding:chk_radio_text_padding_right;
+}
+RADIO.rad{
+	iconalign:chk_radio_icon_padding_right;
+	iconvalign:"CENTER";
+	iconspr:"ico_radio.bmp#3";
+	iconphasesync:1;
+	paddingright:chk_radio_text_padding_right;
+}
+RADIO.side{
+	bmp:"btn_split.bmp#3";
+}
+SPRITE{
+}
+SPRITE.mapheader, BUTTON.mapheader{
+	top:0;bottom:0;left:0;right:0;
+	bmp:"panel_map.bmp";
+	resize_bmp:1;
+}
+SPRITE.icon
+{
+	r2l_invert:(vR2L_invert);
+	left:1%;
+	z:100;
+	top:50%;
+	bmpalign:"LEFT";
+	bmpvalign:"CENTER";
+}
+SPRITE.icon_center{
+	r2l_invert:(vR2L_invert);
+	z:100;
+	left:50%;
+	top:50%;
+	bmpalign:"CENTER";
+	bmpvalign:"CENTER";
+}
+SPRITE.bullet{
+	r2l_invert:(vR2L_invert);
+	left:2%;
+	z:100;
+	top:50%;
+	bmpalign:"LEFT";
+	bmpvalign:"CENTER";
+	bmp:"ico_bullet.bmp#3"
+}
+/* Ajout */
+SPRITE.icon_list{
+	r2l_invert:1;
+	z:100;
+	left: 0; w: 15%; top: 0; bottom: 0;
+	align: "CENTER";
+	valign: "CENTER";
+}
+/**/
+SPRITE.messagebox{
+	x:0;
+	y:0;
+	right:0;
+	bottom:0;
+	z:1;
+	bmp:"msgbox_bg_skincol.bmp";
+	hueshift:%lua.iconhue;
+	opaque:1;
+}
+SPRITE.hue{
+	hueshift:(%lua.iconhue)
+}
+SPRITE.poi_provider{
+	iconindex:poi_provider_icon_index;
+}
+SPRITE.poi_provider_overlay{
+	iconindex:poi_provider_overlay_icon_index;
+}
+SPRITE.country_flag{
+	iconindex:country_flag_icon_index;
+}
+SPRITE.box{
+	resize_bmp:1;
+	bmp:"box.bmp";
+}
+SPRITE.pagenum{
+	bmp:"scroll_bg.bmp";
+	resize_bmp:1;
+	top:const(panel_margin + 77);
+	bottom:const(panel_margin + 74);
+	right:const( 0 - listcontrol_right + panel_margin - 1);
+	w:listscroll_w;
+}
+SPRITE.pagenum.local{
+	top:74;
+	bottom:74;
+	right:const( 0 - listcontrol_right + panel_margin + 1);
+}
+SPRITE.pagenum_result{
+	bmp:"scroll_bg.bmp";
+	resize_bmp:1;
+	top:64;
+	bottom:62;
+	right:const( 0 - listscroll_result_w);
+	left:const(main_ext_w - listscroll_result_w - 6);
+}
+SPRITE.pagenum.richpoi{
+	bmp:"scroll_bg.bmp";
+	resize_bmp:1;
+	top:const(panel_margin + 77);
+	bottom:const(panel_margin + 74);
+	right:1;
+	w:120;
+}
+SPRITE.pagenum.layer{
+	top:70;
+	bottom:70;
+	right:const(panel_margin - 1) ;
+}
+SLIDER.btn_main.value{
+	font:"defaultbd";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	valign:"CENTER";
+	padding:button_padding;
+	wordwrap:2;
+	twolineoffset:-3;
+	leading:_0.85;
+	align:"RIGHT";
+	paddingright:button_padding;
+	paddingleft:50%;
+	font:"defaultbd";
+}
+/*-Dialog buttons-------------------------------------------------------------------------*/
+BUTTON.dialog, DIALOGBUTTON.dialog{
+	font:"defaultbd";
+	fontsize:fontsize_main_large;
+	top:dialog_y;
+	h:dialog_h;
+	z:100;
+	paddingleft:dialog_icon_w;
+	paddingright:text_padding;
+	resize_bmp:1;
+	twolineoffset:0;
+	twolinesize:fontsize_info_large ;
+	twolinesmall:3;
+	leading:_0.8;
+	line_break_method:"hard";
+	wordwrap:1;
+}
+BUTTON.dialog.1_1, DIALOGBUTTON.dialog.1_1{
+	left:dialog_x_1;
+	w:dialog_w;
+	resize_bmp:0;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:1;
+}
+BUTTON.dialog.2_1, DIALOGBUTTON.dialog.2_1{
+	left:dialog_x_1;
+	w:dialog_w_50;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:1;
+}
+BUTTON.dialog.2_2, DIALOGBUTTON.dialog.2_2{
+	left:dialog_x_2_2;
+	w:dialog_w_50;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:2;
+}
+BUTTON.dialog.3_1, DIALOGBUTTON.dialog.3_1{
+	left:dialog_x_1;
+	w:dialog_w_33;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:1;
+}
+BUTTON.dialog.3_2, DIALOGBUTTON.dialog.3_2{
+	left:dialog_x_3_2;
+	w:dialog_w_33;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:2;
+}
+BUTTON.dialog.3_3, DIALOGBUTTON.dialog.3_3{
+	left:dialog_x_3_3;
+	w:dialog_w_33;
+	bmp:"btn_localmenu_close.bmp#3";
+	focusindex:3;
+}
+HSMARTSCROLL.scroll{
+	r2l_invert:(vR2L_invert);
+	bmp:"scrollprogress_bg_spr.bmp";
+/*	sprind:"simulation_ico_simcar_skincol.bmp";*/
+	sprind:"hscrollcar_spr.bmp";
+	SLIDER_ABOVE_FRAME:;
+	sprprbar:"scrollprogress_spr.bmp";
+	valign:"center";
+	x:40%;
+	y:10%;
+	w:58%;
+	h:hsmartscroll_h;
+	resize_bmp:1;
+	min:1;
+	max:255;
+	set:1;
+	z:100;
+	dragable:0;
+	hueshift:%lua.iconhue;
+}
+HSMARTSCROLL.scroll.small{
+	h:hsmartscroll_smallh;
+}
+/*-List Control-------------------------------------------------------------------------*/
+LIST2{
+	keepselectiononscreen:0;
+	smoothpageing:0;
+	scrollspeed:2;
+	acceleration:500;
+	STOP_POLICY:0;
+	SMOOTHSCROLLING:0;
+	CYCLIC:1;
+}
+TEXT.pagenum{
+	top:40%;right:const( 0 - listcontrol_right + panel_margin);z:200;
+	w:listscroll_w;h:20%;
+	align:"CENTER";valign:"CENTER";
+	font:"default";fontsize:fontsize_pagenum;
+	fonttype:pagenum;
+}
+TEXT.pagenum.result{
+	right:const( 0 - listscroll_result_w - 1);
+	w:listscroll_result_w;
+}
+TEXT.pagenum.list{
+	text:(L"" + (%ui.PARENT.page_number.valid ? %ui.PARENT.page_number :0) + L"/" + %ui.PARENT.page_count);
+}
+/*-Keyboard-------------------------------------------------------------------------*/
+KEYBUTTON.keyboard{
+	z:20;
+	bmp:"key.bmp#3";
+	resize_bmp:1;
+	fonttype:btn_keyboard;
+	fontsize:fontsize_keyboard;
+	align:"CENTER";
+	valign:"CENTER+2";
+	clicked_coloring:1;
+}
+KEYBUTTON.keyboard.cyrill{
+	fontsize:fontsize_keyboard_cyrill;
+	valign:"CENTER+1";
+}
+KEYBUTTON.keyboard.bottomright{bmp:"button.bmp#3"}
+LAYER.key_popup{
+	w:key_popup_w;
+	h:key_popup_h;
+}
+BUTTON.key_popup{bmp:"key_popup.bmp";}
+TEXT.key_popup{
+	left:0;top:0;w:100%;h:94%;
+	align:"CENTER";
+	valign:"CENTER+3";
+	fonttype:ww;
+	font:"default";
+	fontsize:( txt_kbd_indicator.TEXT == translate("123") || txt_kbd_indicator.TEXT == %regional.keyboard.lbl_alt ? fontsize_popup_alt :fontsize_popup);
+	padding:6;
+	clipstyle:"none";
+}
+SPRITE.key_popup{
+	left:0;top:0;w:100%;h:70%;
+	align:"CENTER";
+	valign:"BOTTOM";
+	bmp:"ico_popup_space.bmp";
+}
+KEYBUTTON.keyboard.popup{
+	REPEAT_DELAY:65000;
+	onclick:'sc_kbd_Popup_onclick(SELF.prop.X, SELF.prop.Y, SELF.prop.W, SELF.prop.H, SELF.prop.TEXT, PARENT.prop.X, false, SELF.prop.BMP)';
+	ondragenter:'sc_kbd_Popup_onclick(SELF.prop.X, SELF.prop.Y, SELF.prop.W, SELF.prop.H, SELF.prop.TEXT, PARENT.prop.X, true, SELF.prop.BMP)';
+	ondragover:'sc_kbd_Drag_show()';
+	ondrop:'sc_kbd_Popup_ondrop()';
+	ondragleave:'sc_kbd_Drag_hide(true)';
+	onrelease:'sc_kbd_Drag_hide(false)';
+	onmouseleave:'sc_kbd_Drag_hide(false)';
+}
+KEYBUTTON.keyboard.space{
+	onclick:'sc_kbd_Popup_onclick(SELF.prop.X, SELF.prop.Y, SELF.prop.W, SELF.prop.H, "space", PARENT.prop.X, false, SELF.prop.BMP)';
+	ondragenter:'sc_kbd_Popup_onclick(SELF.prop.X, SELF.prop.Y, SELF.prop.W, SELF.prop.H, "space", PARENT.prop.X, true, SELF.prop.BMP)';
+	iconalign:"CENTER";
+	iconvalign:"CENTER" ;
+	iconspr:"space_ico.bmp#3";
+	iconphasesync:1;
+}
+KEYBUTTON.keyboard.space.long{
+	iconspr:(%regional.keyboard.mod_alt ? "space_ico_long.bmp#3" :"space_ico.bmp#3" );
+}
+KEYBUTTON.keyboard.delete{
+	bmp:"key_backspace.bmp#3";
+	REPEAT_DELAY:400;
+	REPEAT_INTERVAL:100;
+	KEYBOARDSPECELEMENT:"del";
+	iconspr:"ico_kbd_backspace.bmp#3";
+	iconalign:"CENTER";
+	iconvalign:"CENTER" ;
+	iconphasesync:1;
+}
+KEYBUTTON.keyboard.delete.coord{
+	bmp:"key_coord_backspace.bmp#3";
+	iconalign:"CENTER+6";
+}
+KEYBUTTON.keyboard.alt{
+	bmp:"key_alt.bmp#3";
+	fonttype:btn_keyboard;
+	fontsize:fontsize_keyboard_alt;
+	fontsize:fontsize_keyboard_alt;
+	align:"CENTER+3";
+	valign:"CENTER+1";
+	text:"123";
+	clicked_coloring:1;
+	enable:(%regional.keyboard.mod_alt.valid);
+	KEYBOARDSPECELEMENT:"alt";
+}
+/*-LIST ITEMS-------------------------------------------------------------------------------*/
+.list_control{
+	left:panel_margin;
+	top:panel_margin;right:listcontrol_right;bottom:panel_margin;z:100;
+	row:4;col:1;
+	showselection:0;
+}
+.list_control.full{
+	right:panel_margin;
+}
+.list_control.whereami{
+	left:480;
+	right:0;
+	bottom:0;
+}
+.list_control.big{
+	row:3;
+}
+.layer_control{
+	x:list_x;y:list_y;w:list_w;h:list_h;z:100;
+}
+.layer_control.xhtml{
+	x:const(list_x + panel_margin);y:list_y;w:const( list_w - panel_margin - panel_margin);h:list_h;z:100;
+}
+.layer_control.richpoi{
+	x:const(list_x + panel_margin);y:const(list_y + int(list_h * 30%));w:const( list_w - panel_margin - panel_margin + listscroll_w - listscroll_result_w);h:const(int(list_h * 70%));z:100;
+}
+.list_control.side{
+	top:panel_side_header_h;
+	row:5;
+}
+.list_control.routemethod{
+	right:panel_margin;
+	row:3;
+}
+.list_control.itiner{
+	top=(%route.list.navigated.itiner.detailmode == "normal" ? panel_margin :panel_side_header_h)
+	row:(%route.list.navigated.itiner.detailmode == "normal" ? 4 :3)
+}
+.list_control_local{
+	left:2;
+	top:3;
+	right:( %{%lua.localMenuListName + ".size"} <= 4 ? 2 :listcontrol_local_right );
+	cellh:localmenuitem_h;
+	z:2500;
+	row:4;
+	col:1;
+	showselection:0;
+}
+.btn_scrollup{
+	top:3;right:const( 0 - listcontrol_right + panel_margin);z:100;
+	bmp:"button_scrollup.bmp#3";
+	resize_bmp:0;
+	w:listscroll_w;h:129;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrollup.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+	resize_bmp:0;
+}
+.btn_scrollup.result{
+	top:0;right:const( 0 - listscroll_result_w - 1);
+	bmp:"button_scrollup_result.bmp#3";
+	resize_bmp:1;
+	w:listscroll_result_w;h:93;
+}
+.btn_scrollup.itinerary{
+	top:0;
+	bmp:"button_scrollup_itinerary.bmp#3";
+	h:93;
+}
+.btn_scroll_prev{
+	bottom:-15;right:678;z:100;
+	bmp:"button_scrollnextprev.bmp#3";
+	resize_bmp:0;
+	w:74;h:278;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrollprev.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+}
+.btn_scrollup.list{
+	clickmodel:"ui.PARENT.prevpage";
+	enable:(%ui.PARENT.prevpage.valid);
+	onlongclick:'MODEL.ui.PARENT.autopage = 2';
+	onrelease:'MODEL.ui.PARENT.autopage = 0';
+	onmouseleave:'MODEL.ui.PARENT.autopage = 0';
+	REPEAT_DELAY:400;
+	REPEAT_INTERVAL:100;
+}
+.btn_scrollup.layer{
+	top:panel_margin;right:panel_margin;
+	h:81;
+	clickmodel:"ui.SUBLAYER.prevpage";
+	enable:(%ui.SUBLAYER.prevpage.valid);
+	onlongclick:'MODEL.ui.SUBLAYER.autopage = 2';
+	onrelease:'MODEL.ui.SUBLAYER.autopage = 0';
+	onmouseleave:'MODEL.ui.SUBLAYER.autopage = 0';
+}
+.btn_scrollup.layer.richpoi{
+	top:66;right:0;
+	bmp:"button_scrollup_result.bmp#3";
+	resize_bmp:1;
+	w:listscroll_result_w;h:93;
+}
+.btn_scrollup_local{
+	top:0;h:127;
+	right:(0 - 113);w:110;
+	z:100;
+	bmp:"button_scrollup_local.bmp#3";
+	resize_bmp:0;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrollup.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+	clickmodel:"ui.PARENT.prevpage";
+	enable:(%ui.PARENT.prevpage.valid);
+	onlongclick:'MODEL.ui.PARENT.autopage = 2';
+	onrelease:'MODEL.ui.PARENT.autopage = 0';
+	onmouseleave:'MODEL.ui.PARENT.autopage = 0';
+}
+.btn_scrolldown{
+	bottom:1;right:const( 0 - listcontrol_right + panel_margin);z:100;
+	bmp:"button_scrolldown.bmp#3";
+	resize_bmp:0;
+	w:listscroll_w;h:129;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrolldown.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+}
+.btn_scrolldown.result{
+	bottom:(0 - 1);right:const( 0 - listscroll_result_w - 1);
+	bmp:"button_scrolldown_result.bmp#3";
+	resize_bmp:1;
+	w:listscroll_result_w;h:93;
+}
+.btn_scrolldown.itinerary{
+	bottom:(0 - 1);
+	bmp:"button_scrolldown_itinerary.bmp#3";
+	h:93;
+}
+.btn_scroll_next{
+	bottom:-15;right:-28;z:100;
+	bmp:"button_scrollnextprev.bmp#3";
+	resize_bmp:0;
+	w:74;h:278;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrollnext.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+}
+.btn_scrolldown.list{
+	clickmodel:"ui.PARENT.nextpage";
+	enable:(%ui.PARENT.nextpage.valid);
+	onlongclick:'MODEL.ui.PARENT.autopage = 1';
+	onrelease:'MODEL.ui.PARENT.autopage = 0';
+	onmouseleave:'MODEL.ui.PARENT.autopage = 0';
+	REPEAT_DELAY:400;
+	REPEAT_INTERVAL:100;
+}
+.btn_scrolldown.layer{
+	bottom:panel_margin;right:panel_margin;
+	h:81;
+	clickmodel:"ui.SUBLAYER.nextpage";
+	enable:(%ui.SUBLAYER.nextpage.valid);
+	onlongclick:'MODEL.ui.SUBLAYER.autopage = 1';
+	onrelease:'MODEL.ui.SUBLAYER.autopage = 0';
+	onmouseleave:'MODEL.ui.SUBLAYER.autopage = 0';
+}
+.btn_scrolldown.layer.richpoi{
+	bottom:(0 - 1);right:0;
+	bmp:"button_scrolldown_result.bmp#3";
+	resize_bmp:1;
+	w:listscroll_result_w;h:93;
+}
+.btn_scrolldown_local{
+	bottom:3;h:127;
+	right:(0 - 113);w:110;
+	z:100;
+	bmp:"button_scrolldown_local.bmp#3";
+	resize_bmp:0;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	iconspr:"ico_scrolldown.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	NORELEASEONLONGCLICK:;
+	clickmodel:"ui.PARENT.nextpage";
+	enable:(%ui.PARENT.nextpage.valid);
+	onlongclick:'MODEL.ui.PARENT.autopage = 1';
+	onrelease:'MODEL.ui.PARENT.autopage = 0';
+	onmouseleave:'MODEL.ui.PARENT.autopage = 0';
+}
+.list_header{
+	fontsize:fontsize_sec;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	z:60;
+	align:"CENTER";
+}
+.list_header.side{
+	fontsize:fontsize_main;
+	left:0;
+	right:0;
+	top:0;
+	bottom:undef;
+	h:panel_side_header_h;
+	z:60;
+	align:"LEFT";
+}
+.list_panel.background.local{
+	left:0;right:0;
+	top:0;bottom:0;
+	z:10;
+	bmp:( %{%lua.localMenuListName + ".size"} == 1 ? "local_panel_bg_oneitem.bmp" :"local_panel_bg.bmp");
+	resize_bmp:1;
+}
+SPRITE.listitem{
+	left:0;
+	top:0;
+	z:0;
+	bmp:"listitem.bmp#3";
+	resize_bmp:1;
+	w:100%;
+	h:100%;
+}
+SPRITE.panel_map{
+	left:0;top:0;w:100%;h:100%;z:1;
+	resize_bmp:1;
+	bmp:"panel_map.bmp";
+}
+SLIDER.listitem{
+	r2l_invert:(vR2L_invert);
+	left:0;top:0;w:100%;h:100%;z:0;
+	align:"LEFT";valign:"CENTER";
+	bmp:"listitem.bmp#3";
+	resize_bmp:1;
+	padding:button_padding;
+	font:"defaultbd";
+	fonttype:btn_sec;
+	fontsize:fontsize_main;
+}
+
+SLIDER.listitem1{
+	r2l_invert:(vR2L_invert);
+	left:0;top:0;w:100%;h:100%;z:0;
+	align:"LEFT";valign:"CENTER";
+	bmp:"btn_ChoixFondSliChk.bmp#3";
+	resize_bmp:1;
+	padding:button_padding;
+	font:"defaultbd";
+	fonttype:btn_sec;
+	fontsize:fontsize_main;
+}
+
+SLIDER.listitem > TEXT
+{
+	r2l_invert:0;
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	left:0;
+	top:0;
+	right:50%;
+	bottom:0;
+	padding:button_padding;
+}
+SLIDER.btn_main > TEXT
+{
+	r2l_invert:0;
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	left:0;
+	top:0;
+	right:50%;
+	bottom:0;
+	padding:button_padding;
+}
+SLIDER.map{
+	paddingleft:27%;
+	valign:"BOTTOM-8";
+}
+BUTTON.listitem{
+	left:0;
+	top:0;
+	z:0;
+	bmp:"listitem.bmp#3";
+	resize_bmp:1;
+	w:100%;
+	h:100%;
+	padding:button_padding;
+	align:"LEFT";
+	valign:"TOP";
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	minaspect:85;
+}
+BUTTON.listitem.icon{
+	align:"LEFT+40";
+	iconvalign:"CENTER";
+}
+BUTTON.listitem.buttonlike{
+	bmp:(index ? (index==3 ? "button.bmp#3" :"button.bmp#3") :"button.bmp#3");
+}
+.icon_left{
+	left:0;
+	top:0;
+	w:100%;
+	h:100%;
+	align:"RIGHT";
+	valign:"BOTTOM";
+}
+.listitem.value{
+    paddingright:40%;
+}
+.listitem.value.long{
+    paddingright:45%;
+}
+
+.listitem > .name, .btn_main> .name{
+    r2l_invert:(vR2L_invert);
+    w:undef;h:undef;
+    left:0;right:55%;top:0;bottom:0;
+    align:"LEFT";valign:"CENTER";
+    padding:button_padding;
+    font:"default";
+    fonttype:btn_main;
+    fontsize:fontsize_main;
+    wordwrap:2;
+}
+/* Ajout */
+.listitem > .name.icon, .btn_main> .name.icon{
+    left:13%;
+    padding:text_padding;
+}
+/**/
+.listitem > .value, .btn_main > .value{
+	r2l_invert:(vR2L_invert);
+	w:undef;h:undef;
+	paddingright:0;
+	left:66%;right:0;top:0;bottom:0;
+	align:"RIGHT";valign:"CENTER";
+	padding:button_padding;
+	font:"defaultbd";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	wordwrap:2;
+	leading:_0.8;
+	twolineoffset:-6;
+	twolinesmall:3;
+	twolinesize:fontsize_sec;
+}
+.listitem > .unit_value, .btn_main > .unit_value{
+	r2l_invert:(vR2L_invert);
+	w:30%;left:64%;top:0;h:64%;
+	align:"RIGHT";
+	font:"defaultbd";
+	fonttype:btn_main;
+	fontsize:fontsize_main;
+	padding:0;
+}
+.listitem > .name.long, .btn_main> .name.long{
+    right:35%;
+}
+.listitem > .value.long, .btn_main> .value.long{
+    left:55%;
+}
+.listitem > .local
+{
+	r2l_invert:(vR2L_invert);
+	left:5%;w:95%;h:100%;
+	align:"LEFT";
+}
+.listitem.local{
+	bmp:"listitem_local.bmp#3" ;
+}
+.listitem > .local.icon{
+	left:(70);w:450;h:100%;
+}
+.listitem.info{
+	fonttype:col_main;
+	NOSOUND:0;
+	hueshift:%lua.iconhue;
+}
+.listitem.separator{
+	bmp:"listelement_separator_skincol.bmp";
+	align:"CENTER";
+	hueshift:%lua.iconhue;
+}
+/*-BUTTONS----------------------------------------------------------------------------------*/
+.button_remove{
+	r2l_invert:(vR2L_invert);
+	right:1%;top:20%;h:74;w:13%;z:50;
+	bmp:"button.bmp#3";
+	resize_bmp:1;
+	icon_hueshift:(%lua.iconhue);
+	iconspr:"ico_del_sml.bmp#3";
+	iconalign:"CENTER";
+	iconvalign:"CENTER-5";
+	align:"RIGHT";
+	valign:"CENTER";
+	clicked_coloring:1;
+}
+.button_remove.r3_5{
+	top:15%;
+}
+/*-COCKPIT ELEMENTS-------------------------------------------------------------------------*/
+.cockpit>.additional_features{
+	left:122;
+	top:305;
+	cellw:94;
+	h:86;
+	col:5;
+	row:1;
+}
+.cockpit>.diricon{
+	left:13;
+	h:161;
+	w:144;
+	top:0;
+	bmp:"mapbutton_diricon.bmp#3";
+	resize_bmp:1 ;
+	checkhit:1;
+	z:35;
+	alpha:%lua.TransBouttonArrow;
+}
+.cockpit>.diricon>.diricon_bitmap{
+	left:0;
+	right:0;
+	top:0;
+	h:120;
+	align:"CENTER";
+	z:45;
+	iconindex:0;
+	hueshift:%lua.BdArrowColor;
+}
+.cockpit>.diricon>.dist_to_maneuver{
+	font:"defaultbd";
+	fonttype:Bd_txt_cockpit;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.diricon>.dist_to_maneuverO{
+    font:"defaultbd";
+	fonttype: Bd_txt_cockpitOrange;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.diricon>.dist_to_maneuverB{
+    font:"defaultbd";
+	fonttype: Bd_txt_cockpitBlue;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.diricon>.dist_to_maneuverBrown{
+    font:"defaultbd";
+	fonttype: Bd_txt_cockpitMarron;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.diricon>.dist_to_maneuverBlack{
+    font:"defaultbd";
+	fonttype: Bd_txt_cockpitBlack;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.diricon>.dist_to_maneuverWhite{
+    font:"defaultbd";
+	fonttype: Bd_txt_cockpitBlanc;
+	fontsize:fontsize_cockpit_mandist;
+	align:"CENTER";
+	valign:"CENTER";
+	left:1%;
+	top:119;
+	w:100%;
+	h:20%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+.cockpit>.time_to_maneuver{
+	font:"defaultbd";
+	fonttype:mandist;
+	fontsize:fontsize_main;
+	align:"CENTER";
+	valign:"CENTER";
+	left:0;
+	top:30%;
+	w:19%;
+	h:6%;
+	z:45;
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+}
+
+.cockpit>SPRITE.next_maneuver{
+	left:0;
+	right:0;
+	h:15%;
+	top:0;
+	z:40;
+	alpha: %lua.TransBouttonArrow;
+}
+.cockpit ROADSHIELDEDTEXT.next_maneuver{
+	left=159;
+	top:0;
+	bottom:0;
+	z:50;
+	right:(%other.lg_renault.temperature_visible ? (%other.lg_renault.phone_connected ? 42% :32%) :(%other.lg_renault.phone_connected ? (%regional.timeformat == 3 ? 28% :22% ) :20%));
+	align:"LEFT";
+	paddingleft:title_padding_left;
+	shieldtextmod:_0.9;
+	wordwrap:1;
+	twolinesmall:3;
+	twolinesize:fontsize_cockpit_info;
+	twolineoffset:1;
+}
+.cockpit ROADSHIELDEDTEXT.current_street{
+	left: 0; top:0; h:15%; z: 21;
+	right:(%other.lg_renault.temperature_visible ? (%other.lg_renault.phone_connected ? 42% :32%) :(%other.lg_renault.phone_connected ? (%regional.timeformat == 3 ? 28% :22% ) :20%));
+	font:"default";
+	padding:text_padding;
+	paddingleft:title_padding_left;
+	align:"LEFT";
+	wordwrap:2;
+	twolinesmall:3;
+	twolinesize:fontsize_cockpit_info;
+	twolineoffset:1;
+}
+.cockpit BUTTON.current_street{
+	left:((PARENT.W - PARENT.textW)/2 - text_padding);
+	w:(text_padding + text_padding + PARENT.textW);
+	top: 0; bottom: 0; z: 20;
+	bmp:"map_currentstrt_spr.bmp"; resize_bmp:1;
+	alpha: 0;
+}
+.cockpit ROADSHIELDEDTEXT.AB_current_street{
+	x:73;
+	y:411;
+	w:(%lua.CockpitButtonMedia ? 454 : 654);
+	h:69;
+	z:21;
+	font:"default";
+	padding:text_padding;
+	paddingleft:title_padding_left;
+	align: "LEFT";
+	wordwrap:2;
+	twolinesmall:3;
+	twolinesize:fontsize_cockpit_info;
+	twolineoffset: 1;
+	align: "CENTER";
+	textmodel_wstr:"navigation.car.current_street_with_shield";
+}
+.cockpit BUTTON.AB_current_street{
+	x:73;
+	y:411;
+	w:(%lua.CockpitButtonMedia ? 454 : 654);
+	h:69;
+	bottom: 0;
+	z: 20;
+	bmp: "map_currentstrt_spr.bmp";
+	resize_bmp:1;
+	alpha: 0;
+}
+.cockpit>.laneinfo{
+	left:23%;
+	top:15%;
+	w:54%;
+	h:13%;
+	z:105;
+	align:"CENTER";
+}
+.cockpit>.speedcam{
+	right:9;
+	top:120;
+	w:24%;
+	h:26%;
+}
+.cockpit>.speedlimit{
+	right:30;
+	top:42;
+	w:24%;
+	h:26%;
+}
+.cockpit>.signpost{
+	left:(%lua.MinV == 1 ? 158 : 0);
+	top:0;
+	w:(%lua.MinV == 1 ? 438 : 100%);
+	z:400;
+	align:"CENTER";
+}
+.junctionview{
+	left:(%lua.MinV == 1 ? 162 : 0);
+	top:(%lua.MinV == 1 ? -70 : 0);
+	zoom:(%lua.MinV == 1 ? 270 : 1025);
+	w:100%;
+	h:100%;
+	z:(%navigation.junctionview_type == 0 ? 50 : 1); 
+	align:"LEFT";
+}
+
+/*-COMMON MAP ELEMENTS-------------------------------------------------------------------------*/
+.cursor_restore{
+	left:0; top:0; w:12%; h:33%; z:6;
+	bmp:"mapsidebutton_left_top.bmp#3"; resize_bmp:1;
+	iconspr:"ico_browsemap_restorecursor.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+}
+.fitroute_restore{
+	left:0; top:0; w:12%; h:33%; z:6;
+	bmp:"mapsidebutton_left_top.bmp#3"; resize_bmp:1;
+	iconspr:"ico_fitroute.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	enable:(%lua.map.FitEnabled)
+}
+.zoomin{
+	left:0; top:33%; w:12%; h:33%; z:10;
+	bmp:"mapsidebutton_left.bmp#3"; resize_bmp:1;
+	iconspr:"ico_browsemap_zoomin.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	enable:(%lua.map.ZoomInEnabled);
+}
+.zoomout{
+	left:0; top:66%; z:10; w:12%; h:33%;
+	bmp:"mapsidebutton_left_bottom.bmp#3"; resize_bmp:1;
+	iconspr:"ico_browsemap_zoomout.bmp#3";
+	icon_hueshift:%lua.iconhue;
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+	enable:(%lua.map.ZoomOutEnabled);
+}
+.map_counter_bg{
+	left:undef; right:0; top:33%; w:12%; h:33%; z:15;
+	bmp:"map_vscrollcounterbg_spr_skincol.bmp"; resize_bmp:1;
+}
+.map_counter_line{
+	left:15%; right:10%; top:49%; z:15;
+	bmp:"map_vscrollcounterline_spr_skincol.bmp";
+}
+.map_counter_up{
+	right:0; top:0; w:12%; h:33%;
+	bmp:"mapsidebutton_right_top.bmp#3"; resize_bmp:1;
+	iconspr:"ico_scrollup.bmp#3";
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+}
+.map_counter_down{
+	right:0; top:66%; w:12%; h:33%;
+	bmp:"mapsidebutton_right_bottom.bmp#3"; resize_bmp:1;
+	iconspr:"ico_scrolldown.bmp#3";
+	iconalign:"CENTER";
+	iconvalign:"CENTER";
+}
+/*-DEFINE_ELEMENT-------------------------------------------------------------------------*/
+DISTTEXT, SPEEDTEXT, TIMETEXT, ALTITUDETEXT{
+	w: 100%; h: 100%; z:50;
+	font: "defaultbd"; fonttype: col_main; fontsize: fontsize_main;
+	minaspect:100;
+	align: "RIGHT"; valign: "BOTTOM";
+	fixedwidthnumbers:1;
+	clipstyle:"none";
+	clicked_coloring:1;
+}
+/*-TEXTS-------------------------------------------------------------------------*/
+.txt_14bd{font:"defaultbd";fontsize:20;}
+.txt_18{font:"default";fontsize:18;}
+.txt_20{font:"default";fontsize:20;}
+.txt_20bd{font:"defaultbd";fontsize:20;}
+.txt_34{font:"default";fontsize:34;}
+.color_main{fonttype:col_main !important;} /*main color on background*/
+.color_inv{fonttype:col_inv !important;} /*inverse/complementary of main color on background*/
+.color_btn_main{fonttype:btn_main !important;} /*main color on the buttons*/
+.color_btn_sec{fonttype:btn_sec !important;} /*secondary color on the buttons*/
+.color_btn_inv{fonttype:btn_inv !important;} /*inverse/complementary of main color on the buttons*/
+.color_inf_main{fonttype:inf_main !important;} /*main color on the infos*/
+.color_inf_sec{fonttype:inf_sec !important;} /*secondary color on the infos*/
+.color_map_main{fonttype:map_main !important;} /*main color on map*/
+.color_map_inv{fonttype:map_inv !important;} /*inverse/complementary of main color on map*/
+.color_map_inf_main{fonttype:inf_main !important;} /*main color on map infos*/
+.color_map_inf_sec{fonttype:inf_sec !important;} /*secondary color on map infos*/
+.xhtml{fonttype:xhtml_ft !important;}
+.color_coord{fonttype:col_coord !important;} /*coordinates color*/
+.color_error{fonttype:error_red !important;}
+/*----input button from templates --------------- */
+.button_input{
+	left:1; right:133; top:0; h:69;
+	resize_bmp:1;
+	bmp:"keyboard_inputfield.bmp";
+} 
+BUTTON > .button_input{
+	left:0; right:0; top:0; h:100%;
+	resize_bmp:1;
+	bmp:"keyboard_inputfield.bmp";
+}
+.input_text{
+	left:inputtext_padding; right:20%; top:0; h:69;
+	align:"LEFT"; valign:"CENTER";
+	font:"defaultbd"; fonttype:e_input; fontsize:fontsize_inputfield; valuefontsize:fontsize_inputfield;
+	maxlength:20; nospace:1; dontshowfocus:1; CAPITALIZE:3;
+	cursorsprite:"textcursor.spr";
+	highlighted_height:highlight_inputfield;
+	minaspect:85;
+}
+.input_text.coord{
+	valign:"CENTER-4";
+	top:(25%);
+	h:undef;
+	left:(inputtext_padding);/*(%regional.current_language.is_r2l ? (22%) :(inputtext_padding));*/
+	right:(20%);/*(%regional.current_language.is_r2l ? (inputtext_padding) :(20%));*/
+}
+.input_text.coord.utm{
+	left:(35%);/*(%regional.current_language.is_r2l ? (50%) :(35%));*/
+	top:(10%);
+	right:(20%);/*(%regional.current_language.is_r2l ? (40) :(20%));*/
+	h:(60);
+}
+TEXT.input_coord{
+	left:(12);/*(%regional.current_language.is_r2l ? (16%) :(12));*/
+	top:(10%);
+	right:(70%);/*(%regional.current_language.is_r2l ? (420) :(70%));*/
+	h:(60);
+	align:"LEFT"; valign:"CENTER-4";
+	font:"defaultbd"; fonttype: e_input; fontsize: fontsize_inputfield;
+}
+ALIGNER.basic{
+	align:"LEFT";
+	padding:text_padding_small;
+	r2l_invert:1;
+}
+/*----fonttypes------------ ez mindenképpen a legutolsó legyen------ */
+.font_main_large{
+    font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main_large !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_large{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main_extralarge !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_main{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_main !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_main.twoline, .font_sec.twoline, .twoline{
+	wordwrap:2;
+	leading:_0.80;
+	twolinesmall:3;
+	twolinesize:fontsize_sec !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_main.twoline_2, .font_sec.twoline_2, .font_large.twoline_2{
+	twolinesmall:1;
+	twolinesize:fontsize_info_large !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_main.top{
+	bottom:60% !important;
+	valign:"BOTTOM";
+}
+.font_main.bottom{
+	top:52% !important;
+	valign:"TOP";
+}
+.font_sec{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_sec !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_xhtml{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_sec;
+	content_top:xhtml_content_top;
+}
+.font_info{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_info !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_info.top{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_info !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_info_large{
+	font:"default";
+	fonttype:inf_route;
+	fontsize:fontsize_info_large !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_cockpit_info{
+	font:"default";
+	fonttype:inf_cockpit;
+	fontsize:fontsize_cockpit_info !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_menu_main{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_menu_main !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_menu_main.twoline{
+	wordwrap:2;
+	leading:_0.80;
+	twolinesmall:3;
+	twolinesize:fontsize_menu_sec !important;
+	twolineoffset:-2;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_list_main{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_list_main !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_list_sec{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_list_sec !important;
+	align:"CENTER";
+	valign:"CENTER";
+}
+.font_list_twoline{
+	font:"default";
+	fonttype:btn_main;
+	fontsize:fontsize_list_main !important;
+	align:"CENTER";
+	valign:"CENTER";
+	twolinesmall:1; twolinesize:fontsize_list_sec;
+}
+.bd{
+	font:"defaultbd" !important;
+}
+.bw_wb{fonttype:bw_wb;}
+.wb_bw{fonttype:wb_bw;}
+.ww_ww{fonttype:ww_ww;}
+.bb_bb{fonttype:bb_bb;}
+.bb_ww{fonttype:bb_ww;}
+.ww_bb{fonttype:ww_bb;}
+.bw_bw{fonttype:bw_bw;}
+.wb_wb{fonttype:wb_wb;}
+.bb_wb{fonttype:bb_wb;}
+.wg_wg{fonttype:wg_wg;}
+.gr_gr{fonttype:gr_gr;}
+.noitems{
+	left:panel_margin;top:panel_margin;right:listcontrol_right;bottom:panel_margin;z:100;
+	font:"default";fonttype:ww_ww;fontsize:fontsize_sec;align:"CENTER";
+}
+.r2l{r2l_invert:(vR2L_invert);} 
+DIV.filter_input{
+	x:const(main_ext_x + panel_margin);
+	y:const(panel_margin + 12);
+	w:const(main_ext_w - panel_margin - panel_margin);
+	h:const(main_ext_h - panel_margin - panel_margin);
+}
+KEYBUTTON.input_del{
+	left:638;top:0;w:133;h:69;
+	bmp:"key_backspace.bmp#3";
+	resize_bmp:1;
+	REPEAT_DELAY:400;
+	REPEAT_INTERVAL:100;
+	KEYBOARDSPECELEMENT:"del";
+	iconspr:"ico_kbd_backspace.bmp#3";
+	iconalign:"CENTER+4";
+	iconvalign:"CENTER" ;
+	iconphasesync:1;
+}
+.filter_suggestion{
+	x:14;
+	w:644;
+	top:75;h:69;
+	r2l_invert:(vR2L_invert);
+	resize_bmp:1;
+	bmp:"keyboard_suggestion.bmp#3";
+	fonttype:btn_main;
+	fontsize:fontsize_inputfield;
+	font:"defaultbd";
+	align:"LEFT";
+	valign:"CENTER";
+	wordwrap:2;
+	twolinesmall:3;
+	twolinesize:fontsize_inputfield_small;
+	twolineoffset:-3;
+	leading:_0.80;
+	padding:inputtext_padding;
+	NO_HIGHLIGHT_WHEN_PRESSED:1;
+}
+.filter_result{
+	left:638;top:75;w:133;h:69;z=500;
+	resize_bmp:1;
+	bmp:"key_filter.bmp#3";
+	iconspr:"ico_kbd_result_dn.bmp#3";
+	iconalign:"CENTER+6";
+	iconvalign:"CENTER" ;
+	iconphasesync:1;
+	onrelease:'vKeyTableDone()()';
+}
+.filter_result.up{
+iconspr:"ico_kbd_result_up.bmp#3";
+}
+
+DIV.result{
+x:main_ext_x;
+y:33%;
+w:main_ext_w;
+h:233;
+}
+
+SPRITE.result{
+	left:0;right:0;top:0;h:100%;
+	bmp:"result_bg.bmp";resize_bmp:1;
+}
+
+.list_result{
+	left:3;top:0;right:const(listscroll_result_w + 5);bottom:0;z:100;
+	row:3;col:1;
+	showselection:0;
+}
+
+SPRITE.input_coord{
+	left:0;right:10;top:0;h:69;
+	bmp:"keyboard_inputfield_coord.bmp#3";resize_bmp:1;
+}
+/* GPS STATUS SCREEN */
+#et_GPSStatus>#GPS_phase{
+	x:((GPS_phase_x + (%*.posx * GPS_radius / 100))*lua.uiResW/screen_w) !important;
+	y:((GPS_phase_y + (%*.posy * GPS_radius / 100))*lua.uiResH/screen_h) !important;
+}
+#et_GPSStatus>#GPS_signal{
+	x:((GPS_signal_x + (index * GPS_txt_step))*lua.uiResW/screen_w) !important;
+}
+#et_GPSStatus_DGPS>#DGPS_phase{
+	x:((DGPS_phase_x + (%*.posx * GPS_radius / 100))*lua.uiResW/screen_w) !important;
+	y:((DGPS_phase_y + (%*.posy * GPS_radius / 100))*lua.uiResH/screen_h) !important;
+}
+#et_GPSStatus_DGPS>#DGPS_signal{
+	x:((DGPS_signal_x + (ui_GPSStatus.DGPS_first_pos - index) * GPS_txt_step)*lua.uiResW/screen_w) !important;
+}
+#et_GPSStatus>#txt_GPS{
+	x:((GPS_txt_x + (index * GPS_txt_step))*lua.uiResW/screen_w) !important;
+	y:(GPS_txt_y*lua.uiResH/100) !important;
+}
+#et_GPSStatus_DGPS>#txt_DGPS{
+	x:((DGPS_txt_x + (ui_GPSStatus.DGPS_first_pos - index) * GPS_txt_step)*lua.uiResW/screen_w) !important;
+	y:(DGPS_txt_y*lua.uiResH/100) !important;
+}
+/* --------------------------------------------------------------------------------------------------------- */
+/* ---------- MEDI@EVO ----------*/
+/* Saisie Radars ----- */
+TABLE > * {
+	left: 0;right: 0;top: 0;
+	bottom: 0;
+}
+
+TABLE.livespeedcam1{
+	left:0; top:0; right:0; bottom:32%;
+	row:2; col:3;
+	COMPACT:1;
+}
+
+TABLE.livespeedcam2{
+	left:0; top:68%; right:0; bottom:2%;
+	row:1; col:4;
+	COMPACT:1;
+} /* Fin Saisie Radars */
+/*2256
+.cockpit>.housenumber{
+	left: 20%;
+	right:20%;
+	top:((%lua.showLongAdOnMap && %navigation.car.is_stationary) ? 16% : 0);
+	h: 12%;
+	visible:(!(ui_PropLayer.OffroadRoute && %navigation.has_route) && !%navigation.car.is_on_highway && %lua.compasHousenumbOFFnav);
+}*/
+/*2273
+.cockpit>.housenumber>BUTTON{
+	left: ((PARENT.W/2 - max(rshtextLeftHousenumber.textW, rshtextRightHousenumber.textW, 0))- 65);
+	right:((PARENT.W/2 - max(rshtextLeftHousenumber.textW, rshtextRightHousenumber.textW, 0))- 65);
+	top:0;
+	bottom:0;
+	z:20;
+	bmp:"map_housenumber_bg.bmp";
+	resize_bmp:1;
+}*/
+/*2515*/
+.cockpit>.roundabout{
+  left:13;
+  top:0;
+  w:144;
+  h:116;
+}
+
+.cockpit>.secondary_diricon{
+    left:13;
+    top:162;
+    w:144;
+    h:1;/*80*/
+    z:30;
+    bmp:"mapbutton_secdiricon.bmp#3";
+    phase:2;
+    resize_bmp:1;
+    alpha: %lua.TransBouttonArrow;
+}
+
+.cockpit .dist_to_maneuver2{
+    font:"defaultbd";
+    fonttype:Bd_txt_cockpit;
+    fontsize:28;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+.cockpit .dist_to_maneuver2O{
+    font:"defaultbd";
+    fonttype: Bd_txt_cockpitOrange;
+    fontsize:30;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+.cockpit .dist_to_maneuver2B{
+    font:"defaultbd";
+    fonttype: Bd_txt_cockpitBlue;
+    fontsize:30;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+.cockpit .dist_to_maneuver2Brown{
+    font:"defaultbd";
+    fonttype: Bd_txt_cockpitMarron;
+    fontsize:30;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+.cockpit .dist_to_maneuver2Black{
+    font:"defaultbd";
+    fonttype: Bd_txt_cockpitBlack;
+    fontsize:30;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+.cockpit .dist_to_maneuver2White{
+    font:"defaultbd";
+    fonttype: Bd_txt_cockpitBlanc;
+    fontsize:30;
+    align:"CENTER";
+    valign:"CENTER";
+    left:0;
+    top:72;
+    w:100%;
+    h:25;
+    z:45;
+    fixedwidthnumbers:1;
+    clipstyle:"none";
+}
+
+/*2786*/
+.cockpit ROADSHIELDEDTEXT.current_city{
+  font:(%lua.BdviewCurrentCity == 2 ? "defaultbd" : "default");
+  fonttype:(%lua.BdviewCurrentCity == 2 ? Bd_CityNight : Bd_CityDay);
+  padding:text_padding;
+  left:13;
+  top:15%
+  bottom:25;
+  right:176;
+  h:38;
+  z:21;
+  align: "CENTER";
+  visible:(%navigation.car.is_incity && !%lua.BdviewCurrentCity == 0 && %navigation.car.address.city);
+}
+
+.cockpit BUTTON.current_city{
+  left: ((PARENT.W - PARENT.textW)/2 - text_padding); 
+  w: (text_padding + text_padding + PARENT.textW); 
+  top:0; bottom:0; z:20;
+  bmp: "map_currentstrt_spr.bmp";
+  resize_bmp:1;
+  hueshift:%lua.iconhue;
+  visible:(%navigation.car.is_incity && %lua.BdviewCurrentCity == 1 && %navigation.car.address.city);
+}
+
+.cockpit BUTTON.current_city_reality{
+  left: ((PARENT.W - PARENT.textW)/2 - text_padding); 
+  w: (text_padding + text_padding + PARENT.textW); 
+  top:0; bottom:0; z:20;
+  bmp:"map_currentcity_reality.bmp";
+  resize_bmp:1;
+  alpha:24;
+  visible:(%navigation.car.is_incity && %lua.BdviewCurrentCity == 2 && %navigation.car.address.city);
+}
+
+/* 3121 ---------- */
+.cockpit>.turn_rest{
+  left:20%;
+/*  top:15%;*/
+  top:30%;
+  bmp:"turnrestrictions.spr";
+  z:110;
+  w:20%;
+  phase:%navigation.turn_restriction_icon;
+  visible:(((%lua.wTurnRestriction == 1 && !%navigation.has_route) || (%lua.wTurnRestriction == 2)) && %navigation.turn_restriction_icon.valid);
+}
+/* 3745 Bd couleurs ---------- */
+.color_txt_HouseNumber { fonttype:houseNumber; } /*couleur n° de rue*/

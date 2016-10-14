@@ -1,0 +1,200 @@
+<element_template et_RouteOptions>
+	<SPRITE class="bullet"/>
+		<DIV class="radiogroup">
+			<RADIOGROUP class="btn_radiogroup 3" groupmodel="route.route_type" text="Fast" text2="Short" text3="Eco" value=(L"FAST") value2=(L"SHORT") value3=(L"ECO")
+			onrelease='MODEL.ui.RoutingMethodList.list.setcurrent(index) sc_lmEasyMenuRoutingMethod_onrelease()'>
+		</DIV>
+	<TEXT class="listitem setting r2l" paddingright=8 text=%*.text>
+</element_template>
+
+<element_template et_RouteParamList>
+	<DIV class="radiogroup">
+		<RADIOGROUP class="btn_radiogroup" groupmodel=(%*.isselected)>
+	</DIV>
+	<TEXT class="listitem icon setting textpadding_small r2l" text=%*.text>
+	<SPRITE class="icon_center" left=7% bmp="ico_routeinfo.spr" phase=%*.iconphase hueshift=%lua.iconhue/>
+</element_template>
+
+<layer ui_SettingRouteParam z=30>
+	<DIV class="list">
+		<LIST2 lst_lmRouteParamsList class="list_control" >
+			<LISTMODEL listmodel="ui.lmEasyMenuRouteOptions" element_template="et_RouteOptions"/>
+			<LISTMODEL listmodel="ui.routeParamListSett" element_template="et_RouteParamList"/>
+
+			<BUTTON class="btn_scrollup list">
+			<SPRITE class="pagenum">
+			<TEXT class="pagenum list">
+			<BUTTON class="btn_scrolldown list">
+		</LIST2>
+	</DIV>
+</layer>
+
+<element_template sound_settings_speeding>
+	<SPRITE class="listitem">
+		<DIV class="radiogroup" top=12% h=80>
+			<RADIOGROUP class="btn_radiogroup snd" groupmodel="warning.speedlimit_warning" onrelease=sc_SpeedWarnSettings>
+		</DIV>
+		<TEXT right=36% class="listitem" text="Warn When Speeding">
+	</SPRITE>
+</element_template>
+
+<element_template sound_settings_alwaysspeedlimit>
+	<SPRITE class="listitem">
+		<DIV class="radiogroup"  top=12% h=80>
+			<RADIOGROUP class="btn_radiogroup snd" groupmodel="lua.speedWarningAlwaysVisibleChk">
+		</DIV>
+		<TEXT right=36% class="listitem" text="Speed Limit Always Visible">
+	</SPRITE>
+</element_template>
+
+<element_template sound_settings_speedcam>
+	<SPRITE class="listitem">
+		<DIV class="radiogroup"  top=12% h=80>
+			<RADIOGROUP class="btn_radiogroup snd" groupmodel="lua.SpeedcamEnabled" onrelease=sc_SpeedCamWarnSettings>
+		</DIV>
+		<TEXT right=36% class="listitem" text="Alert Point Warnings">
+	</SPRITE>
+</element_template>
+
+<layer ui_SettingSound z=160>
+	<DIV class="list">
+		<LIST2 class="list_control full big" element_template="sound_settings" listmodel="ui.soundSettingList" TEMPLATE_TYPE_MODEL="*.type">
+	</DIV>
+</layer>
+
+<element_template et_MapSettings>
+	<SPRITE class="bullet"/>
+	<TEXT class="listitem setting map" text=%*.text>
+	<DIV class="radiogroup">
+		<BUTTON class="btn_setting" z=101 onrelease=%*.onrelease>
+	</DIV>
+	<BUTTON class="r2l" left=0 w=40% h=100% onrelease=''>
+</element_template>
+
+<element_template et_MapSettings_viewmode>
+	<SPRITE class="bullet"/>
+	<DIV class="radiogroup">
+		<RADIOGROUP class="btn_radiogroup 3" text="Low" text2="Normal" text3="High" groupmodel="lua.vEasyViewMode" value3=2 onrelease=sc_Set_Presets>
+	</DIV>
+	<TEXT class="listitem setting map" text="Viewpoint">
+</element_template>
+
+<element_template et_MapSettings_overview>
+	<SPRITE class="bullet"/>
+	<DIV class="radiogroup">
+		<RADIOGROUP class="btn_radiogroup" groupmodel="lua.OverViewModeOn">
+	</DIV>
+	<TEXT class="listitem setting map" text="Motorway View">
+</element_template>
+
+<element_template et_MapSettings_2d3d>
+	<SPRITE class="bullet"/>
+	<DIV class="radiogroup">
+		<RADIOGROUP class="btn_radiogroup" text="3D" text2="2D" groupmodel="lua.vEasyMapMode" value=1 value2=2 onrelease=sc_set_Nav2D3D_MapSettings>
+	</DIV>
+	<TEXT class="listitem setting map" text="View Mode">
+</element_template>
+
+<layer ui_MapSettings z=999>
+	<DIV class="list">
+		<LIST2 lst_MapSettings class="list_control full" element_template="et_MapSettings" listmodel="ui.lmMapSettings.list"   TEMPLATE_TYPE_MODEL="*.type">
+	</DIV>
+</layer>
+
+<element_template et_CoordinateFormat>
+	<RADIO class="listitem icon" text=%*.text groupmodel="regional.geocoord_format" var=(%*.var)>
+</element_template>
+
+<layer ui_CoordinateFormat z=30>
+	<DIV class="list">
+		<LIST2 class="list_control full" element_template="et_CoordinateFormat" listmodel="ui.CoordinateFormatList" >
+	</DIV>
+</layer>
+
+<layer ui_About z=30>
+	<DIV class="main">
+		<SPRITE class="panel" z=0>
+
+		<TEXT class="font_info bd color_inf_main" left=0 top=40% right=0 h=10% text=L"$release$" REPLACETAGS>
+		<TEXT class="font_info color_inf_main" left=0 top=50% right=0 h=10% text=L"$date$" REPLACETAGS>
+		<TEXT class="font_info bd color_inf_main" left=0 top=60% right=0 h=10% text="<Web Address> | <Support E-mail>">
+
+	</DIV>
+</layer>
+
+<element_template et_ContentCategory>
+	<BUTTON class="listitem" clickmodel="other.contents.select_category $i" onrelease={sc_ContentListOnRelease($i)}>
+		<SPRITE class="icon_center" left=8% z=11 bmp="content_icons.spr" phase=%*.id hueshift=%lua.iconhue>
+		<TEXT class="listitem icon" text=%*.name>
+	</BUTTON>
+</element_template>
+
+<layer ui_AboutContents z=30>
+	<DIV class="list">
+		<LIST2 class="list_control big">
+			<LISTMODEL listmodel="other.contents.category_list" element_template="et_ContentCategory"/>
+			<BUTTON class="btn_scrollup list">
+				<SPRITE class="pagenum list">
+				<TEXT class="pagenum list">
+			<BUTTON class="btn_scrolldown list">
+		</LIST2>
+	</DIV>
+</layer>
+
+<element_template et_ContentItem>
+	<implementation>
+		<property hnrError value=(%lua.ContentIsHNR && (%*.error_code == 4 || %*.error_code == 5))>
+	</implementation>
+	<SPRITE class="listitem">
+		<TEXT class="font_list_main bd listitem icon top color_btn_main" z=100 wordwrap=1 text=%*.name visible=(%*.error_code == 0 || hnrError)>
+		<TEXT class="font_list_main bd listitem icon top color_error" z=100 wordwrap=1 text=%*.name visible=(%*.error_code == 2)>
+		<TEXT class="font_list_sec listitem icon bottom color_btn_sec" z=100 wordwrap=1 text=(%*.description + L" " + %*.timestamp) visible=(%*.error_code == 0)>
+		<TEXT class="font_list_sec listitem icon bottom color_error" z=100 wordwrap=1 text=(%*.error + L" (" + %*.path + L")") visible=(%*.error_code == 2)>
+	</SPRITE>
+
+	<TEXT class="listitem icon top color_error" z=100 text=%*.name visible=(%*.error_code == 1 || %*.error_code > 2 && !hnrError)>
+	<TEXT class="listitem icon bottom color_error" z=100 text=((hnrError ? sc_GetHnrErrorText(%*.error_code) : %*.error) + L" (" + %*.path + L")") visible=(%*.error_code == 1 || %*.error_code > 2) minaspect=65>
+    
+	<SPRITE class="icon_center" left=8% z=11 bmp="content_icons.spr" phase=%*.icon_id hueshift=%lua.iconhue>
+</element_template>
+
+<layer ui_AboutContentList z=30>
+	<DIV class="list">
+		<LIST2 class="list_control big">
+			<LISTMODEL listmodel="other.contents.list" element_template="et_ContentItem"/>
+			<BUTTON class="btn_scrollup list">
+			<SPRITE class="pagenum list">
+			<TEXT class="pagenum list">
+			<BUTTON class="btn_scrolldown list">
+		</LIST2>
+	</DIV>
+</layer>
+
+; 832 **********
+<layer ui_VisualGuidanceSettings z=30 >
+	<DIV class="list">
+		<SPRITE class="list_panel">
+			<layer class="layer_control">
+; Panneaux restriction
+				<BUTTON xxx top=0 h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={if (%lua.wTurnRestriction < 2) {%lua.wTurnRestriction+=1} else {%lua.wTurnRestriction = 0}} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=90 h=25% valign="CENTER" text="Turn restriction">
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=0 x=410 h=25% valign="CENTER" text=(%lua.wTurnRestriction==2 ? "Always" : (%lua.wTurnRestriction==1 ? "Off route only" : "Off"))>
+					<SPRITE xxx top=0 left=0 h=25% bmp=(%lua.wTurnRestriction==2 ? "turnrestrictions1.bmp" : (%lua.wTurnRestriction==1 ? "turnrestrictions1.bmp" : "turnrestrictions2.bmp"))/>
+				</BUTTON>
+; Panneaux Autoroute
+				<BUTTON xxx top=25% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease={invert(%lua.SignpostOn)} />
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=25% x=90 h=25% valign="CENTER" text=(%lua.SignpostOn ? "Signpost's" : "Arrows of indication")>
+					<SPRITE xxx top=25% left=0 h=25% bmp=(%lua.SignpostOn ? "ico_SignPost_1.bmp" : "ico_SignPost_2.bmp")/>
+				</BUTTON>
+; Panneaux Vues Carrefour
+				<BUTTON xxx top=50% h=25% bmp="Btn_ChoixFondSli.bmp" onrelease=sc_BdJVPanel enable=(%lua.SignpostOn)/>
+					<TEXT xxx class="txt_16 on4 lst_left ww_ww" top=50% x=90 h=25% valign="CENTER" text="Junction View">
+					<SPRITE xxx top=50% left=0 h=25% bmp="ico_JunctionView_sml1.bmp"/>
+				</BUTTON>
+			</layer>
+		<VSMARTSCROLL class="layer_scrollup">
+		<BUTTON class="btn_scrollup layer">
+		<BUTTON class="btn_scrolldown layer">
+		<WHEEL class="Scroll">
+	</DIV>
+</layer>

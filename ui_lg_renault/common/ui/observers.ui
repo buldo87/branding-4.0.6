@@ -1,0 +1,95 @@
+<var bFirstStart=0>
+
+<event Back default=doBack     cancellable=1/>
+<event StartNavigation         cancellable=1/>
+<event LocalMenuItemOnrelease  cancellable=1/>
+
+<observer obs_ShowMessageBox event="SHOW_MESSAGEBOX_EVENT" onchange=sc_ShowMessageBox START="NO_TRIGGER">
+<observer obs_HideMessageBox event="HIDE_MESSAGEBOX_EVENT" onchange=sc_HideMessageBox START="NO_TRIGGER">
+
+
+<observer obs_FirstGPS     model="navigation.car.position" onchange=sc_SetCursorToFirstGPS>
+
+<observer obs_destination value=(!%navigation.is_in_simulation && !%route.list.navigated.waypoints.has_isolated_waypoint && %route.list.navigated.waypoints.list.size == 2 && %route.list.navigated.recalculate_on_modify && %navigation.distance_to_destination < 100) ondeselect='obs_destination_speedcheck:STOP() ; gIdleTime_SpeedCheckTime = 0' onselect='obs_destination_speedcheck:START("NO_TRIGGER")'>
+
+<observer obs_destination_speedcheck model="ui._up_time" onchange=sc_route_finished_Speedcheck>
+
+<observer xxx boolmodel="navigation.passed_via_point" onchange=sc_ViaBypassQuery start="NO_TRIGGER">
+
+<observer no_route model="route.list.navigated.waypoints.list.isempty" onchange=sc_enable_offroute_recalc start>
+
+<observer obs_other_timejump boolmodel="other.timejump" onselect=sc_TimeJump>
+
+<observer obs_Tunnel boolexpr="navigation.car_in_tunnel&map.auto_nightmode&!navigation.is_in_simulation" onselect=sc_TunnelOn ondeselect=sc_TunnelOff>
+
+<observer xxx value=(%ui.__tooltip_type) onchange=sc_ToolTip start="no_trigger">
+
+<observer xxx event="POWER_BEFORE_SUSPEND_EVENT" onchange=sc_before_suspend start="NO_TRIGGER">
+<observer xxx event="POWER_SUSPEND_EVENT" onchange=sc_suspend start="NO_TRIGGER">
+<observer xxx event="POWER_RESUME_EVENT" onchange=sc_back_from_suspend start="NO_TRIGGER">
+
+<observer xxx value=(%lua.OverviewState) onselect='MODEL.map.primary.camera_settings.overview_enabled = true' ondeselect='MODEL.map.primary.camera_settings.overview_enabled = false' start>
+
+<observer xxx value=(%map.primary.camera_settings.presetid) onchange=sc_RefreshOverviewStatus start="NO_TRIGGER">
+
+<observer obs_enter_drag_mode boolmodel="map.primary.center_follow" ondeselect='sc_dragmode(true)'>
+
+<observer obs_SignPostValid boolmodel="ui.bLaneinfoSignpostValid" onselect=sc_SignPostLayerShow ondeselect=sc_SignPostLayerHide onchange=sc_SignPostDiricon >
+<observer xxx boolmodel="lua.SignpostOn" ondeselect=sc_SignPostLayerHide START="NO_TRIGGER">
+
+<observer obs_Dragmode_Type model="map.primary.mode" onchange=sc_Dragmode_Type_Changes>
+<observer obs_RoutePlanningChange boolexpr="route.list.navigated.calculating" onselect=sc_route_planning_start ondeselect=sc_route_planning_stop start="NO_TRIGGER">
+
+<observer obs_LaneInfoVisible boolmodel="lua.laneInfoVisible" onchange='doDelayed( 1, sc_LaneInfoVisibleOnchange)' start>
+<observer xxx boolmodel="navigation.new_junctionview" onselect=sc_NewJunctionView start="NO_TRIGGER">
+<observer xxx model="map.primary.mode"             onchange=sc_MapModeChanged START="NO_TRIGGER">
+<observer obs_ZoomChanged model="map.primary.zoom" onchange=sc_ZoomChanged    START="NO_TRIGGER">
+<observer obs_TiltChanged model="map.primary.tilt" onchange=sc_TiltChanged1   START="NO_TRIGGER">
+<observer xxx boolmodel="map.primary.tilt_lock"    ondeselect=sc_TiltChanged2 START="NO_TRIGGER">
+/*Do not run these observers above all the time*/
+<observer xxx model="map.primary.zoom_follow"   onselect='obs_ZoomChanged:STOP()' ondeselect='obs_ZoomChanged:START("NO_TRIGGER")' START="NO_TRIGGER">
+<observer xxx model="map.primary.tilt_follow"   onselect='obs_TiltChanged:STOP()' ondeselect='obs_TiltChanged:START("NO_TRIGGER")' START="NO_TRIGGER">
+
+<observer boolmodel="warning.driveralert.speed_limit_condition.valid" onchange=sc_SpeedLimitConditionValidity START="NO_TRIGGER">
+<observer obs_SpeedLimitConditionChanged model="warning.driveralert.speed_limit_condition" onchange=sc_SpeedLimitConditionChanged>
+<observer obs_NearSpeedLimitChange      boolmodel="warning.driveralert.near_speed_limit"            onselect='MODEL.lua.ShowConditionalSpeedLimit = false' START="NO_TRIGGER">
+
+
+<observer obs_RouteMessageChange          model="route.messages.list.size"                onchange='sc_FindPathErrorHandler( MODEL.route.messages() )'                START="NO_TRIGGER">
+<observer obs_RouteNavigatedMessageChange model="route.list.navigated.messages.list.size" onchange='sc_FindPathErrorHandler( MODEL.route.list.navigated.messages() )' START="NO_TRIGGER">
+
+<observer obs_PoiInitialized                                          boolmodel="poi.initialized" onselect=sc_PoiInitialized start="NO_TRIGGER">
+<observer obs_HNCarRepairCheck ondeselect=sc_CheckHNCarRepairFinished boolmodel="poi.help_nearby_carrepair_quick.list.isempty">
+<observer obs_HNHospitalCheck  ondeselect=sc_CheckHNHostpitalFinished boolmodel="poi.help_nearby_hospital_quick.list.isempty">
+<observer obs_HNPoliceCheck    ondeselect=sc_CheckHNPoliceFinished    boolmodel="poi.help_nearby_police_quick.list.isempty">
+
+<observer xxx model="map.primary.clicked_poi_list" onchange=sc_OnPoiSelectedOnMap start="NO_TRIGGER">
+<OBSERVER obs_PleaseWaitPopupStruct value=(%poi.struct_search.ready) onselect='ui.vShowPoiSearchingPopup = false; obs_PleaseWaitPopupStruct:STOP(); obs_PleaseWaitPopupFlat:STOP()'>
+<OBSERVER obs_PleaseWaitPopupFlat   value=(%poi.flat_search.ready)   onselect='ui.vShowPoiSearchingPopup = false; obs_PleaseWaitPopupFlat:STOP(); obs_PleaseWaitPopupStruct:STOP()'>
+
+
+<observer obs_flyover_stopped boolmodel="navigation.is_in_simulation" onselect='MODEL.lua.JunctionViewHiddenByUser = false' ondeselect='sc_3DFlyOverModeOff_Easy() MODEL.lua.JunctionViewHiddenByUser = false'>
+
+<observer obs_route_changed event="ROUTE_CHANGED_EVENT" onchange=sc_RouteChanged start="NO_TRIGGER">
+<observer obs_route_calculated boolexpr="route.list.navigated.calculation_finished">
+
+<observer obsWarningListEmpty boolmodel="route.list.navigated.calculation_finished" onselect=sc_BuildRouteWarningLists>
+
+<observer obs_route_deleted event="ROUTE_DELETED" onchange=sc_route_deleted start="NO_TRIGGER">
+<observer obs_temporary_route_calculated boolexpr="route.list.temporary.calculation_finished && !route.list.temporary.waypoints.list.isempty">
+
+<observer obs_DynamicVolumeTypeChanged model="sound.dynamic_volume_type" onchange=sc_DynamicVolumeTypeChanged>
+
+<observer xxx boolexpr="navigation.has_route && navigation.calculation_todo" onchange=sc_SetCalculationTodo START="NO_TRIGGER">
+
+<observer obs_ASSERT_MBe value=(%map.primary.mode || vActiveState) onchange=sc_Assert_3DGuidance> 
+
+
+<observer obs_blink model="gps.blink" onchange={%screen.nightmode = !%screen.nightmode}>
+
+<observer boolmodel="warning.speedcam_warning & lua.speedcamAllowed" onselect=sc_FirstSpeedCamWarnInit>
+<observer obs_GotGPS boolmodel="gps.valid" onselect=sc_GotGPS>
+
+<observer xxx model="screen.theme.list.index" onchange=sc_SetHueShiftColor START>
+; 222 **********
+<observer obs_wturnrest boolmodel="navigation.turn_restriction_icon.valid" onselect=sc_wsay_aboutturnrestriction>

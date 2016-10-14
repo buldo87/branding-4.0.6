@@ -1,0 +1,5 @@
+BmpFlags = 0
+DefFlags = ALPHA_PIXEL | ALPHA_LAYER | GRAB_BOTTOM | GRAB_HCENTER
+DefPhase = 1
+Stripes =54
+DefAlpha = 30

@@ -1,0 +1,76 @@
+; settingA.ui MEDI@EvO AL194 & BULDO
+; ********** Redemarrage -  A propos mémoire - iPhoneToday **********
+<layer ui_ExeOut z=30>
+	<DIV>
+		<BUTTON class="btn_main" x=697 y=401 w=90 h=80 onrelease='START_APPLICATION("./utility/ipt/iPhoneToday.exe", "")'>
+			<SPRITE class="icon_center" bmp="TtCmd.bmp" hueshift=%lua.iconhue>
+		</BUTTON>
+		<BUTTON class="btn_main" x=606 y=401 w=90 h=80 onrelease=sc_Memory_Onrelease>
+			<SPRITE class="icon_center" bmp="ram.bmp" hueshift=%lua.iconhue>
+		</BUTTON>
+	</DIV>
+</layer>
+; ********** Logo Medi@EvO **********
+<layer ui_AnimationLogo z=30>
+	<DIV>
+		<SPRITE spr_LogoMediaEvO x=323 y=390 w=154 h=90 z=35 bmp="LogoMediaEvO.spr" ANIMATE="MediaEvO_Animation1" onrelease=sc_AboutMN_Onrelease />
+	</DIV>
+</layer>
+; ********** A propos mémoire **********
+<layer ui_AboutMemory z=30>
+  <DIV class="main_ext">
+    <SPRITE class=panel>
+    <SPRITE class="icon_top" left=40% z=1 bmp="ram.bmp">
+    <TEXT class="color_inf_main txt_20bd" align="CENTER" left=0   top=45% right=0   h=10% text=L"$release$" REPLACETAGS>
+    <TEXT class="color_inf_main txt_20bd" align="CENTER" left=0   top=55% right=0   h=10% text=L"$buildnum$" REPLACETAGS>
+    <TEXT class="color_inf_main txt_20bd" align="CENTER" left=0   top=65% right=0   h=10% text=L"$date$" REPLACETAGS>
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=15% right=0   h=10% text="Total Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=15% right=65% h=10% text=(%other.total_memory / 1048576)>
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=15% right=0   h=10% text="Reserved Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=15% right=0   h=10% text=(%other.reserved_memory / 1048576)>
+
+    <TEXT class="color_inf_main txt_20"   align="RIGHT"  left=60% top=30% right=0   h=10% text="--------------- CACHE --------------">
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=40% right=0   h=10% text="Max Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=40% right=65% h=10% text=(%other.max_memory / 1048576)>
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=40% right=0   h=10% text="Total Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=40% right=0   h=10% text=(%other.cache_total_memory / 1048576)>
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=50% right=0   h=10% text="Used Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=50% right=65% h=10% text=(%other.used_memory / 1048576)>
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=50% right=0   h=10% text="Used Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=50% right=0   h=10% text=(%other.cache_used_memory / 1048576)>
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=60% right=0   h=10% text="Free Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=60% right=65% h=10% text=(%other.free_memory / 1048576)>
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=60% right=0   h=10% text="Garbage Memory ( Mo ):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=60% right=0   h=10% text=(%other.cache_garbage_memory / 1048576)>
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=70% right=0   h=10% text="---------- SPEEDCAM ----------">
+    <TEXT class="color_inf_main txt_20"   align="RIGHT"  left=60% top=70% right=0   h=10% text="------------ SPEEDCAM ------------">
+
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=80% right=0   h=10% text="allowed (GPS actif):">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=80% right=65% h=10% text=((%lua.speedcamAllowed) ? "Yes" : "No")>
+    <TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=80% right=0   h=10% text="allowed by pos:">
+    <TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=80% right=0   h=10% text=(sc_SpeedcamIsAllowedByPos(%map.cursor.position) ? "Yes" : "No")>
+
+	<TEXT class="color_inf_main txt_20"   align="LEFT"   left=0   top=90% right=0   h=10% text="Country:">
+	<TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=90% right=65% h=10% text=%navigation.car.current_country>
+	<TEXT class="color_inf_main txt_20"   align="LEFT"   left=60% top=90% right=0   h=10% text="allowed in the country:">
+	<TEXT class="color_inf_main txt_20bd" align="RIGHT"  left=0   top=90% right=0   h=10% text=((%warning.speedcam.allowed_in_the_country) ? "Yes" : "No")>
+  </DIV>
+</layer>
+; ********** Bouton retour About **********
+<layer ui_FooterAbout z=1000>
+	<DIV class="full">
+		<SPRITE about1 x=160 y=0 bmp="ico_about_1.bmp" />
+		<SPRITE about2 x=137 y=120 bmp="ico_about_2.bmp" />
+		<SPRITE about3 x=137 y=240 bmp="ico_about_3.bmp" />
+		<SPRITE about4 x=0 y=430 bmp="ico_about_4.bmp" />
+		<BUTTON about5 x=670 y=380 w=130 h=100 bmp="ico_about_5.bmp" onrelease=sc_back onlongclick=sc_lgHome >
+;		<BUTTON about5 x=670 y=380 w=130 h=100 bmp="ico_about_5.bmp" onrelease=sc_back onlongclick=sc_back_to_cockpit >
+	</DIV>
+</layer>
+; ******************************************
+

@@ -1,0 +1,465 @@
+;<var vHege>
+;<var vCockpitField1=0 permanent> 
+;<var vCockpitField2=1 permanent> 
+;<var vCockpitField3=2 permanent> 
+;<var vTripInfoFieldClosed=0> 
+;<var vCockpitFieldNoRoute1=6 permanent> 
+;<var vCockpitFieldNoRoute2=7 permanent> 
+;<var vCockpitFieldNoRoute3=8 permanent> 
+;<var vTripInfoFieldNoRouteClosed=6> 
+;<var vDestinationReachedPopoUpID=-1>
+<var vKeyTableDone>
+<var vRouteCalcFinishedCallback>
+<var vQuickMasterVol=500>
+<var vQuickMasterVolMax=116>
+<var bLaneinfoSignpostValid=0>
+<var vLaneInfoSignpostHeight=0>
+<var bLaneInfoSignpostForceRedraw=1>
+;<var vOldTMC=1>
+<var vLocalMenuEnabled=1>
+<var vAH2SCPT=-1>
+
+;ESSAIS
+<var vDAOrientation=1>
+<var vDAIsVisible=1>
+
+
+<var vStartPointSettingEnabled=0>
+
+<var vFirstAddressSearch=1 permanent>
+
+
+<var vAvoidDistanceListIndex=-1>
+  
+<var vHNRHasCoveredMaps=0>
+<var vHouseNumberIsEnabled=0>
+<var vHNRHasIncompatibleMaps=0>
+	
+<var vHorizontalMenuFilter="destination">
+<var vNavigationMenuType=0>
+<var vDebug=0>
+<var vSaveLogEnabled=0>
+<var vShowExit=0>
+
+<var vShowResult=0>
+<var vResultType="">
+
+<var vLongFooter=0>
+
+<var vSpeedLimitBlinkCounter=3>
+  
+<var vShowCalcScreen=0>
+
+<var vR2L_invert=1>
+
+<var vRouteWarningIconPressed=0>	
+<var vShowPoiSearchingPopup=0>
+
+<var vItinerListIsChanged=0>
+<var vShowFake2D3DButton=0>
+
+<var vSynctoolStarted=0 permanent>
+<var vSyncTool="">
+<var vSynctoolStatus=3>
+
+
+<userlist lmSavedPos item="history">
+	<row item=""/>
+</userlist>
+	
+<userlist lm_OneItemList field="bool">
+	 <row   field=0/>
+</userlist>
+
+<userlist lmEasyMenuRouteOptions text="str" var="wstr">
+  <row    text="Route Planning Method" var=(translate(%lua.routeMethodText))/>
+</userlist>
+
+<userlist lmMapSettings text="str" icon="str" onrelease="ui" type="str">
+	<default text="" icon="" onrelease="" type=""/>
+	<row text="View Mode"   type="_2d3d"/>
+	<row text="Zoom"        type="_viewmode"/>
+	<row                    type="_overview">
+	<row text="POI Markers" icon="ico_POIIcons_sml.bmp#3" onrelease=sc_Poi_Visibilities/>
+</userlist>
+
+<userlist lmEasyMenuSettingsList text="str" icon="str" onrelease="ui" visible="bool" enabled="bool">
+	<view visibility_filter=visible />
+	<default visible=1 enabled=1 />
+	<row text="Warnings"       icon="ico_Traffic_sml.bmp#3"       onrelease=sc_btnASM_Sound_OnRelease/>
+	<row text="Route Settings" icon="ico_RouteSettings_sml.bmp#3" onrelease=sc_btnASM_Route_OnRelease/>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_btnSVM_MapScreen_OnRelease/>
+</userlist>
+
+<userlist savedRouteParamListSett text="str" isselected="bool">
+</userlist>
+
+<userlist routeParamListSett iconphase="int" text="str" isselected="str" visible="bool">
+	<view visibility_filter=visible />
+    <default visible=1/>
+    <row iconphase=2  text="Motorways"     isselected="route.allow_highway"/>
+    <row iconphase=18 text="Period Charge" isselected="route.allow_charge"/>
+    <row iconphase=17 text="Per-use Toll"  isselected="route.allow_toll"/>
+    <row iconphase=1  text="Ferries"       isselected="route.allow_ferry"/>
+    <row iconphase=15 text="Carpool"       isselected="route.allow_carpool"     visible=(%route.has_carpool)/>
+    <row iconphase=6  text="Unpaved Roads" isselected="route.allow_unpaved"/>
+    <row iconphase=21 text="4WD Tracks"    isselected="route.allow_4wd"         visible=(%route.has_4wd && %navigation.car.last_known_countrycode == "_a**")/>
+    <row iconphase=12 text="Permit Needed" isselected="route.allow_special"     visible=(!%route.auto_enable_permit_needed)/>
+</userlist>
+
+<userlist favoritesLocalMenu text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+	<row text="Sort by Name"     icon="ico_SortByName_mid.bmp#3"         onrelease=sc_FlatSearch_SortByName enabled=(!%poi.flat_search.list.isempty && %lua.PoiSort != lua.EPoiSort.Name)>
+	<row text="Sort by Distance" icon="ico_SortByDistance_mid.bmp#3"     onrelease=sc_FlatSearch_SortByDist enabled=(!%poi.flat_search.list.isempty && %lua.PoiSort != lua.EPoiSort.Distance)>
+	<row text="Show All on Map"  icon="ico_PlacesAroundCursor_mid.bmp#3" onrelease=sc_ShowFavoritesOnMap    enabled=(!%poi.flat_search.list.isempty)>
+	<row text="Delete All"       icon="ico_DeleteAll_mid.bmp#3"          onrelease={%lua.PoiListFilterString == L"" ? sc_FavoritesDeleteAll_OnRelease() : sc_FavoritesDeleteFiltered_OnRelease()} enabled=(!%poi.flat_search.list.isempty)>
+</userlist>
+
+<userlist lm_moremenu_flat_search text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+	<view visibility_filter=visible />
+	<default visible=1/>
+	<row text="Sort by Name"     icon="ico_SortByName_mid.bmp#3"         onrelease=sc_FlatSearch_SortByName   enabled=(!%poi.flat_search.list.isempty && %lua.PoiSort != lua.EPoiSort.Name)>
+	<row text="Sort by Distance" icon="ico_SortByDistance_mid.bmp#3"     onrelease=sc_FlatSearch_SortByDist   enabled=(!%poi.flat_search.list.isempty && %lua.PoiSort != lua.EPoiSort.Distance)>
+	<row text="Sort by Detour"   icon="ico_SortByDetour_mid.bmp#3"       onrelease=sc_FlatSearch_SortByDetour enabled=(!%poi.flat_search.list.isempty && %lua.PoiSort != lua.EPoiSort.Detour) visible=(%poi.flat_search.center == "route" && %navigation.has_navigable_path)>
+	<row text="Show All on Map"  icon="ico_PlacesAroundCursor_mid.bmp#3" onrelease=sc_FlatSearch_ShowOnMap    enabled=(!%poi.flat_search.list.isempty)>
+</userlist>
+
+<userlist lm_moremenu_struct_search text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+	<view visibility_filter=visible />
+	<default visible=1/>
+	<row text="Sort by Name"     icon="ico_SortByName_mid.bmp#3"         onrelease=sc_StructSearch_SortByName   enabled=(%poi.struct_search.count && %lua.PoiSort != lua.EPoiSort.Name)>
+	<row text="Sort by Distance" icon="ico_SortByDistance_mid.bmp#3"     onrelease=sc_StructSearch_SortByDist   enabled=(%poi.struct_search.count && %lua.PoiSort != lua.EPoiSort.Distance)>
+	<row text="Sort by Detour"   icon="ico_SortByDetour_mid.bmp#3"       onrelease=sc_StructSearch_SortByDetour enabled=(%poi.struct_search.count && %lua.PoiSort != lua.EPoiSort.Detour) visible=(%poi.struct_search.center == "route" && %navigation.has_navigable_path)>
+	<row text="Show All on Map"  icon="ico_PlacesAroundCursor_mid.bmp#3" onrelease=sc_StructSearch_ShowOnMap    enabled=(%poi.struct_search.count || %poi.struct_search.container_count)>
+</userlist>
+
+<userlist lm_moremenu_poi_info text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+	<view visibility_filter=visible />
+	<row text="Rename Favourite" icon="ico_Rename_mid.bmp#3" onrelease=sc_RenameFavorite enabled=(1) visible=(%my.poi.current.writable)>
+</userlist>
+
+<userlist lm_moremenu_coordinate text="str" icon="str" onrelease="ui" enabled="bool">
+	<row text="Latitude/Longitude" icon="ico_Coordinates_mid.bmp#3"    onrelease=sc_CoordinateInput enabled=(%lua.Utm)>
+	<row text="UTM"                icon="ico_CoordinatesUTM_mid.bmp#3" onrelease=sc_UtmInput        enabled=(!%lua.Utm)>
+</userlist>
+
+<userlist editRouteLocalMenu text="str" icon="str" onrelease="ui" enabled="bool">
+	<row text="Reorder" icon="ico_Reorder_mid.bmp#3" onrelease=sc_ReorderRoute_OnRelease enabled=(%route.list.navigated.waypoints.list.size > 2)>
+</userlist>
+
+<userlist myRouteLocalMenu text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+	<view visibility_filter=visible/>
+	<default enabled=1 visible=1/>
+	<row text="Route Alternatives"  icon="ico_RouteAlternatives_mid.bmp#3"  onrelease=sc_MRMAlternativesRoute_OnRelease enabled=(%navigation.has_route && !%navigation.calculation_todo)>
+	<row text="Itinerary"           icon="ico_Itinerary_mid.bmp#3"          onrelease=sc_LMItiner_OnRelease             enabled=(%navigation.has_route && !%navigation.calculation_todo && %route.list.navigated.has_navigable_path)>
+	<row text="Route Settings"      icon="ico_RouteSettings_mid.bmp#3"      onrelease=sc_MRMRouteSettings_OnRelease     enabled=(!%navigation.calculation_todo)>
+	<row text="Simulate Navigation" icon="ico_SimulateNavigation_mid.bmp#3" onrelease=sc_Simulate_Navigation_OnRelease  enabled=(%navigation.has_navigable_path && !%navigation.calculation_todo)>
+</userlist>
+
+<userlist routeSettingsLocalMenu text="str" icon="str" onrelease="ui" enabled="bool">
+	<row text="Reset to Defaults" icon="ico_ResettoDefaults_mid.bmp#3" onrelease=sc_ResetParams_OnRelease enabled=(1)>
+</userlist>
+
+; 149 **********
+;<userlist lmVGButtons text="str" icon="str" onrelease="ui" type="str" model="str" value="str" visible="bool" enabled="bool">
+;    <view visibility_filter=visible />
+;    <default value="" onrelease=undef model="" visible=1 enabled=1/>
+;       <row text="Data Fields"        icon="ico_DataFields_sml.bmp#3"       type="_btn" onrelease=sc_GoToTripInfoChange>
+;       <row text="Motorway Services"  icon="ico_HWService_sml.bmp#3"        type="_btn" onrelease=sc_BdAutoOpenHwyPanel>
+;       <row text="Junction View"      icon="ico_JunctionView_sml.bmp#4"     type="_btn" onrelease=sc_BdJVPanel enabled=(%lua.SignpostOn)>
+;       <row text="Route Progress Bar" icon="ico_RouteProgressBar_sml.bmp#3" model="lua.tripInfoVisible" type="_chk">
+;</userlist>
+
+<userlist historyLocalMenu text="str" icon="str" onrelease="ui" enabled="bool">
+    <row text="Sort by Date"     icon="ico_SortByDate_mid.bmp#3"     onrelease=sc_HistorySortByDate_OnRelease      enabled=(!%mydata.history.list.isempty && %lua.HistoryListFilterString == L"" && %lua.HistorySort != lua.EHistorySort.Date)>
+    <row text="Sort by Name"     icon="ico_SortByName_mid.bmp#3"     onrelease=sc_HistorySortByName_OnRelease      enabled=(!%mydata.history.list.isempty && %lua.HistoryListFilterString == L"" && %lua.HistorySort != lua.EHistorySort.Name)>
+    <row text="Sort by Distance" icon="ico_SortByDistance_mid.bmp#3" onrelease=sc_HistorySortByDistance_OnRelease  enabled=(!%mydata.history.list.isempty && %lua.HistoryListFilterString == L"" && %lua.HistorySort != lua.EHistorySort.Distance)>
+    <row text="Delete All"       icon="ico_DeleteAll_mid.bmp#3"      onrelease=sc_HistoryClearAll_OnRelease        enabled=(!%mydata.history.list.isempty)>
+</userlist>	
+
+<userlist itinerModeList text="str" icon="str" onrelease="ui" enabled="bool" visible="bool">
+    <view visibility_filter=visible/>
+    <default visible=1/>
+        <row text="Summary"    icon="ico_ItinerarySummary_mid.bmp#3"   onrelease=sc_RIItiner_Summary_onrelease enabled=(%route.list.navigated.itiner.detailmode != "waypoints")>
+        <row text="Normal"     icon="ico_Itinerary_mid.bmp#3"          onrelease=sc_RIItiner_Normal_onrelease  enabled=(%route.list.navigated.itiner.detailmode != "normal")>
+        <row text="Road List"  icon="ico_ItineraryRouteList_mid.bmp#3" onrelease=sc_RIItiner_Road_onrelease    enabled=(%route.list.navigated.itiner.detailmode != "road")>
+</userlist>	
+
+; Radars EUR+ *******************************************************
+<userlist extendedSpeedCamList text="str" id="int" speedlimit="bool">
+    <default speedlimit=true>
+    <row  text="Fixed Speed Camera"       id=0>
+    <row  text="Enter Highway"            id=1>
+    <row  text="Mobile Speed Camera"      id=2>
+    <row  text="Section Speed Camera"     id=3>
+    <row  text="Exit Highway"             id=4>
+    <row  text="Redlight"                 id=5>
+    <row  text="Redlight Speed Camera"    id=6>
+    <row  text="Height Limit"             id=7>
+    <row  text="Distance Speed Camera"    id=8>
+    <row  text="Danger Zone"              id=9>
+    <row  text="Tunnel Speed Camera"      id=10>
+    <row  text="Railroad Crossing"        id=11>
+    <row  text="Zone 30"                  id=12>
+    <row  text="STOP"                     id=13>
+    <row  text="Width Limit"              id=14>
+    <row  text="Fixed Speed Camera Truck" id=15>
+    <row  text="Alcohol Test"             id=16>
+    <row  text="Information Panel"        id=17>
+    <row  text="Doubtful Speed Camera"    id=18>
+    <row  text="Overtaking Zone"          id=19>
+    <row  text="Used Defined Alert T21"   id=20>
+    <row  text="Used Defined Alert T22"   id=21>
+    <row  text="Used Defined Alert T23"   id=22>
+    <row  text="Used Defined Alert T24"   id=23>
+    <row  text="Congestion Charge Zone"   id=24>
+    <row  text="RPS Post"                 id=25>
+</userlist>
+; Fin Radars EUR+ ***************************
+
+<userlist RoutingMethodList var="str" text="str" visible="bool">
+	<view visibility_filter=visible/>
+	<default visible=1>
+	<row var="FAST"  text="Fast">
+	<row var="SHORT" text="Short">
+	<row var="ECO"   text="Economical">
+</userlist>
+
+<userlist soundSettingList type="str">
+	<row type="_speeding">
+	<row type="_alwaysspeedlimit">
+	<row type="_speedcam">
+</userlist>
+
+<userlist emptyWaypointList longname="wstr">
+    <row    longname=L"">
+</userlist>
+
+<userlist lm_st_FindOnMap text="str" icon="str" onrelease="ui" visible="bool" enabled="bool">
+    <view visibility_filter=visible/>
+    <default enabled=1 visible=1>
+    <row    text="Add to Favourites"     icon="ico_Favorites_mid.bmp#3"           onrelease=sc_AddFavorites_onrelease   visible=(%my.map.selected_item.type!=1 || %my.poi.current.provider_id!=lua.gUserPOI_Provider || %map.primary.cursor_icon!="cursor_poi")>
+    <row    text="Delete Favourite"      icon="ico_DeleteFavorite_mid.bmp#3"      onrelease=sc_DeleteFavorite_OnRelease visible=(%my.map.selected_item.type==1 && %my.poi.current.provider_id==lua.gUserPOI_Provider && %map.primary.cursor_icon=="cursor_poi")>
+    <row    text="Info"                  icon="ico_info_sml.bmp#3"                onrelease='sc_close_local_menu(); PoiSelected = true; sc_OnMapInfo()'>
+    <row    text="Back to Car"           icon="ico_ShowCurrentPosition_mid.bmp#3" onrelease=sc_LMCurrentPos_onrelease>
+</userlist>
+
+<userlist lm_st_EasyNav text="str" icon="str" onrelease="ui" visible="bool" enabled="bool">
+	<view visibility_filter=visible/>
+
+	<default enabled=1 visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%other.lg_renault.eco_support && %lua.CockpitButtonBas == 0 && %lua.CockpitButtonHoms)>
+	<row text="Route Settings" icon="ico_RouteSettings_mid.bmp#3" onrelease=sc_MRMRouteSettings_OnRelease enabled=(!%navigation.calculation_todo)>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_LM_MapScreen_OnRelease/>
+	<row text="Where Am I?"    icon="ico_WhereAmI_sml.bmp#3"      onrelease=sc_LM_ShowWhereAmI            enabled=(%gps.position_valid)>
+
+	<default enabled=1 visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%other.lg_renault.eco_support && %lua.CockpitButtonBas == 1 && !%navigation.has_route)>
+	<row text="Route Settings" icon="ico_RouteSettings_mid.bmp#3" onrelease=sc_MRMRouteSettings_OnRelease enabled=(!%navigation.calculation_todo)>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_LM_MapScreen_OnRelease/>
+	<row text="Where Am I?"    icon="ico_WhereAmI_sml.bmp#3"      onrelease=sc_LM_ShowWhereAmI            enabled=(%gps.position_valid)>
+
+	<default enabled=1 visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%other.lg_renault.eco_support && %lua.CockpitButtonBas == 1 && %navigation.has_route && %lua.CockpitButtonHoms)>
+	<row text="Route Settings" icon="ico_RouteSettings_mid.bmp#3" onrelease=sc_MRMRouteSettings_OnRelease enabled=(!%navigation.calculation_todo)>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_LM_MapScreen_OnRelease/>
+	<row text="Where Am I?"    icon="ico_WhereAmI_sml.bmp#3"      onrelease=sc_LM_ShowWhereAmI            enabled=(%gps.position_valid)>
+
+	<default enabled=1 visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%other.lg_renault.eco_support && %lua.CockpitButtonBas == 2 && !%navigation.has_route)>
+	<row text="Route Settings" icon="ico_RouteSettings_mid.bmp#3" onrelease=sc_MRMRouteSettings_OnRelease enabled=(!%navigation.calculation_todo)>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_LM_MapScreen_OnRelease/>
+	<row text="Where Am I?"    icon="ico_WhereAmI_sml.bmp#3"      onrelease=sc_LM_ShowWhereAmI            enabled=(%gps.position_valid)>
+
+	<default enabled=1 visible=(!%lua.dragMode && !%navigation.is_in_simulation && !%other.lg_renault.eco_support && %lua.CockpitButtonBas == 2 && %navigation.has_route && !%lua.CockpitButtonHoms)>
+	<row text="Route Settings" icon="ico_RouteSettings_mid.bmp#3" onrelease=sc_MRMRouteSettings_OnRelease enabled=(!%navigation.calculation_todo)>
+	<row text="Map Settings"   icon="ico_MapSettings_sml.bmp#3"   onrelease=sc_LM_MapScreen_OnRelease/>
+	<row text="Where Am I?"    icon="ico_WhereAmI_sml.bmp#3"      onrelease=sc_LM_ShowWhereAmI            enabled=(%gps.position_valid)>
+
+
+	<default enabled=1 visible=(%lua.dragMode)>
+	<row text="Add to Favourites"                icon="ico_Favorites_mid.bmp#3"           onrelease=sc_AddFavorites_onrelease   visible=(%lua.dragMode && (%my.map.selected_item.type!=1 || %my.poi.current.provider_id!=lua.gUserPOI_Provider || %map.primary.cursor_icon!="cursor_poi"))>
+	<row text="Delete Favourite"                 icon="ico_DeleteFavorite_mid.bmp#3"      onrelease=sc_DeleteFavorite_OnRelease visible=(%lua.dragMode && (%my.map.selected_item.type==1 && %my.poi.current.provider_id==lua.gUserPOI_Provider && %map.primary.cursor_icon=="cursor_poi"))>
+	<row text="Info"                             icon="ico_info_sml.bmp#3"                onrelease=sc_LM_OnMapInfo>
+	<row text="Back to Car"                      icon="ico_ShowCurrentPosition_mid.bmp#3" onrelease=sc_LMCurrentPos_onrelease   visible=(%lua.dragMode && %gps.position_valid)>
+	<row text="Points of Interest Around Cursor" icon="ico_PlacesAroundCursor_mid.bmp#3"  onrelease=sc_LMPlaceInfo_onrelease>
+</userlist>
+
+<userlist lm_st_WhereAmI text="str" icon="str" onrelease="ui" enabled="bool">
+     <default enabled=1>
+     <row    text="Add to Favourites"   icon="ico_Favorites_mid.bmp#3"          onrelease=sc_LMFavorite_onrelease>
+     <row    text="Country Information" icon="ico_CountryInformation_mid.bmp#3" onrelease=sc_LMFCountryInfo_onrelease enabled=(%navigation.car.current_country)>
+</userlist>
+
+<userlist lm_LocalCursorLocation text="str" icon="str" onrelease="ui" enabled="bool">
+     <default enabled=1>
+     <row    text="Add to Favourites"   icon="ico_Favorites_mid.bmp#3"          onrelease=sc_LMFavorite_onrelease>
+</userlist>
+  
+<userlist lm_RouteMethod text="wstr">
+</userlist>
+
+<userlist lm_RouteMethod_More text="str" onrelease="ui">
+	<row text="More Results"   onrelease=sc_EasyRouteMethod_MoreAlternativeRoutes >
+</userlist>
+
+<userlist lm_ShowPoiResultOnMap text="str" icon="str" onrelease="ui" enabled="bool">
+	<view visibility_filter=visible/>
+	<row    text="Info"                  icon="ico_info_sml.bmp#3"                onrelease='sc_close_local_menu() sc_OnMapInfo()' enabled=(%lua.poiShowAllFlag)>
+</userlist>
+
+<userlist lm_keyboardPanels text="wstr" icon="str" enabled="bool" onrelease="ui" panelname="wstr"/>
+
+<userlist lm_RichPoi code="str" text="wstr" icon="str" onrelease="ui" enabled="bool"/>
+
+<userlist lm_ContentLocal text="str" icon="str" onrelease="ui" visible="bool" enabled="bool">
+    <view visibility_filter=visible/>
+    <default enabled=1 visible=1>
+    <row text="Update"       icon="ico_MapSettings_sml.bmp#3" onrelease=sc_SynctoolUpdate_onRelease enabled=((vSynctoolStatus == lua.eSynctoolStatus.fine || vSynctoolStatus == lua.eSynctoolStatus.restored) && %other.lg_renault.synctool_not_running)/>
+ </userlist>
+
+
+<userlist lm_poiinfo  visible="bool" type="str">
+  <view visibility_filter=visible />
+  <row visible=1 type="_name">
+  <row visible=1 type="_path">
+  <row visible=1 type="_address">
+  <row visible=1 type="_coord">
+  <row visible=1 type="_phone">
+</userlist>
+  
+<userlist lm_whereamiinfo  visible="bool" type="str">
+  <view visibility_filter=visible />
+  <row visible=1 type="_latitude">
+  <row visible=1 type="_longitude">
+  <row visible=1 type="_altitude">
+  <row visible=1 type="_curraddr">
+</userlist>
+  
+<userlist lm_CursorLocation  visible="bool" type="str">
+  <view visibility_filter=visible />
+  <row visible=1 type="_address">
+  <row visible=1 type="_coord">
+</userlist>
+
+<userlist easyNav_AF id="str" bmp="str" visible="bool" onrelease="ui" type="str" model="str">
+	<default type="">
+	<view visibility_filter=visible/>
+	<row id="capture"   bmp="btn_Capture.bmp"        visible=(%lua.captureScreen) onrelease=sc_CaptureScreen>
+	<row id="showspeed" model="navigation.car.current_speed" type="_speed" visible=(%lua.showSpeed)>
+</userlist>
+  
+<userlist lm_SpeedcamLocation type="str">
+	<row type="_type">
+	<row type="_info">
+	<row type="_address">
+	<row type="_coord">
+</userlist>
+
+<userlist lm_moremenu_speedcam_info text="str" icon="str" onrelease="ui" visible="bool" enabled="bool">
+	<view visibility_filter=visible/>
+</userlist>
+
+<userlist lm_CalculatingRouteType text="str" phase="int" visible="bool">
+  <default visible=1>
+	<view visibility_filter=visible/>
+  <row text="PLANNING~Motorways"     phase=(!%route.allow_highway)>
+  <row text="PLANNING~Period Charge" phase=(!%route.allow_charge)>
+  <row text="Per-use Toll"           phase=(!%route.allow_toll)>
+  <row text="Ferries"                phase=(!%route.allow_ferry)>
+  <row text="Unpaved Roads"          phase=(!%route.allow_unpaved)>
+  <row text="Carpool"                phase=(!%route.allow_carpool) visible=(%route.has_carpool)>
+  <row text="4WD Tracks"             phase=(!%route.allow_4wd)     visible=(%route.has_4wd && %navigation.car.last_known_countrycode == "_a**")>
+</userlist>
+
+
+<userlist lm_HorizontalMenu text="str" iconspr="str" onrelease="ui" dtooltip="str" enable="bool" visible="bool" menu="str" >
+	<view visibility_filter=(_.menu == vHorizontalMenuFilter && _.visible)/>
+	
+	<default enable=1 visible=1 menu="destination" dtooltip="" />
+	<row text="Address"            iconspr="ico_address_big.bmp#3"     onrelease='sc_NextStateAnim(st_FindAddress, "3d", 0, trFindFlip..trFindAddress)'/>
+	<row text="Points of Interest" iconspr="ico_places_big.bmp#3"      onrelease='sc_ForcePoiInit(); sc_NextStateAnim( st_FindPlaces, "3d", 0, trFindFlip..trFindPlaces)'/>
+	<row text="History"            iconspr="ico_Showall_big.bmp#3"     onrelease=sc_FindHistory                enable=(!%mydata.history.list.isempty)  dtooltip="You have no items in your History yet."/>
+	<row text="Favourites"         iconspr="ico_favorites_big.bmp#3"   onrelease=sc_btnAMDM_Favorite_OnRelease enable=(!%poi.flat_search.list.isempty) dtooltip="You have no favourites yet."/>
+	<row text="Find on Map"        iconspr="ico_findonmap_big.bmp#3"   onrelease=sc_FindOnMapOnrelease/>
+	<row text="Coordinate"         iconspr="ico_Coordinates_mid.bmp#3" onrelease=sc_Go_Find_GeoCoord/>
+	
+	<default enable=1 visible=1 menu="route" dtooltip=""/>
+	<row text=(%lua.editRouteButtonText) iconspr="ico_EditRoute_big.bmp#3"          onrelease=sc_OpenEditRoute/>
+	<row text="Avoidances"               iconspr="ico_Avoidances_big.bmp#3"         onrelease=sc_Avoidances_Onrelease           enable=(%navigation.has_route && !%navigation.calculation_todo && %lua.EnableAvoidRoad)/>
+	<row text="Overview"                 iconspr="ico_Overview_big.bmp#3"           onrelease=sc_Overview_Onrelease             enable=(%route.list.navigated.has_navigable_path && %navigation.has_route)/>
+	<row text="Cancel Route"             iconspr="ico_DeleteRoute_big.bmp#3"        onrelease=sc_btnRM_Delete_OnRelease         enable=(%navigation.has_route)/>
+	<row    text="Route Alternatives"    iconspr="ico_RouteAlternatives_mid.bmp#3"  onrelease=sc_MRMAlternativesRoute_OnRelease enable=(%navigation.has_route && !%navigation.calculation_todo)>
+	<row    text="Itinerary"             iconspr="ico_Itinerary_mid.bmp#3"          onrelease=sc_LMItiner_OnRelease             enable=(%navigation.has_route && !%navigation.calculation_todo && %route.list.navigated.has_navigable_path)>
+
+	<default enable=1 visible=1 menu="settings" dtooltip=""/>
+	<row text="Warnings"          iconspr="ico_Traffic_sml.bmp#3"                  onrelease=sc_btnASM_Sound_OnRelease/>
+	<row text="Route Settings"    iconspr="ico_RouteSettings_sml.bmp#3"            onrelease=sc_btnASM_Route_OnRelease/>
+	<row text="Map Settings"      iconspr="ico_MapSettings_sml.bmp#3"              onrelease=sc_btnSVM_MapScreen_OnRelease/>
+	<row text="Voice Settings"    iconspr="ico_SoundandWarningsSettings_sml.bmp#3" onrelease=sc_btnSR_Voice_OnRelease/>
+	<row text="Coordinate Format" iconspr="ico_CoordinatesSettings_sml.bmp#3"      onrelease=sc_ShowCoordinateFormat/>
+	<row text="GPS"               iconspr="e_spr_autodetect_sml.bmp#3"             onrelease='sc_NextStateAnim( st_GpsStatus,  "vert_scroll",0, "" )'/>
+	<row text="Map Update"        iconspr="ico_ShowMap_big.bmp#3"                  onrelease=sc_ContentCatList/>
+
+; Menu++ ***********************************************************************************************************
+<default enable=1 visible=1 menu="menuplus" dtooltip=""/>
+	<row text="Alerts"           iconspr="ico_Alertes.bmp#3"          onrelease=sc_AB_Alertes_settings/>
+	<row text="Display"          iconspr="ico_Affichage.bmp#3"        onrelease=sc_AB_Affichage_settings/>
+	<row text="Colors"           iconspr="ico_MenuColors.bmp"         onrelease=sc_Bd_Colors_settings/>
+	<row text="Transparency"     iconspr="ico_Transparency.bmp#3"     onrelease=sc_sb_Transparence_OnRelease/>
+
+	<row text="Cockpit"          iconspr="ico_info_sml.bmp#3"         onrelease=sc_sb_navigationset_OnRelease/>
+	<row text="Select Home/Work" iconspr="ico_m_hm_wrk.bmp"           onrelease=sc_sb_SelectHomeWork/>
+	<row text="Visual Guidance"  iconspr="ico_VisualGuidance_sml.bmp" onrelease=sc_btnSVM_VisualGuidance_OnRelease/>
+; fin Menu++ *******************************************************************************************************
+
+	<default enable=1 visible=(vDebug) menu=(vHorizontalMenuFilter == "destination" || vHorizontalMenuFilter == "route" ? vHorizontalMenuFilter : "") dtooltip=""/>
+	<row text="Show Map"   iconspr="ico_ShowMap_big.bmp#3"  onrelease='if st_EasyNav.isEntered then CLEARTOSTATE(st_EasyNav) else NEXTSTATE( st_EasyNav ) end'/>
+	<row text="Options"    iconspr="ico_Settings_big.bmp#3" onrelease=sc_MainMore_Onrelease/>
+	<row text="DEBUG~Exit" iconspr="ico_Cancel_mid.bmp#3"   onrelease='doDelayed( 1, EXIT )' visible=(vShowExit)/>
+</userlist>
+
+<userlist lm_HorizontalFooter text="str" icon="str" groupmodel="str" value="int" onrelease="ui" enable="bool" visible="bool" menu="str">
+	<view visibility_filter=(_.menu == vHorizontalMenuFilter && _.visible)/>
+
+	<default icon="" enable=1 visible=(!%lua.InEditRoute) menu=(vHorizontalMenuFilter == "destination" || vHorizontalMenuFilter == "route" || vHorizontalMenuFilter == "settings" ? vHorizontalMenuFilter : "")/>
+	<row text="Destination" groupmodel="ui.vNavigationMenuType" value=0 onrelease='sc_CheckStartPoint() sc_SwitchToDestinationMenu()'>
+	<row text="Route"       groupmodel="ui.vNavigationMenuType" value=1 onrelease='sc_CheckStartPoint() sc_SwitchToRouteMenu()'>
+	<row text="Options"     groupmodel="ui.vNavigationMenuType" value=2 onrelease='sc_CheckStartPoint() sc_SwitchToSettingsMenu()'>
+</userlist>
+
+<userlist CoordinateFormatList var="int" text="str" visible="bool">
+	<view visibility_filter=visible/>
+	<default visible=1>
+	<row var=0 text="DD.DDDDD">
+	<row var=1 text="DD MM.MMM">
+	<row var=2 text="DD MM SS.S">
+</userlist>
+
+; 796 **********
+<userlist tts_settings text="str" type="str" model="str" value="str" enable="bool" visible="bool" onrelease="ui" onreleaseplay="ui" playvisible="bool" dtooltext="str">
+	<view visibility_filter=visible/>
+		<default value="" visible=1 model=undef onrelease=undef onreleaseplay=undef playvisible=0 dtooltext="This feature cannot be used with the selected guidance voice profile. Select a TTS voice which supports this feature to enable.">
+		<row text="Verbosity Level"                                       type="_sld" model="sound.voice.verbosity_level" value="Verbose|0|Compact|1|Minimal|2" enable=(%bool:sound.voice.verbosity_level_setting_supported)>
+        
+;		<row text="Read Out Traffic"                                      type="_chk" model="sound.voice.traffic_readout_enabled" enable=(%bool:sound.voice.traffic_readout_supported)>
+;		<row text="Read Out Route Summary"                                type="_chk" model="lua.ReadOutRouteSummary"             enable=(%bool:sound.voice.route_summary_supported)                               onreleaseplay=sc_ReadOutRouteSummary_test                                       playvisible=(%lua.ReadOutRouteSummary&&%bool:sound.voice.route_summary_supported)>
+;		<row text="Read Out Country Info in Cockpit"                      type="_chk" model="lua.ReadOutCountryInfo"              enable=(sc_ReadOutCountryInfoSupported(%regional.voices.index))                  onreleaseplay=sc_ReadOutCountryInfo_test                                        playvisible=(%lua.ReadOutCountryInfo&&sc_ReadOutCountryInfoSupported(%regional.voices.index))>
+;		<row text="Read Out City name"                                    type="_chk" model="lua.BdReadOutCityName"               enable=(sc_ReadOutSystemMessageIsEnable())>
+;		<row text="Read Out position extend"                              type="_chk" model="lua.BdReadOutCityNameExtend"         enable=(%lua.BdReadOutCityName)>
+;		<row text="Read Out System Messages"                              type="_chk" model="ui.vReadOutSystemMessages"           enable=(sc_ReadOutSystemMessageIsEnable())>
+;		<row text="Read Out Alert Points"                                 type="_chk" model="lua.wUltraSoundTTS"                  enable=(%lua.wReadOutSCSupported)                                                onreleaseplay=sc_btn_ProximitySettingVoiceSecondTTS_OnRelease onrelease=sc_wSCApproachSet playvisible=(%lua.wUltraSoundTTS && %lua.wReadOutSCSupported) visible=(%warning.speedcam_warning)>
+;		<row text="Read Out DA signs"                                     type="_chk" model="lua.wDATTSVoice"                     enable=(%lua.wReadOutDASupported)                                                onreleaseplay='sc_NextStateAnim(st_wWarningSignSoundTTS, "horz_scroll", 1, "")' playvisible=(%lua.wDATTSVoice && %lua.wReadOutDASupported) visible=(%lua.DAEnabled)>
+		<row text="Read Out Turn Restriction Info"                        type="_chk" model="lua.wTurnRestrictionVoice"           enable=(sc_wReadOutTurnRestSupported(%regional.voices.index))                    onreleaseplay=sc_SettingWarningsTurnRestTest                                    playvisible=(%lua.wTurnRestrictionVoice && sc_wReadOutTurnRestSupported(%regional.voices.index)) visible=(%lua.wTurnRestriction)>
+;		<row text="Read Out Destination Info\n(long click next maneuver)" type="_chk" model="lua.wDestinationInfoTTS"             enable=(sc_wReadOutDestinationInfoSupported(%regional.voices.index))             onreleaseplay=sc_wReadOutDestinationInfo_test                                   playvisible=(%lua.wDestinationInfoTTS && sc_wReadOutDestinationInfoSupported(%regional.voices.index))>
+;		<row text="Read out destination after calculating"                type="_chk" model="lua.BdReadTTSsayeta"                 enable=(%bool:sound.voice.traffic_readout_supported && %lua.wDestinationInfoTTS) onrelease=sc_Bd_TTSsayeta>
+;		<row text="Read Out Position Info"                                type="_chk" model="lua.wWhereIAmTTSInfo"                enable=(sc_ReadOutSystemMessageIsEnable())                                       onreleaseplay=sc_SettingWarningsWhereIAmTest                                    playvisible=(%lua.wWhereIAmTTSInfo && sc_ReadOutSystemMessageIsEnable())>
+;		<row text="Read Out Cockpit Buttons"                              type="_chk" model="lua.wCockpitMenuTTS"                 enable=(sc_ReadOutSystemMessageIsEnable())                                       onreleaseplay='sc_wsayspeech_test(translate_voice("Settings"))'                 playvisible=(%lua.wCockpitMenuTTS && sc_ReadOutSystemMessageIsEnable())>
+;		<row text="Read Out Power Messages"                               type="_chk" model="lua.wPowerTTS"                       enable=(sc_wReadOutPowerSupported(%regional.voices.index))                       onreleaseplay='sc_NextStateAnim(st_wPowerSoundTTSTest, "horz_scroll", 1, "")'   playvisible=(%lua.wPowerTTS && sc_wReadOutPowerSupported(%regional.voices.index))>
+;		<row text="Read Out Welcoming Message"                            type="_chk" model="lua.wStartExitTTSStart"              enable=(sc_ReadOutStartExitSupported(%regional.voices.index))                    onreleaseplay='sc_wsayspeech_test(translate_voice("Welcome!"))'                 playvisible=(%lua.wStartExitTTSStart && sc_ReadOutStartExitSupported(%regional.voices.index))>
+;		<row text="Read Out Message at Exit"                              type="_chk" model="lua.wStartExitTTSExit"               enable=(sc_ReadOutStartExitSupported(%regional.voices.index))                    onreleaseplay='sc_wsayspeech_test(translate_voice("Bye!"))'                     playvisible=(%lua.wStartExitTTSExit && sc_ReadOutStartExitSupported(%regional.voices.index))>
+</userlist>
+
+; 1103 **********
+<userlist list_wTurnRestTypes text="str">
+	<row text="No left turn">
+	<row text="No right turn">
+	<row text="Obligation to go straight">
+	<row text="No entry">
+</userlist>
+
